@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Profil - Market Kita</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'emas-utama': '#BFA370',
+              'abu-bg': '#E5E5E5',
+              'merah-keluar': '#C23A3A'
+            }
+          }
+        }
+      };
+    </script>
+
+    <style>
+      * {
+        font-family: 'Poppins', sans-serif;
+      }
+      .sidebar-item.active {
+        background-color: #d1d1d1;
+        border-radius: 12px;
+      }
+    </style>
+  </head>
+  <body class="bg-[#F5F5F5]">
+    <div id="header-container"></div>
+
+    <main class="max-w-7xl mx-auto px-10 py-8 flex gap-8">
+      <aside class="w-1/4 bg-[#E0E0E0] rounded-3xl p-6 min-h-[80vh] flex flex-col justify-between">
+        <div class="space-y-8">
+          <div class="flex items-center gap-3 mb-10">
+            <img src="assets/images/user-avatar.png" alt="Avatar" class="w-12 h-12 rounded-full object-cover" />
+            <div>
+              <h4 class="font-bold text-gray-800 text-sm">Faiz Faadillah</h4>
+              <p class="text-[10px] text-gray-500">faizfaadillah@gmail.com</p>
+            </div>
+          </div>
+
+          <nav class="space-y-2">
+            <h5 class="font-bold text-sm mb-4">Akun Saya</h5>
+            <a
+              href="edit-profil.html"
+              class="sidebar-item active flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-xl transition">
+              <i class="ri-pencil-fill text-lg"></i>
+              <span class="text-sm">Edit Profil</span>
+            </a>
+            <a
+              href="jenis-member.html"
+              class="sidebar-item flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-xl transition">
+              <i class="ri-verified-badge-fill text-lg"></i>
+              <span class="text-sm">Jenis Member</span>
+            </a>
+            <a
+              href="#"
+              class="sidebar-item flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-xl transition">
+              <i class="ri-shield-keyhole-line text-lg"></i>
+              <span class="text-sm">Data & Privasi</span>
+            </a>
+            <a
+              href="voucher.html"
+              class="sidebar-item flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-xl transition">
+              <i class="ri-ticket-2-line text-lg"></i>
+              <span class="text-sm">Voucher Kamu</span>
+            </a>
+          </nav>
+
+          <nav class="space-y-2">
+            <h5 class="font-bold text-sm mb-4">Aktivitas</h5>
+            <a
+              href="favorit.html"
+              class="sidebar-item flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-xl transition">
+              <i class="ri-heart-line text-lg"></i>
+              <span class="text-sm">Favorit Kamu</span>
+            </a>
+            <a
+              href="notifikasi.html"
+              class="sidebar-item flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-xl transition">
+              <i class="ri-notification-3-line text-lg"></i>
+              <span class="text-sm">Notifikasi</span>
+            </a>
+            <a
+              href="#"
+              class="sidebar-item flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-xl transition">
+              <i class="ri-history-line text-lg"></i>
+              <span class="text-sm">Histori Pesanan</span>
+            </a>
+            <a
+              href="#"
+              class="sidebar-item flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-xl transition">
+              <i class="ri-vip-crown-line text-lg"></i>
+              <span class="text-sm">Langganan</span>
+            </a>
+          </nav>
+
+          <nav class="space-y-2">
+            <h5 class="font-bold text-sm mb-4">Bantuan Pusat & Layanan</h5>
+            <a
+              href="kontak.html"
+              class="sidebar-item flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-xl transition">
+              <i class="ri-phone-line text-lg"></i>
+              <span class="text-sm">Kontak Kami</span>
+            </a>
+            <a
+              href="kebijakan.html"
+              class="sidebar-item flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-xl transition">
+              <i class="ri-file-list-3-line text-lg"></i>
+              <span class="text-sm">Kebijakan</span>
+            </a>
+            <a
+              href="pusat-bantuan.html"
+              class="sidebar-item flex items-center gap-3 px-4 py-2 text-gray-700 hover:bg-gray-200 rounded-xl transition">
+              <i class="ri-question-line text-lg"></i>
+              <span class="text-sm">Pusat Bantuan & SSD</span>
+            </a>
+          </nav>
+        </div>
+
+        <button
+          class="w-full bg-red-500 text-white flex items-center justify-center gap-3 py-3 rounded-xl mt-10 hover:opacity-90 transition">
+          <i class="ri-logout-box-r-line"></i>
+          <span class="font-semibold">Keluar</span>
+        </button>
+      </aside>
+
+      <section class="flex-1 bg-white rounded-3xl p-12 shadow-sm">
+        <h2 class="text-3xl font-bold mb-8">Profil Saya</h2>
+
+        <div class="flex flex-col items-center sm:items-start space-y-8">
+          <div class="flex items-center gap-6">
+            <div class="relative">
+              <img
+                src="assets/images/user-large.png"
+                alt="Profile"
+                class="w-24 h-24 rounded-full object-cover border-2 border-gray-100" />
+            </div>
+            <button
+              class="bg-gray-400 text-white px-4 py-1.5 rounded-full text-xs flex items-center gap-2 hover:bg-gray-500 transition">
+              <i class="ri-pencil-line"></i>
+              Edit Foto
+            </button>
+          </div>
+
+          <div class="w-full max-w-2xl space-y-6">
+            <div class="space-y-2">
+              <label class="text-sm font-bold block">Username</label>
+              <input
+                type="text"
+                value="Faiz Faadillah"
+                class="w-full border border-gray-400 rounded-lg px-4 py-2 text-sm focus:outline-emas-utama" />
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-sm font-bold block">Email</label>
+              <input
+                type="email"
+                value="faizfaadillah@gmail.com"
+                class="w-full border border-gray-400 rounded-lg px-4 py-2 text-sm focus:outline-emas-utama" />
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-sm font-bold block">Sandi</label>
+              <div class="relative">
+                <input
+                  type="password"
+                  value="********"
+                  class="w-full border border-gray-400 rounded-lg px-4 py-2 text-sm focus:outline-emas-utama" />
+                <button
+                  class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-gray-800 font-bold hover:underline">
+                  Ubah Sandi
+                </button>
+              </div>
+            </div>
+
+            <div class="pt-8 flex justify-center">
+              <button
+                class="bg-[#4A85F6] text-white px-12 py-3 rounded-xl font-semibold shadow-md hover:bg-blue-600 transition active:scale-95">
+                Simpan
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script>
+      // Memastikan sidebar item 'active' terlihat sesuai desain
+      // Kamu bisa menambahkan logika navigasi di sini jika diperlukan
+    </script>
+  </body>
+</html>

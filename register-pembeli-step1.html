@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Daftar Pembeli - Step 1</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-white flex min-h-screen font-sans">
+
+    <div class="hidden md:flex md:w-1/2 flex-col items-center justify-center p-12">
+
+        <h1 class="text-4xl font-bold text-blue-900 mb-12 italic">Selamat Datang!</h1>
+
+        <img src="assets/images/illustrasions/User.png" class="max-w-xs h-auto object-contain">
+
+        <p class="mt-8 text-gray-600 italic">
+
+            Sudah mempunyai akun?
+
+            <button onclick="window.location.replace('login.html')" class="text-blue-600 font-bold underline cursor-pointer">Masuk</button>
+
+        </p>
+
+    </div>
+
+    <div class="w-full md:w-1/2 bg-[#3b5998] flex flex-col items-center justify-center p-8 text-white">
+
+        <h2 class="text-4xl font-bold mb-12">Buat Akun</h2>
+
+        <form id="f1" class="w-full max-w-md space-y-4">
+
+            <input type="email" placeholder="Email" required class="w-full p-4 rounded-lg bg-gray-100 text-gray-800">
+
+            <input type="password" placeholder="Password" required class="w-full p-4 rounded-lg bg-gray-100 text-gray-800">
+
+            <input type="password" placeholder="Konfirmasi Password" required class="w-full p-4 rounded-lg bg-gray-100 text-gray-800">
+
+            <div class="flex justify-end pt-4">
+
+                <button type="button" onclick="if(document.getElementById('f1').reportValidity()) window.location.href='register-pembeli-step2.html'" class="border border-white px-6 py-2 rounded-lg font-bold">Selanjutnya →</button>
+
+            </div>
+
+            <div class="text-center py-4">Atau</div>
+
+            <button type="button" class="w-full bg-white text-gray-700 p-3 rounded-lg flex items-center justify-center gap-4 font-bold shadow-md">
+
+                <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" class="w-5 h-5"> Masuk dengan Google
+
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>

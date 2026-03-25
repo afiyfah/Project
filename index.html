@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Kita - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'oren-tua': '#EE8F36',
+                        'emas-teks': '#78450E'
+                    },
+                    backgroundImage: {
+                        'emas-main': 'linear-gradient(90deg, #BFA370 39%, #8E754A 82%)',
+                        'oren-grd': 'linear-gradient(90deg, #FF7A3D 0%, #FF9A6A 100%)',
+                        'gold-grd': 'linear-gradient(90deg, #B88214 0%, #E1BF59 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * { font-family: 'Poppins', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .card-shadow { box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.05); }
+        
+        /* State Aktif untuk Tab */
+        .tab-btn.active { 
+            background: #BFA370 !important; 
+            color: white !important; 
+            box-shadow: 0px 4px 15px rgba(191, 163, 112, 0.4);
+            border-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-[#FDFDFD]">
+
+    <div id="header-container"></div>
+
+    <main class="max-w-[* mx-auto px-10 py-10 space-y-16">
+        
+        <section>
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-[32px] font-semibold text-[#685E5E]">Promo Spesial</h2>
+                <div class="flex items-center gap-3 cursor-pointer group">
+                    <span class="text-[#BDBDBD] text-sm group-hover:text-[#8E754A]">Lihat Semua</span>
+                    <button class="w-[20px] h-[20px] flex items-center justify-center bg-[#BFA370] text-white rounded-full shadow-md group-hover:bg-[#8E754A]">
+                        <i class="ri-arrow-right-s-line"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flex gap-6 overflow-x-auto no-scrollbar pb-4">
+        <div class="min-w-[416px] h-[181px] bg-oren-grd rounded-[10px] p-6 pl-7 text-white flex justify-between relative shadow-lg shrink-0 overflow-hidden">
+            <div class="z-10 flex flex-col">
+                <span class="bg-white/30 text-[16px] font-normal px-6 py-0.3 rounded-full w-fit uppercase mb-2">TERBATAS</span>
+                <h3 class="text-[22px] font-semibold leading-[1.1] uppercase">Diskon 25%<br>Semua <br> Minuman</h3>
+                <p class="text-[10px] mt-2 ">Hingga 24-03-2026</p>
+            </div>
+            <img src="assets/images/promo-1.png" class="h-[178px] object-contain self-center z-10" alt="Promo">
+        </div>
+
+        <div class="min-w-[416px] h-[181px] bg-gold-grd rounded-[10px] p-6 pl-7 text-white flex justify-between relative shadow-lg shrink-0 overflow-hidden">
+            <div class="z-10 flex flex-col">
+                <span class="bg-white/30 text-[16px] font-normal px-6 py-0.5 rounded-full w-fit uppercase mb-2">TERBATAS</span>
+                <h3 class="text-[22px] font-semibold leading-[1.1] uppercase">Promo<br>Bulan<br>Ramadhan</h3>
+                <p class="text-[10px] mt-2">Hingga 24-03-2026</p>
+            </div>
+            <img src="assets/images/promo-2.png" class="h-[178px] object-contain self-center z-10" alt="Promo">
+        </div>
+
+        <div class="min-w-[416px] h-[181px] bg-oren-grd rounded-[10px] p-6 pl-7 text-white flex justify-between relative shadow-lg shrink-0 overflow-hidden">
+            <div class="z-10 flex flex-col">
+                <span class="bg-white/30 text-[16px] font-normal px-6 py-0.5 rounded-full w-fit uppercase mb-2">TERBATAS</span>
+                <h3 class="text-[22px] font-semibold leading-[1.1] uppercase">Diskon 25%<br>Semua <br> Minuman</h3>
+                <p class="text-[10px] mt-2">Hingga 24-03-2026</p>
+            </div>
+            <img src="assets/images/promo-1.png" class="h-[178px] object-contain self-center z-10" alt="Promo">
+        </div>
+
+        <div class="min-w-[416px] h-[181px] bg-gold-grd rounded-[10px] p-6 pl-7 text-white flex justify-between relative shadow-lg shrink-0 overflow-hidden">
+            <div class="z-10 flex flex-col">
+                <span class="bg-white/30 text-[16px] font-normal px-6 py-0.5 rounded-full w-fit uppercase mb-2">TERBATAS</span>
+                <h3 class="text-[22px] font-semibold leading-[1.1] uppercase">Promo<br>Bulan<br>Ramadhan</h3>
+                <p class="text-[10px] mt-2">Hingga 24-03-2026</p>
+            </div>
+            <img src="assets/images/promo-2.png" class="h-[178px] object-contain self-center z-10" alt="Promo">
+        </div>
+
+    </div>
+</section>
+
+        <a href="javascript:void(0)" onclick="showComingSoonAlert()" class="block group">
+    <section class="relative w-full h-[220px] rounded-[2rem] overflow-hidden shadow-lg">
+        <img src="assets/images/flashsale-bg.png" class="absolute inset-0 w-full h-full object-cover brightness-[0.5]" alt="Flash Sale Background">
+        <div class="absolute inset-0 z-10 p-10 flex flex-col justify-between text-white">
+            <div class="flex items-center gap-4">
+                <i class="ri-flashlight-fill text-5xl text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]"></i>
+                <h2 class="text-5xl font-extrabold italic uppercase tracking-tighter">Flash Sale</h2>
+            </div>
+            <div class="flex gap-4 items-center">
+                <div class="bg-[#EE8F36] text-white w-14 h-14 rounded-xl flex flex-col items-center justify-center font-bold border border-white/20">
+                    <span class="text-lg leading-tight timer-jam">04</span>
+                    <span class="text-[8px] uppercase font-normal opacity-80">JAM</span>
+                </div>
+                <span class="text-white text-3xl font-black">:</span>
+                <div class="bg-[#EE8F36] text-white w-14 h-14 rounded-xl flex flex-col items-center justify-center font-bold border border-white/20">
+                    <span class="text-lg leading-tight timer-menit">32</span>
+                    <span class="text-[8px] uppercase font-normal opacity-80">MENIT</span>
+                </div>
+                <span class="text-white text-3xl font-black">:</span>
+                <div class="bg-[#EE8F36] text-white w-14 h-14 rounded-xl flex flex-col items-center justify-center font-bold border border-white/20">
+                    <span class="text-lg leading-tight timer-detik">10</span>
+                    <span class="text-[8px] uppercase font-normal opacity-80">DETIK</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</a>
+
+        <section class="space-y-12">
+            <div class="flex justify-center gap-4">
+                <button onclick="switchTab('rekomendasi')" id="btn-rekomendasi" class="tab-btn text-[20px] active px-8 py-1 text-gray-400 rounded-full transition-all border border-gray-100 shadow-sm">Rekomendasi</button>
+                <button onclick="switchTab('terlaris')" id="btn-terlaris" class="tab-btn text-[20px] px-8 py-1 bg-white text-gray-400 rounded-full border border-gray-100 shadow-sm transition-all">Terlaris</button>
+                <button onclick="switchTab('rating')" id="btn-rating" class="tab-btn text-[20px] px-8 py-1 bg-white text-gray-400 rounded-full border border-gray-100 shadow-sm transition-all">Top Rating</button>
+            </div>
+
+           <div id="tab-content-container">
+            <a href="profil-toko.html">
+    <div id="content-rekomendasi" class="tab-pane grid grid-cols-4 gap-8">
+        
+        <div class="relative rounded-[1rem] p-4 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer group"
+            style="background: #F3F3F3; box-shadow: 0px 10px 0px #E9E9E9;">
+            <div class="absolute -top-4 -left-3 z-20">
+                <img src="assets/images/badge-best-seller.png" class="h-14 drop-shadow-md" alt="Best Seller">
+            </div>
+            <div class="h-44 rounded-[1rem] overflow-hidden mb-4 bg-white">
+                <img src="assets/images/mie ayam.png" class="w-full h-full object-cover">
+            </div>
+            <div class="px-2 space-y-1">
+                <h4 class="font-semibold text-gray-800 text-lg">Mie Ayam Bakso</h4>
+                <div class="flex items-center gap-1 text-sm">
+                    <i class="ri-star-fill text-yellow-500"></i> 
+                    <span class="text-orange-400 font-bold">4.8</span> 
+                    <span class="text-gray-400">(125)</span>
+                </div>
+                <div class="flex justify-between items-center mt-4">
+                    <span class="text-xl font-semibold text-green-700">Rp 25.000</span>
+                    <button class="w-8 h-8 bg-[#BFA370] text-white rounded-lg flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+                        <i class="ri-add-line"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative rounded-[1rem] p-4 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer group"
+            style="background: #F3F3F3; box-shadow: 0px 10px 0px #E9E9E9;">
+            <div class="absolute -top-1 -left-1 z-20">
+                <img src="assets/images/badge-new.png" class="h-10 drop-shadow-sm" alt="New">
+            </div>
+            <div class="h-44 rounded-[1rem] overflow-hidden mb-4 bg-white">
+                <img src="assets/images/makanan2.png" class="w-full h-full object-cover">
+            </div>
+            <div class="px-2 space-y-1">
+                <h4 class="font-semibold text-gray-800 text-lgfont-semibold text-gray-800 text-lg">Nasi Campur Bali</h4>
+                <div class="flex items-center gap-1 text-sm">
+                    <i class="ri-star-fill text-yellow-500"></i> 
+                    <span class="text-orange-400 font-bold">4.9</span> 
+                    <span class="text-gray-400">(80)</span>
+                </div>
+                <div class="flex justify-between items-center mt-4">
+                    <span class="text-xl font-semibold text-green-700">Rp 35.000</span>
+                    <button class="w-8 h-8 bg-[#BFA370] text-white rounded-lg flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+                        <i class="ri-add-line"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative rounded-[1rem] p-4 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer group"
+            style="background: #F3F3F3; box-shadow: 0px 10px 0px #E9E9E9;">
+            <div class="h-44 rounded-[1rem] overflow-hidden mb-4 bg-white">
+                <img src="assets/images/rawon.png" class="w-full h-full object-cover">
+            </div>
+            <div class="px-2 space-y-1">
+                <h4 class="font-semibold text-gray-800 text-lgfont-semibold text-gray-800 text-lg">Rawon Daging</h4>
+                <div class="flex items-center gap-1 text-sm">
+                    <i class="ri-star-fill text-yellow-500"></i> 
+                    <span class="text-orange-400 font-bold">4.7</span> 
+                    <span class="text-gray-400">(210)</span>
+                </div>
+                <div class="flex justify-between items-center mt-4">
+                    <span class="text-xl font-semibold text-green-700">Rp 40.000</span>
+                    <button class="w-8 h-8 bg-[#BFA370] text-white rounded-lg flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+                        <i class="ri-add-line"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative rounded-[1rem] p-4 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer group"
+            style="background: #F3F3F3; box-shadow: 0px 10px 0px #E9E9E9;">
+            <div class="h-44 rounded-[1rem] overflow-hidden mb-4 bg-white">
+                <img src="assets/images/daging.png" class="w-full h-full object-cover">
+            </div>
+            <div class="px-2 space-y-1">
+                <h4 class="font-semibold text-gray-800 text-lgfont-semibold text-gray-800 text-lg">Soto Lamongan</h4>
+                <div class="flex items-center gap-1 text-sm">
+                    <i class="ri-star-fill text-yellow-500"></i> 
+                    <span class="text-orange-400 font-bold">4.8</span> 
+                    <span class="text-gray-400">(150)</span>
+                </div>
+                <div class="flex justify-between items-center mt-4">
+                    <span class="text-xl font-semibold text-green-700">Rp 20.000</span>
+                    <button class="w-8 h-8 bg-[#BFA370] text-white rounded-lg flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+                        <i class="ri-add-line"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="content-terlaris" class="tab-pane hidden grid grid-cols-4 gap-8">
+        <p class="col-span-4 text-center py-10 text-gray-400 italic">Memuat data terlaris...</p>
+    </div>
+
+    <div id="content-rating" class="tab-pane hidden grid grid-cols-4 gap-8">
+        <p class="col-span-4 text-center py-10 text-gray-400 italic">Memuat data rating...</p>
+    </div>
+</div>
+            <a href="lihat-semua-menu.html">
+            <div class="flex flex-col items-center gap-1 pt-12 group cursor-pointer">
+                <button class="w-[20px] h-[20px] flex items-center justify-center bg-[#BFA370] text-white rounded-full shadow-md group-hover:bg-[#8E754A]">
+                    <i class="ri-arrow-down-s-line"></i>
+                </button>
+                <span class="text-[#BDBDBD] text-sm group-hover:text-[#8E754A]">Lihat Semua</span>
+            </div>
+            </a>
+        </section>
+    </main>
+
+   <script src="js/script.js"></script>
+</body>
+</html>

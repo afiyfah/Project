@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Market Kita - Flash Sale</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "oren-tua": "#EE8F36",
+              "emas-teks": "#78450E",
+            },
+            backgroundImage: {
+              "emas-main": "linear-gradient(90deg, #BFA370 39%, #8E754A 82%)",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      * {
+        font-family: "Poppins", sans-serif;
+      }
+      .tab-time.active {
+        background: #bfa370 !important;
+        color: white !important;
+      }
+    </style>
+  </head>
+  <body class="bg-[#FDFDFD]">
+    <div id="header-container"></div>
+
+    <main class="max-w-[1440px] mx-auto px-10 py-10">
+      <div id="flash-sale-grid" class="grid grid-cols-4 gap-8"></div>
+      <section
+        class="bg-[#EEEEEE] rounded-[2rem] p-10 flex flex-col items-center shadow-sm mb-10"
+      >
+        <h2 class="text-4xl font-bold text-[#685E5E] mb-2">Flash Sale</h2>
+        <p class="text-gray-400 text-sm mb-6 uppercase tracking-widest">
+          ends in
+        </p>
+
+        <div class="flex gap-4 items-center scale-125">
+          <div
+            class="bg-[#EE8F36] text-white w-14 h-14 rounded-xl flex flex-col items-center justify-center font-bold shadow-lg"
+          >
+            <span class="text-lg leading-tight timer-jam">04</span>
+            <span class="text-[8px] uppercase font-normal">JAM</span>
+          </div>
+          <span class="text-[#EE8F36] text-3xl font-black">:</span>
+          <div
+            class="bg-[#EE8F36] text-white w-14 h-14 rounded-xl flex flex-col items-center justify-center font-bold shadow-lg"
+          >
+            <span class="text-lg leading-tight timer-menit">32</span>
+            <span class="text-[8px] uppercase font-normal">MENIT</span>
+          </div>
+          <span class="text-[#EE8F36] text-3xl font-black">:</span>
+          <div
+            class="bg-[#EE8F36] text-white w-14 h-14 rounded-xl flex flex-col items-center justify-center font-bold shadow-lg"
+          >
+            <span class="text-lg leading-tight timer-detik">10</span>
+            <span class="text-[8px] uppercase font-normal">DETIK</span>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="flex bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-12"
+      >
+        <button
+          class="flex-1 py-5 tab-time active flex flex-col items-center transition-all"
+        >
+          <span class="text-2xl font-bold">18:00</span>
+          <span class="text-[10px] uppercase font-medium opacity-80"
+            >Ongoing</span
+          >
+        </button>
+        <button
+          class="flex-1 py-5 tab-time bg-[#D9D9D9] text-white flex flex-col items-center border-x border-white hover:brightness-95"
+        >
+          <span class="text-2xl font-bold">21:00</span>
+          <span class="text-[10px] uppercase font-medium opacity-80"
+            >Coming Soon</span
+          >
+        </button>
+        <button
+          class="flex-1 py-5 tab-time bg-[#D9D9D9] text-white flex flex-col items-center hover:brightness-95"
+        >
+          <span class="text-2xl font-bold">12:00</span>
+          <span class="text-[10px] uppercase font-medium opacity-80"
+            >Tomorrow</span
+          >
+        </button>
+      </section>
+
+      <section
+        class="flex justify-center gap-12 border-b-4 border-gray-100 mb-10"
+      >
+        <button
+          class="pb-4 text-xl font-bold border-b-4 border-[#BFA370] text-gray-700 -mb-1"
+        >
+          Rekomendasi
+        </button>
+        <button
+          class="pb-4 text-xl font-bold border-b-4 border-transparent text-gray-400 -mb-1 hover:text-gray-600 transition"
+        >
+          Terlaris
+        </button>
+        <button
+          class="pb-4 text-xl font-bold border-b-4 border-transparent text-gray-400 -mb-1 hover:text-gray-600 transition"
+        >
+          Sekitarmu
+        </button>
+      </section>
+
+      <div class="grid grid-cols-4 gap-8">
+        <div
+          class="bg-white rounded-[1.5rem] p-4 shadow-xl border border-gray-50 group"
+        >
+          <div class="relative h-48 rounded-2xl overflow-hidden mb-4">
+            <img
+              src="assets/images/mie ayam.png"
+              class="w-full h-full object-cover"
+            />
+            <div
+              class="absolute top-0 left-0 bg-oren-grd text-white text-[10px] font-bold px-3 py-1.5 rounded-br-2xl flex items-center gap-1"
+            >
+              <i class="ri-fire-fill"></i> 5RB+ TERJUAL
+            </div>
+          </div>
+          <h4 class="font-bold text-gray-800 text-lg">Mie Ayam Spesial</h4>
+          <div class="flex items-center gap-1 text-sm text-gray-400 mb-2">
+            <i class="ri-star-fill text-yellow-500"></i>
+            <span class="text-orange-400 font-bold">4.8</span> (125)
+          </div>
+          <div class="flex items-baseline gap-2 mb-4">
+            <span class="text-2xl font-bold text-green-700">Rp 12.000</span>
+            <span class="text-sm text-gray-400 line-through">Rp 25.000</span>
+          </div>
+          <button
+            class="w-full py-3 bg-emas-main text-white rounded-xl font-bold shadow-lg hover:brightness-110 active:scale-95 transition-all"
+          >
+            Beli Sekarang
+          </button>
+        </div>
+
+        <div
+          class="bg-white rounded-[1.5rem] p-4 shadow-md border border-gray-50 opacity-70"
+        >
+          <div class="relative h-48 rounded-2xl overflow-hidden mb-4 grayscale">
+            <img
+              src="assets/images/rawon.png"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <h4 class="font-bold text-gray-800 text-lg">Rawon Daging</h4>
+          <div class="flex items-baseline gap-2 mb-4">
+            <span class="text-2xl font-bold text-green-700">Rp 20.000</span>
+          </div>
+          <button
+            disabled
+            class="w-full py-3 bg-gray-300 text-white rounded-xl font-bold cursor-not-allowed"
+          >
+            Belum Tersedia
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>

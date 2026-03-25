@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Market Kita - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'oren-tua': '#EE8F36',
+              'emas-teks': '#78450E'
+            },
+            backgroundImage: {
+              'emas-main': 'linear-gradient(90deg, #BFA370 39%, #8E754A 82%)',
+              'oren-grd': 'linear-gradient(90deg, #FF7A3D 0%, #FF9A6A 100%)',
+              'gold-grd': 'linear-gradient(90deg, #B88214 0%, #E1BF59 100%)'
+            }
+          }
+        }
+      };
+    </script>
+
+    <style>
+      * {
+        font-family: 'Poppins', sans-serif;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .card-shadow {
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.05);
+      }
+
+      /* State Aktif untuk Tab */
+      .tab-btn.active {
+        background: #bfa370 !important;
+        color: white !important;
+        box-shadow: 0px 4px 15px rgba(191, 163, 112, 0.4);
+        border-color: transparent;
+      }
+    </style>
+  </head>
+
+  <header
+    id="main-header"
+    class="bg-emas-main shadow-md sticky top-0 z-50 w-full transform transition-transform duration-300">
+    <div class="max-w-[1440.07px] h-[100.99px] mx-auto flex items-center justify-start px-10">
+      <div
+        class="w-[70px] h-[70px] rounded-full border-[3px] border-[#5D4037] bg-white overflow-hidden flex items-center justify-center shrink-0 cursor-pointer"
+        onclick="window.location.href = 'index.html'">
+        <img src="assets/images/illustrasions/User.png" alt="Logo" class="w-[75%] h-[75%] object-contain" />
+      </div>
+
+      <div id="search-container" class="relative w-[749px] h-[50.44px] ml-[70px] flex items-center">
+        <div class="absolute left-5 text-gray-400">
+          <i class="ri-search-line text-[16px]"></i>
+        </div>
+
+        <input
+          type="text"
+          id="main-search-input"
+          placeholder="Mau makan apa hari ini?"
+          class="w-full h-full px-14 rounded-xl text-[12px] focus:outline-none shadow-inner border-none bg-white transition-all" />
+
+        <div id="btn-filter-toggle" class="absolute right-5 text-gray-400 cursor-pointer hover:text-[#EE8F36]">
+          <i class="ri-equalizer-2-line text-[16px]"></i>
+        </div>
+
+        <div
+          id="dropdown-filter"
+          class="hidden absolute top-[100%] left-0 w-full bg-white p-5 shadow-xl z-[60] rounded-b-xl border-t border-gray-100">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="relative">
+              <button
+                id="btn-jarak-main"
+                class="flex items-center gap-2 px-3 py-1 rounded-sm text-[12px] transition-all active-emas">
+                Terdekat <i class="ri-arrow-down-s-fill"></i>
+              </button>
+              <div
+                id="sub-jarak"
+                class="hidden absolute top-[120%] left-0 bg-white shadow-lg border border-gray-100 rounded-lg w-32 z-[70]">
+                <button
+                  id="opt-terdekat"
+                  class="w-full text-left px-4 py-2 text-[11px] font-bold text-[#8E754A] hover:bg-gray-50">
+                  Terdekat
+                </button>
+                <button
+                  id="opt-terjauh"
+                  class="w-full text-left px-4 py-2 text-[11px] font-bold text-[#8E754A] hover:bg-gray-50">
+                  Terjauh
+                </button>
+              </div>
+            </div>
+
+            <button
+              id="btn-harga-dropdown"
+              class="flex items-center gap-2 px-3 py-1 rounded-sm text-[12px] transition-all inactive-emas">
+              Harga <i class="ri-arrow-down-s-fill"></i>
+            </button>
+          </div>
+
+          <div id="box-batas-harga" class="hidden space-y-3 pt-3 border-t border-gray-100">
+            <p class="text-[12px] font-bold text-gray-800">Batas Harga</p>
+            <div class="flex items-center gap-2">
+              <input
+                type="number"
+                placeholder="MIN"
+                class="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-[11px] outline-none focus:border-[#BFA370]" />
+              <span class="text-gray-400">—</span>
+              <input
+                type="number"
+                placeholder="MAX"
+                class="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-[11px] outline-none focus:border-[#BFA370]" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        body {
+          font-family: 'Poppins', sans-serif;
+        }
+
+        /* Tab Menu Toko Aktif */
+        .tab-active {
+          background-color: #b59d74 !important;
+          color: white !important;
+          border-color: #b59d74 !important;
+        }
+
+        /* Tombol Filter Aktif (Emas Gradasi) */
+        .active-emas {
+          background: linear-gradient(90deg, #bfa370 39%, #8e754a 82%) !important;
+          color: white !important;
+          box-shadow: 0px 4px 10px rgba(191, 163, 112, 0.3);
+        }
+
+        /* Tombol Filter Non-Aktif (Redup) */
+        .inactive-emas {
+          background-color: #f3f4f6 !important;
+          color: #9ca3af !important;
+          border: 1px solid #e5e7eb !important;
+        }
+
+        .transition-all {
+          transition: all 0.3s ease;
+        }
+      </style>
+
+      <div class="ml-[75px] flex items-center text-white">
+        <a
+          href="chatbot.html"
+          class="w-11 h-11 rounded-full bg-gradient-to-b from-[#E9D09D] to-[#D7BE74] flex items-center justify-center shadow-[0px_4px_10px_rgba(120,69,14,0.5)] hover:scale-110 transition">
+          <i class="ri-robot-2-fill text-[#78450E] text-[22px]"></i>
+        </a>
+        <a href="explore-location.html" class="ml-[35px] hover:scale-110 transition">
+          <i class="ri-map-pin-2-fill text-[20px]"></i>
+        </a>
+        <a href="notifikasi.html" class="ml-[35px] hover:scale-110 transition">
+          <i class="ri-heart-3-line text-[20px]"></i>
+        </a>
+        <a href="keranjang.html" class="ml-[35px] relative hover:scale-110 transition mr-2">
+          <i class="ri-shopping-cart-2-line text-[20px]"></i>
+          <span
+            class="absolute -top-1 -right-2 bg-[#F2D18D] text-[#78450E] text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold"
+            >5</span
+          >
+        </a>
+        <a href="pilih-peran.html" class="ml-[70px] flex items-center gap-3 group">
+          <div class="w-[45px] h-[45px] rounded-full flex items-center justify-center bg-white/20">
+            <i class="ri-user-3-line text-2xl text-white"></i>
+          </div>
+          <span class="text-[14px] tracking-wide whitespace-nowrap group-hover:underline">Login</span>
+        </a>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </header>
+</html>

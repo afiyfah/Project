@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jenis Usaha - Market Kita</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-image: url('assets/images/illustrasions/background.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .bg-gradient-orange { background: linear-gradient(to bottom, #FFCF98, #F4721E); }
+        .bg-gradient-blue { background: linear-gradient(to bottom, #D6E9FC, #3683DF); }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="text-center max-w-5xl w-full">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Pilih Jenis Usaha Anda</h1>
+        <p class="text-gray-500 mb-12 italic text-sm">silahkan pilih sebagai apa anda ingin bergabung</p>
+
+        <div class="flex flex-col md:flex-row gap-8 justify-center items-stretch">
+            
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col w-full md:w-80 border-2 border-transparent hover:border-blue-500 transition-all">
+                <div class="bg-gradient-blue p-8 flex justify-center items-end h-64">
+                    <img src="assets/images/illustrasions/umkm-mikro.png" class="h-48 w-auto object-contain">
+                </div>
+                <div class="p-6 flex-grow flex flex-col items-center">
+                    <h2 class="text-xl font-bold text-blue-600 mb-2">UMKM Mikro</h2>
+                    <p class="text-[10px] text-gray-400 mb-6">sederhana tanpa kasir dan reservasi.</p>
+                    <div class="flex gap-2 w-full mt-auto">
+                        <button class="flex-1 border border-blue-600 text-blue-600 text-[10px] py-2 rounded-full font-bold hover:bg-blue-50 transition">Selengkapnya ></button>
+                        <button onclick="window.location.href='register-umkm-mikro.html'" class="flex-1 bg-blue-900 text-white text-[10px] py-2 rounded-full font-bold hover:bg-blue-800 transition">Daftar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col w-full md:w-80 border-2 border-transparent hover:border-orange-500 transition-all">
+                <div class="bg-gradient-orange p-8 flex justify-center items-end h-64">
+                    <img src="assets/images/illustrasions/umkm-berkembang.png" class="h-48 w-auto object-contain">
+                </div>
+                <div class="p-6 flex-grow flex flex-col items-center">
+                    <h2 class="text-xl font-bold text-orange-600 mb-2">UMKM Berkembang</h2>
+                    <p class="text-[10px] text-gray-400 mb-6">Untuk usaha yang membutuhkan sistem kasir dan manajemen reservasi.</p>
+                    <div class="flex gap-2 w-full mt-auto">
+                        <button class="flex-1 border border-orange-600 text-orange-600 text-[10px] py-2 rounded-full font-bold hover:bg-orange-50 transition">Selengkapnya ></button>
+                        <button onclick="alert('Halaman Registrasi UMKM Berkembang segera hadir!')" class="flex-1 bg-orange-900 text-white text-[10px] py-2 rounded-full font-bold hover:bg-orange-800 transition">Daftar</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-12">
+            <button onclick="window.location.href='index.html'" class="text-gray-500 hover:text-gray-800 text-sm font-semibold transition underline">
+                ← Kembali ke Pilih Peran
+            </button>
+        </div>
+    </div>
+</body>
+</html>

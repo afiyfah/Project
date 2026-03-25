@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk - Market Kita</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white flex min-h-screen font-sans">
+    <div class="hidden md:flex md:w-1/2 flex-col items-center justify-center p-12">
+        <h1 class="text-4xl font-bold text-blue-900 mb-12 italic">Selamat Datang!</h1>        
+        <img src="assets/images/illustrasions/User.png" class="max-w-xs h-auto object-contain">
+        <p class="mt-8 text-gray-600 italic">
+            Tidak memiliki akun? 
+            <button onclick="window.location.href='register-pembeli-step1.html'" class="text-blue-600 font-bold underline cursor-pointer">Daftar</button>
+        </p>
+    </div>
+
+    <div class="w-full md:w-1/2 bg-[#3b5998] flex flex-col items-center justify-center p-8 text-white">
+        <h2 class="text-4xl font-bold mb-12">Masuk</h2>
+        
+        <form id="loginForm" class="w-full max-w-md space-y-4">
+            <input type="email" placeholder="Email" required 
+                class="w-full p-4 rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            
+            <input type="password" placeholder="Password" required 
+                class="w-full p-4 rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            
+            <div class="flex justify-end pt-4">
+                <button type="button" 
+                    onclick="if(document.getElementById('loginForm').reportValidity()) { alert('Login Berhasil!'); window.location.href='index.html'; }" 
+                    class="border border-white px-6 py-2 rounded-lg font-bold hover:bg-white hover:text-[#3b5998] transition-all active:scale-95">
+                    Selanjutnya →
+                </button>
+            </div>
+
+            <div class="text-center py-4 text-sm opacity-80">Atau</div>
+
+            <button type="button" class="w-full bg-white text-gray-700 p-3 rounded-lg flex items-center justify-center gap-4 font-bold shadow-md hover:bg-gray-100 transition-all active:scale-95">
+                <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" class="w-5 h-5"> 
+                Masuk dengan Google
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // Opsional: Memungkinkan user menekan 'Enter' untuk login
+        document.getElementById('loginForm').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                if(this.reportValidity()) {
+                    alert('Login Berhasil!');
+                    window.location.href='index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

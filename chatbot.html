@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Market Kita - ChatBot AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: "Poppins", sans-serif;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* Bubble Chat Style */
+      .user-chat {
+        background-color: #c4c4c4;
+        color: white;
+        border-radius: 1rem 0 1rem 1rem;
+      }
+      .bot-chat {
+        background-color: #c4c4c4;
+        color: black;
+        border-radius: 0 1rem 1rem 1rem;
+      }
+    </style>
+  </head>
+  <body class="bg-white h-screen flex flex-col">
+    <div id="header-container"></div>
+
+    <div class="text-center py-6">
+      <h1 class="text-3xl font-bold text-gray-800">ChatBot</h1>
+    </div>
+
+    <div
+      id="chat-box"
+      class="flex-1 overflow-y-auto px-6 space-y-6 no-scrollbar pb-4"
+    >
+      <div class="flex justify-center">
+        <span
+          class="bg-gray-200 text-gray-500 text-[10px] px-3 py-1 rounded-md font-bold uppercase"
+          >Kemarin</span
+        >
+      </div>
+
+      <div class="flex justify-end">
+        <div class="max-w-[70%]">
+          <div class="user-chat p-4 shadow-sm">
+            <p class="text-sm font-medium">
+              rekomendasiin aku makanan - makanan seger dong
+            </p>
+          </div>
+          <span
+            class="text-[10px] text-gray-400 mt-1 block text-right font-bold"
+            >12.24</span
+          >
+        </div>
+      </div>
+
+      <div class="flex justify-start items-start gap-3">
+        <div class="max-w-[85%]">
+          <div class="bot-chat p-5 shadow-sm space-y-4">
+            <p class="text-sm font-bold">
+              Tentu, coba kamu cek menu menu segar ini :
+            </p>
+
+            <div class="space-y-3">
+              <div
+                class="bg-white rounded-md p-3 flex gap-4 border border-gray-100 shadow-sm"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=200"
+                  class="w-16 h-16 rounded-md object-cover"
+                />
+                <div class="flex-1">
+                  <h4 class="font-bold text-xs">Bakpao Coklat</h4>
+                  <p class="text-[10px] text-gray-400 font-bold italic">
+                    🥨 Rajanya Bakpao
+                  </p>
+                  <p class="text-green-600 font-bold text-xs mt-1">Rp15.000</p>
+                  <div class="flex justify-between items-center mt-1">
+                    <span class="text-[8px] text-gray-400 font-bold uppercase"
+                      >10RB+ terjual | 240m | 15min</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div
+                class="bg-white rounded-md p-3 flex gap-4 border border-gray-100 shadow-sm"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=200"
+                  class="w-16 h-16 rounded-md object-cover"
+                />
+                <div class="flex-1">
+                  <h4 class="font-bold text-xs">Bakpao Coklat</h4>
+                  <p class="text-[10px] text-gray-400 font-bold italic">
+                    🥨 Rajanya Bakpao
+                  </p>
+                  <p class="text-green-600 font-bold text-xs mt-1">Rp15.000</p>
+                  <div class="flex justify-between items-center mt-1">
+                    <span class="text-[8px] text-gray-400 font-bold uppercase"
+                      >10RB+ terjual | 240m | 15min</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="text-sm font-bold pt-2">
+              aku merekomendasikan ini karna bla bla bla
+            </p>
+          </div>
+        </div>
+        <div
+          class="w-10 h-10 bg-[#BFA370]/20 rounded-full flex items-center justify-center border border-[#BFA370]/30"
+        >
+          <i class="ri-robot-2-line text-[#BFA370] text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white border-t border-gray-100 p-4 space-y-4">
+      <div class="flex gap-2 overflow-x-auto no-scrollbar py-1">
+        <button
+          onclick="sendQuickMsg('terdekat')"
+          class="shrink-0 bg-gray-200 text-black px-10 py-1 rounded-full text-[12px] font-bold hover:bg-gray-300"
+        >
+          terdekat
+        </button>
+        <button
+          onclick="sendQuickMsg('rekomendasi')"
+          class="shrink-0 bg-gray-200 text-black px-10 py-1 rounded-full text-[12px] font-bold hover:bg-gray-300"
+        >
+          rekomendasi
+        </button>
+        <button
+          onclick="sendQuickMsg('rating')"
+          class="shrink-0 bg-gray-200 text-black px-10 py-1 rounded-full text-[12px] font-bold hover:bg-gray-300"
+        >
+          rating
+        </button>
+        <button
+          onclick="sendQuickMsg('viral')"
+          class="shrink-0 bg-gray-200 text-black px-10 py-1 rounded-full text-[12px] font-bold hover:bg-gray-300"
+        >
+          viral
+        </button>
+        <button
+          onclick="sendQuickMsg('murah')"
+          class="shrink-0 bg-gray-200 text-black px-10 py-1 rounded-full text-[12px] font-bold hover:bg-gray-300"
+        >
+          murah
+        </button>
+        <button
+          onclick="sendQuickMsg('terdekat')"
+          class="shrink-0 bg-gray-200 text-black px-10 py-1 rounded-full text-[12px] font-bold hover:bg-gray-300"
+        >
+          terdekat
+        </button>
+        <button
+          onclick="sendQuickMsg('rekomendasi')"
+          class="shrink-0 bg-gray-200 text-black px-10 py-1 rounded-full text-[12px] font-bold hover:bg-gray-300"
+        >
+          rekomendasi
+        </button>
+        <button
+          onclick="sendQuickMsg('rating')"
+          class="shrink-0 bg-gray-200 text-black px-10 py-1 rounded-full text-[12px] font-bold hover:bg-gray-300"
+        >
+          rating
+        </button>
+        <button
+          onclick="sendQuickMsg('viral')"
+          class="shrink-0 bg-gray-200 text-black px-10 py-1 rounded-full text-[12px] font-bold hover:bg-gray-300"
+        >
+          viral
+        </button>
+        <button
+          onclick="sendQuickMsg('murah')"
+          class="shrink-0 bg-gray-200 text-black px-10 py-1 rounded-full text-[12px] font-bold hover:bg-gray-300"
+        >
+          murah
+        </button>
+        <button
+          onclick="sendQuickMsg('murah')"
+          class="shrink-0 bg-gray-200 text-black px-10 py-1 rounded-full text-[12px] font-bold hover:bg-gray-300"
+        >
+          murah
+        </button>
+      </div>
+
+      <div class="relative flex items-center max-w-5xl mx-auto w-full">
+        <input
+          id="user-input"
+          type="text"
+          placeholder="Tulis pesan..."
+          class="w-full bg-white border border-gray-200 rounded-md py-3 px-5 pr-14 text-sm focus:outline-none focus:border-[#BFA370]"
+        />
+        <button
+          onclick="sendMessage()"
+          class="absolute right-3 p-2 text-[#2D3142] hover:text-[#BFA370] transition-colors"
+        >
+          <i class="ri-send-plane-2-fill text-2xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Memanggil Header
+      fetch("header.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("header-container").innerHTML = data;
+        });
+
+      const chatBox = document.getElementById("chat-box");
+      const userInput = document.getElementById("user-input");
+
+      function sendMessage() {
+        const text = userInput.value.trim();
+        if (text === "") return;
+
+        // 1. Tampilkan pesan user
+        appendMessage(text, "user");
+        userInput.value = "";
+
+        // 2. Logic simulasi Bot
+        setTimeout(() => {
+          let botResponse =
+            "Maaf, aku lagi belajar memahami pesanmu. Coba tanya menu seger atau rekomendasi!";
+
+          if (text.toLowerCase().includes("seger")) {
+            appendBotMenuResponse();
+          } else {
+            appendMessage(botResponse, "bot");
+          }
+        }, 1000);
+      }
+
+      function appendMessage(text, sender) {
+        const time = new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        const messageDiv = document.createElement("div");
+        messageDiv.className = `flex ${sender === "user" ? "justify-end" : "justify-start"}`;
+
+        messageDiv.innerHTML = `
+                <div class="max-w-[70%]">
+                    <div class="${sender === "user" ? "user-chat" : "bot-chat"} p-4 shadow-sm">
+                        <p class="text-sm font-medium">${text}</p>
+                    </div>
+                    <span class="text-[10px] text-gray-400 mt-1 block ${sender === "user" ? "text-right" : "text-left"} font-bold">${time}</span>
+                </div>
+            `;
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+
+      function appendBotMenuResponse() {
+        const messageDiv = document.createElement("div");
+        messageDiv.className = "flex justify-start items-start gap-3";
+        messageDiv.innerHTML = `
+                <div class="max-w-[85%]">
+                    <div class="bot-chat p-5 shadow-sm space-y-4">
+                        <p class="text-sm font-bold">Tentu, ini rekomendasi buat kamu :</p>
+                        <div class="bg-white rounded-md p-3 flex gap-4 border border-gray-100 shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1512058560566-427a1bd545b8?w=200" class="w-16 h-16 rounded-md object-cover">
+                            <div class="flex-1">
+                                <h4 class="font-bold text-xs">Nasgor Goreng</h4>
+                                <p class="text-[10px] text-gray-400 font-bold italic">Sop Ayam Pak Min</p>
+                                <p class="text-green-600 font-bold text-xs mt-1">Rp17.000</p>
+                            </div>
+                        </div>
+                        <p class="text-sm font-bold pt-2">Menu ini sangat populer hari ini!</p>
+                    </div>
+                </div>
+                <div class="w-10 h-10 bg-[#BFA370]/20 rounded-full flex items-center justify-center border border-[#BFA370]/30">
+                    <i class="ri-robot-2-line text-[#BFA370] text-xl"></i>
+                </div>
+            `;
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+
+      function sendQuickMsg(tag) {
+        userInput.value = tag;
+        sendMessage();
+      }
+
+      // Support Enter Key
+      userInput.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          sendMessage();
+        }
+      });
+    </script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

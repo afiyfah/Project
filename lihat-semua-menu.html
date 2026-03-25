@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script>
+      // Konfigurasi Tailwind untuk setting font default ke Poppins
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Poppins", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Memastikan seluruh elemen menggunakan Poppins */
+      body {
+        font-family: "Poppins", sans-serif;
+      }
+
+      .tab-btn.active {
+        background-color: #bfa370 !important;
+        color: white !important;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+
+  <body class="bg-[#FDFDFD] pb-10">
+    <main class="mx-auto px-10 py-10">
+      <button
+        onclick="window.history.back()"
+        class="text-[#88601B] text-sm font-semibold gap-1 hover:underline italic mb-6"
+      >
+        <i class="fas fa-chevron-left text-xs"></i> kembali
+      </button>
+
+      <div class="flex justify-center gap-4 mb-12">
+        <button
+          onclick="switchTab('rekomendasi')"
+          id="btn-rekomendasi"
+          class="tab-btn text-[20px] active px-8 py-1 rounded-full transition-all border border-gray-100 shadow-sm bg-white text-gray-400"
+        >
+          Rekomendasi
+        </button>
+        <button
+          onclick="switchTab('terlaris')"
+          id="btn-terlaris"
+          class="tab-btn text-[20px] px-8 py-1 bg-white text-gray-400 rounded-full border border-gray-100 shadow-sm transition-all"
+        >
+          Terlaris
+        </button>
+        <button
+          onclick="switchTab('rating')"
+          id="btn-rating"
+          class="tab-btn text-[20px] px-8 py-1 bg-white text-gray-400 rounded-full border border-gray-100 shadow-sm transition-all"
+        >
+          Top Rating
+        </button>
+      </div>
+
+      <div
+        id="all-menu-grid"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+      ></div>
+
+      <div id="loading-spinner" class="hidden text-center py-20">
+        <div
+          class="animate-spin inline-block w-8 h-8 border-4 border-[#BFA370] border-t-transparent rounded-full"
+        ></div>
+        <p class="mt-4 text-gray-400">Memuat menu...</p>
+      </div>
+    </main>
+
+    <script>
+      // DATA MENU (Bisa kamu tambah/ubah sesuka hati)
+      const masterMenu = [
+        {
+          id: 1,
+          nama: "Mie Ayam Bakso",
+          harga: "25.000",
+          rating: 4.8,
+          review: 125,
+          img: "assets/images/mie ayam.png",
+          badge: "assets/images/badge-best-seller.png",
+          type: "rekomendasi",
+        },
+        {
+          id: 2,
+          nama: "Nasi Campur Bali",
+          harga: "35.000",
+          rating: 4.9,
+          review: 80,
+          img: "assets/images/makanan2.png",
+          badge: "assets/images/badge-new.png",
+          type: "rekomendasi",
+        },
+        {
+          id: 3,
+          nama: "Rawon Daging",
+          harga: "40.000",
+          rating: 4.7,
+          review: 210,
+          img: "assets/images/rawon.png",
+          badge: null,
+          type: "terlaris",
+        },
+        {
+          id: 4,
+          nama: "Soto Lamongan",
+          harga: "20.000",
+          rating: 4.8,
+          review: 150,
+          img: "assets/images/daging.png",
+          badge: null,
+          type: "rating",
+        },
+        {
+          id: 5,
+          nama: "Sate Ayam Madura",
+          harga: "25.000",
+          rating: 4.6,
+          review: 95,
+          img: "assets/images/makanan2.png",
+          badge: null,
+          type: "rekomendasi",
+        },
+        {
+          id: 6,
+          nama: "Gado-Gado",
+          harga: "18.000",
+          rating: 4.9,
+          review: 110,
+          img: "assets/images/mie ayam.png",
+          badge: "assets/images/badge-best-seller.png",
+          type: "terlaris",
+        },
+      ];
+
+      function renderMenu(filter) {
+        const grid = document.getElementById("all-menu-grid");
+        grid.innerHTML = "";
+
+        // Kita buat perulangan agar menu terlihat BANYAK (duplikasi data)
+        // Di dunia nyata, ini akan mengambil data dari database/API
+        const manyMenu = [...masterMenu, ...masterMenu, ...masterMenu];
+
+        manyMenu.forEach((item, index) => {
+          // Logika filter sederhana: jika filter bukan 'rekomendasi', sesuaikan data
+          if (filter !== "rekomendasi" && item.type !== filter) return;
+
+          const cardHtml = `
+                    <div class="relative rounded-[1rem] p-4 transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+                        style="background: #F3F3F3; box-shadow: 0px 10px 0px #E9E9E9;">
+                        
+                        ${
+                          item.badge
+                            ? `
+                        <div class="absolute -top-4 -left-3 z-20">
+                            <img src="${item.badge}" class="h-14 drop-shadow-md">
+                        </div>`
+                            : ""
+                        }
+
+                        <div class="h-44 rounded-[1rem] overflow-hidden mb-4 bg-white">
+                            <img src="${item.img}" class="w-full h-full object-cover">
+                        </div>
+
+                        <div class="px-2 space-y-1">
+                            <h4 class="font-semibold text-gray-800 text-lg">${item.nama}</h4>
+                            <div class="flex items-center gap-1 text-sm">
+                                <i class="ri-star-fill text-yellow-500"></i> 
+                                <span class="text-orange-400 font-bold">${item.rating}</span> 
+                                <span class="text-gray-400">(${item.review})</span>
+                            </div>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-xl font-semibold text-green-700">Rp ${item.harga}</span>
+                                <button class="w-8 h-8 bg-[#BFA370] text-white rounded-lg flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+                                    <i class="ri-add-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+          grid.insertAdjacentHTML("beforeend", cardHtml);
+        });
+      }
+
+      function switchTab(tabType) {
+        // Update Tampilan Tombol
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        if (tabType === "rekomendasi")
+          document.getElementById("btn-rekomendasi").classList.add("active");
+        if (tabType === "terlaris")
+          document.getElementById("btn-terlaris").classList.add("active");
+        if (tabType === "rating")
+          document.getElementById("btn-rating").classList.add("active");
+
+        // Efek Loading
+        const grid = document.getElementById("all-menu-grid");
+        const spinner = document.getElementById("loading-spinner");
+
+        grid.classList.add("hidden");
+        spinner.classList.remove("hidden");
+
+        setTimeout(() => {
+          renderMenu(tabType);
+          spinner.classList.add("hidden");
+          grid.classList.remove("hidden");
+        }, 300);
+      }
+
+      // Render pertama kali saat halaman dibuka
+      window.onload = () => renderMenu("rekomendasi");
+    </script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

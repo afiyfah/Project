@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Kita - Chat Toko</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'oren-tua': '#EE8F36',
+                        'emas-teks': '#78450E'
+                    },
+                    backgroundImage: {
+                        'emas-main': 'linear-gradient(90deg, #BFA370 39%, #8E754A 82%)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * { font-family: 'Poppins', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* State Aktif untuk Daftar Chat */
+        .chat-item.active { 
+            background-color: #FDF4E6; /* Warna oren muda transparan */
+            border-left: 4px solid #EE8F36; /* Garis oren di kiri */
+        }
+    </style>
+</head>
+<body class="bg-[#FDFDFD] h-screen flex flex-col overflow-hidden">
+
+    <div id="header-container"></div>
+
+    <main class="flex-grow max-w-[1440px] mx-auto w-full flex bg-white border border-gray-100 overflow-hidden shadow-sm">
+        
+        <aside class="w-[380px] border-r border-gray-100 flex flex-col">
+            
+            <div class="p-6 border-b border-gray-100 space-y-4">
+                <div class="flex items-center gap-3">
+                    <a href="profil-toko.html" class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200 hover:text-gray-700 transition-colors">
+                        <i class="ri-arrow-left-line text-xl"></i>
+                    </a>
+                    <h1 class="text-2xl font-bold text-gray-800">Chat</h1>
+                </div>
+                <div class="relative">
+                    <i class="ri-search-line absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" placeholder="Cari nama toko atau pembeli..." class="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-1 focus:ring-oren-tua/50 focus:border-oren-tua outline-none transition-all">
+                </div>
+            </div>
+
+            <div class="flex-grow overflow-y-auto no-scrollbar py-2" id="chat-list-container">
+                
+                <div class="chat-item active flex items-center gap-4 px-6 py-4 cursor-pointer hover:bg-gray-50 transition-colors" onclick="loadChat(1)">
+                    <img src="assets/images/rawon.png" class="w-14 h-14 rounded-full" alt="Ayam Goreng 39">
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-semibold text-gray-800">Ayam Goreng 39</h3>
+                            <span class="text-xs text-gray-400">12:24</span>
+                        </div>
+                        <p class="text-sm text-gray-500 truncate mt-0.5">Bisa kak, untuk paha atas bisa dipisah...</p>
+                    </div>
+                </div>
+
+                <div class="chat-item flex items-center gap-4 px-6 py-4 cursor-pointer hover:bg-gray-50 transition-colors" onclick="loadChat(2)">
+                    <div class="relative">
+                        <img src="assets/images/mie ayam.png" class="w-14 h-14 rounded-full" alt="Soto Lamongan Pak Jo">
+                        <span class="absolute bottom-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></span> </div>
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-semibold text-gray-800">Soto Lamongan Pak Jo</h3>
+                            <span class="text-xs text-oren-tua font-medium">10:15</span>
+                        </div>
+                        <p class="text-sm text-gray-800 font-medium truncate mt-0.5">Pesanan sedang dalam pengiriman kak!</p>
+                    </div>
+                </div>
+
+                <div class="chat-item flex items-center gap-4 px-6 py-4 cursor-pointer hover:bg-gray-50 transition-colors" onclick="loadChat(3)">
+                    <img src="assets/images/mie ayam.png" class="w-14 h-14 rounded-full" alt="Rawon Daging Mak Erot">
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-semibold text-gray-800">Rawon Daging Mak Erot</h3>
+                            <span class="text-xs text-gray-400">Kemarin</span>
+                        </div>
+                        <p class="text-sm text-gray-500 truncate mt-0.5">Rawonnya ready ya kak.</p>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+        <section class="flex-grow flex flex-col" id="chat-main-area">
+            
+            <header class="p-4 border-b border-gray-100 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <img id="header-avatar" src="assets/images/user.png" class="w-12 h-12 rounded-full" alt="Store Avatar">
+                    <div>
+                        <h2 id="header-store-name" class="font-semibold text-lg text-gray-800">Ayam Goreng 39</h2>
+                        <div class="flex items-center gap-1.5 text-xs text-green-600">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                            <span>Online</span>
+                            <span class="text-gray-300 mx-1">|</span>
+                            <i class="ri-star-fill text-yellow-400"></i>
+                            <span class="text-orange-400 font-medium">4.8</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-full">
+                        <i class="ri-phone-line text-lg"></i>
+                    </button>
+                    <button class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-full">
+                        <i class="ri-more-2-line text-lg"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="flex-grow bg-[#FDFDFD] p-10 overflow-y-auto no-scrollbar space-y-6" id="chat-messages-container">
+                
+                <div class="text-center my-8">
+                    <span class="bg-[#F3F3F3] text-gray-500 text-xs px-4 py-1.5 rounded-full font-medium">Kemarin</span>
+                </div>
+
+                <div class="flex justify-end group">
+                    <div class="flex flex-col items-end gap-1 max-w-[70%]">
+                        <div class="bg-white border border-gray-100 text-gray-800 p-4 rounded-xl rounded-br-none shadow-sm text-sm leading-relaxed">
+                            Untuk pesanan ayam goreng paha atas, Ayam sama nasinya bisa di pisah nggak ya?
+                        </div>
+                        <span class="text-[10px] text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">12:20</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-start group">
+                    <div class="flex items-start gap-3 max-w-[70%]">
+                        <img src="assets/images/user.png" class="w-8 h-8 rounded-full mt-1" alt="Store Avatar">
+                        <div class="flex flex-col gap-1">
+                            <div class="bg-emas-main text-white p-4 rounded-xl rounded-bl-none text-sm leading-relaxed">
+                                Bisa kak
+                            </div>
+                            <span class="text-[10px] text-gray-400">12:24</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="new-message-placeholder"></div>
+
+            </div>
+
+            <footer class="p-4 bg-white border-t border-gray-100">
+                <form id="chat-form" class="flex items-center gap-3 relative">
+                    
+                    <div id="typing-indicator" class="hidden absolute -top-12 left-4 bg-white/80 backdrop-blur-sm border border-gray-100 text-xs text-gray-400 px-3 py-1.5 rounded-full shadow-md flex items-center gap-1.5">
+                        <div class="flex gap-0.5">
+                            <div class="w-1.5 h-1.5 bg-gray-300 rounded-full animate-pulse"></div>
+                            <div class="w-1.5 h-1.5 bg-gray-300 rounded-full animate-pulse [animation-delay:200ms]"></div>
+                            <div class="w-1.5 h-1.5 bg-gray-300 rounded-full animate-pulse [animation-delay:400ms]"></div>
+                        </div>
+                        Ayam Goreng 39 sedang mengetik...
+                    </div>
+
+                    <button type="button" class="w-11 h-11 flex items-center justify-center text-gray-400 hover:text-oren-tua hover:bg-oren-tua/10 rounded-full transition-all">
+                        <i class="ri-attachment-2 text-xl rotate-45"></i>
+                    </button>
+                    
+                    <input type="text" id="chat-input" placeholder="Tulis pesan..." class="flex-grow px-5 py-3 border border-gray-200 rounded-full text-sm focus:ring-1 focus:ring-oren-tua/50 focus:border-oren-tua outline-none transition-all">
+                    
+                    <button type="submit" id="send-btn" class="w-11 h-11 flex items-center justify-center bg-oren-tua text-white rounded-full shadow-md hover:bg-[#D97926] active:scale-95 transition-all disabled:bg-gray-300 disabled:shadow-none" disabled>
+                        <i class="ri-send-plane-2-fill text-xl"></i>
+                    </button>
+                </form>
+            </footer>
+        </section>
+
+    </main>
+
+    <script src="js/script.js"></script>
+
+    <script>
+    // 1. DATA CONFIGURATION
+    const chatData = {
+        1: {
+            name: "Ayam Goreng 39",
+            avatar: "assets/images/user.png",
+            status: "Online",
+            messages: [
+                { sender: 'them', text: 'Untuk pesanan ayam goreng paha atas, Ayam sama nasinya bisa di pisah nggak ya?', time: '12:20' },
+                { sender: 'me', text: 'Bisa kak', time: '12:24' }
+            ]
+        },
+        2: {
+            name: "Soto Lamongan Pak Jo",
+            avatar: "https://via.placeholder.com/56x56/FF9A6A/FFFFFF?text=S",
+            status: "Offline",
+            messages: [
+                { sender: 'them', text: 'Cek stok soto dong kak?', time: '10:10' },
+                { sender: 'me', text: 'Stok Soto sisa 5 porsi kak.', time: '10:12' }
+            ]
+        }
+    };
+
+    // 2. DOM ELEMENTS
+    const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+    const chatForm = document.getElementById('chat-form');
+    const messagesContainer = document.getElementById('chat-messages-container');
+    const typingIndicator = document.getElementById('typing-indicator');
+
+    // 3. CORE FUNCTIONS
+    function appendMessage(sender, text, time = null) {
+        // Cek apakah placeholder ada, jika tidak (karena innerHTML baru), buat lagi
+        let placeholder = document.getElementById('new-message-placeholder');
+        if (!placeholder) {
+            messagesContainer.insertAdjacentHTML('beforeend', '<div id="new-message-placeholder"></div>');
+            placeholder = document.getElementById('new-message-placeholder');
+        }
+
+        const timeStr = time || new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+        let messageHtml = '';
+        if (sender === 'me') {
+            // Bubble Biru/Emas (Penjual - Kanan)
+            messageHtml = `
+                <div class="flex justify-start group">
+                    <div class="flex items-start gap-3 max-w-[70%]">
+                        <img src="assets/images/user.png" class="w-8 h-8 rounded-full mt-1" alt="Avatar">
+                        <div class="flex flex-col gap-1">
+                            <div class="bg-emas-main text-white p-4 rounded-xl rounded-bl-none text-sm shadow-sm animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                ${text}
+                            </div>
+                            <span class="text-[10px] text-gray-400">${timeStr}</span>
+                        </div>
+                    </div>
+                </div>`;
+        } else {
+            // Bubble Putih (Pembeli - Kiri)
+            messageHtml = `
+                <div class="flex justify-end group">
+                    <div class="flex flex-col items-end gap-1 max-w-[70%]">
+                        <div class="bg-white border border-gray-100 text-gray-800 p-4 rounded-xl rounded-br-none shadow-sm text-sm animate-in fade-in slide-in-from-bottom-2 duration-300">
+                            ${text}
+                        </div>
+                        <span class="text-[10px] text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">${timeStr}</span>
+                    </div>
+                </div>`;
+        }
+
+        placeholder.insertAdjacentHTML('beforebegin', messageHtml);
+        scrollToBottom();
+    }
+
+    function scrollToBottom() {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    // 4. EVENT LISTENERS
+    // Toggle tombol kirim
+    chatInput.addEventListener('input', (e) => {
+        sendBtn.disabled = e.target.value.trim().length === 0;
+    });
+
+    // Handle Kirim Pesan
+    chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const text = chatInput.value.trim();
+        if (!text) return;
+
+        appendMessage('me', text);
+        chatInput.value = '';
+        sendBtn.disabled = true;
+
+        // Simulasi Balasan
+        setTimeout(() => {
+            typingIndicator.classList.remove('hidden');
+            scrollToBottom();
+            
+            setTimeout(() => {
+                typingIndicator.classList.add('hidden');
+                appendMessage('them', 'Oke kak, ditunggu ya!');
+            }, 1500);
+        }, 800);
+    });
+
+    // Handle Ganti Chat
+    function loadChat(chatId) {
+        const data = chatData[chatId];
+        if (!data) return;
+
+        // UI Active State
+        document.querySelectorAll('.chat-item').forEach(item => item.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+
+        // Update Header
+        document.getElementById('header-avatar').src = data.avatar;
+        document.getElementById('header-store-name').innerText = data.name;
+
+        // Clear & Load History
+        messagesContainer.innerHTML = `
+            <div class="text-center my-8">
+                <span class="bg-[#F3F3F3] text-gray-500 text-xs px-4 py-1.5 rounded-full font-medium uppercase tracking-wider">Percakapan Dimulai</span>
+            </div>
+            <div id="new-message-placeholder"></div>
+        `;
+
+        data.messages.forEach(msg => {
+            appendMessage(msg.sender, msg.text, msg.time);
+        });
+    }
+
+    // Initialize
+    window.onload = scrollToBottom;
+</script>
+</body>
+</html>

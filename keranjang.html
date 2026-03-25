@@ -1,0 +1,1038 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Market Kita - Keranjang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { 'oren-tua': '#EE8F36', 'emas-teks': '#78450E' },
+            backgroundImage: {
+              'emas-main': 'linear-gradient(90deg, #BFA370 39%, #8E754A 82%)',
+              'oren-grd': 'linear-gradient(90deg, #FF7A3D 0%, #FF9A6A 100%)',
+              'gold-grd': 'linear-gradient(90deg, #B88214 0%, #E1BF59 100%)'
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+      * {
+        font-family: 'Poppins', sans-serif;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      .k-tab {
+        position: relative;
+        padding-bottom: 10px;
+        color: #9ca3af;
+        font-size: 14px;
+        cursor: pointer;
+        transition: color 0.2s;
+        white-space: nowrap;
+        background: none;
+        border: none;
+      }
+      .k-tab::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: #bfa370;
+        transform: scaleX(0);
+        transition: transform 0.25s;
+        border-radius: 99px;
+      }
+      .k-tab.active {
+        color: #685e5e;
+        font-weight: 600;
+      }
+      .k-tab.active::after {
+        transform: scaleX(1);
+      }
+
+      .store-card {
+        background: #fff;
+        border-radius: 16px;
+        border: 1px solid #f0ede8;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        overflow: hidden;
+      }
+
+      .c-check {
+        width: 18px;
+        height: 18px;
+        border-radius: 5px;
+        border: 1.5px solid #d1c9bc;
+        background: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition:
+          background 0.2s,
+          border-color 0.2s;
+      }
+      .c-check.checked {
+        background: #bfa370;
+        border-color: #bfa370;
+      }
+      .c-check.disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      .s-radio {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 1.5px solid #d1c9bc;
+        background: white;
+        cursor: pointer;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: border-color 0.2s;
+      }
+      .s-radio.checked {
+        border-color: #bfa370;
+      }
+      .s-radio.checked::after {
+        content: '';
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #bfa370;
+        display: block;
+      }
+      .s-radio.locked {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+
+      .qty-btn {
+        width: 22px;
+        height: 22px;
+        border-radius: 5px;
+        border: 1px solid #e5dfd5;
+        background: white;
+        color: #685e5e;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          color 0.15s;
+        font-size: 13px;
+      }
+      .qty-btn:hover {
+        background: #bfa370;
+        color: white;
+        border-color: #bfa370;
+      }
+
+      .acc-body {
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        transition:
+          max-height 0.3s ease,
+          opacity 0.25s ease;
+      }
+      .acc-body.open {
+        max-height: 200px;
+        opacity: 1;
+      }
+
+      .tab-pane {
+        display: none;
+      }
+      .tab-pane.active {
+        display: block;
+      }
+
+      .info-banner {
+        background: #fdf8ee;
+        border: 1px solid #edd99a;
+        border-radius: 12px;
+        padding: 16px 20px;
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+      }
+
+      .badge-selesai {
+        color: #bfa370;
+        font-weight: 600;
+        font-size: 13px;
+      }
+      .badge-batal {
+        color: #ef4444;
+        font-weight: 600;
+        font-size: 13px;
+      }
+      .badge-timer {
+        color: #ee8f36;
+        font-weight: 600;
+        font-size: 13px;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .btn-pesan-lagi {
+        flex: 1;
+        background: white;
+        color: #685e5e;
+        border: 1px solid #e5dfd5;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 14px;
+        padding: 9px 16px;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .btn-pesan-lagi:hover {
+        background: #f9f6f1;
+      }
+      .btn-sekarang {
+        flex: 1;
+        background: linear-gradient(90deg, #4caf50, #66bb6a);
+        color: white;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 9px 16px;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        border: none;
+      }
+      .btn-sekarang:hover {
+        opacity: 0.9;
+      }
+      .btn-ulasan {
+        flex: 1;
+        background: linear-gradient(90deg, #bfa370, #8e754a);
+        color: white;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 9px 16px;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        border: none;
+      }
+      .btn-ulasan:hover {
+        opacity: 0.88;
+      }
+      .btn-batal {
+        background: #ef4444;
+        color: white;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 9px 24px;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        border: none;
+        flex: none;
+      }
+      .btn-batal:hover {
+        opacity: 0.85;
+      }
+      .btn-bayar {
+        background: linear-gradient(90deg, #bfa370, #8e754a);
+        color: white;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 9px 24px;
+        cursor: pointer;
+        transition: opacity 0.2s;
+        border: none;
+        flex: none;
+      }
+      .btn-bayar:hover {
+        opacity: 0.88;
+      }
+
+      /* Tabel kolom shorthand */
+      .col-produk {
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+      }
+      .col-ubah {
+        grid-template-columns: 2fr 1fr 1fr 1fr 40px;
+      }
+    </style>
+  </head>
+  <body class="bg-[#FDFDFD] pb-24">
+    <div id="header-container"></div>
+
+    <main class="max-w-5xl mx-auto px-10 py-8 space-y-6">
+      <!-- TAB NAV -->
+      <div class="flex justify-center gap-8 border-b border-gray-100 overflow-x-auto no-scrollbar items-center">
+        <button onclick="switchTab('semua')" id="tab-semua" class="k-tab active">Semua Pesanan</button>
+        <button onclick="switchTab('keranjang')" id="tab-keranjang" class="k-tab">Keranjang Saya</button>
+        <button onclick="switchTab('konfirmasi')" id="tab-konfirmasi" class="k-tab">Menunggu Konfirmasi</button>
+        <button onclick="switchTab('berlangsung')" id="tab-berlangsung" class="k-tab">Sedang Berlangsung</button>
+        <button onclick="switchTab('histori')" id="tab-histori" class="k-tab">Histori Pesanan</button>
+      </div>
+
+      <!-- ========== TAB 1: SEMUA PESANAN ========== -->
+      <div id="pane-semua" class="tab-pane active space-y-5">
+        <div
+          class="grid col-produk px-10 py-2 text-sm text-black font-medium"
+          style="grid-template-columns: 2fr 1fr 1fr 1fr">
+          <span class="text-[#BFA370] font-bold text-2xl">Produk</span>
+          <span class="text-center">Harga Satuan</span>
+          <span class="text-center">Kuantitas</span>
+          <span class="text-center">Total</span>
+        </div>
+
+        <!-- Ayam Goreng 39 — Selesai -->
+        <div class="store-card">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-gray-50">
+            <div class="flex items-center gap-2">
+              <i class="ri-store-2-line text-[#BFA370]"></i>
+              <span class="font-semibold text-gray-700">Ayam Goreng 39</span>
+            </div>
+            <span class="badge-selesai">Selesai</span>
+          </div>
+          <div
+            class="grid px-6 py-4 items-center border-b border-gray-50"
+            style="grid-template-columns: 2fr 1fr 1fr 1fr">
+            <div class="flex items-center gap-3">
+              <img
+                src="assets/images/mie ayam.png"
+                onerror="this.src = 'https://placehold.co/56/f3f3f3/BFA370?text=🍗'"
+                class="w-14 h-14 rounded-xl object-cover" />
+              <div>
+                <p class="font-medium text-gray-800 text-sm">Ayam Paha Atas</p>
+                <span
+                  class="text-[11px] bg-orange-50 text-orange-400 border border-orange-100 px-2 py-0.5 rounded-full">
+                  Super Pedas
+                </span>
+              </div>
+            </div>
+            <p class="text-center text-[#BFA370] font-medium text-sm">Rp17.000</p>
+            <p class="text-center text-gray-600 text-sm">x1</p>
+            <p class="text-center text-[#BFA370] font-semibold text-sm">Rp17.000</p>
+          </div>
+          <div class="grid px-6 py-4 items-center" style="grid-template-columns: 2fr 1fr 1fr 1fr">
+            <div class="flex items-center gap-3">
+              <img
+                src="assets/images/makanan2.png"
+                onerror="this.src = 'https://placehold.co/56/f3f3f3/BFA370?text=🍗'"
+                class="w-14 h-14 rounded-xl object-cover" />
+              <div>
+                <p class="font-medium text-gray-800 text-sm">Ayam Paha Bandung</p>
+                <span class="text-[11px] bg-red-50 text-red-400 border border-red-100 px-2 py-0.5 rounded-full">
+                  Super Pedas Jeletot
+                </span>
+              </div>
+            </div>
+            <p class="text-center text-[#BFA370] font-medium text-sm">Rp18.000</p>
+            <p class="text-center text-gray-600 text-sm">x3</p>
+            <p class="text-center text-[#BFA370] font-semibold text-sm">Rp54.000</p>
+          </div>
+          <div
+            class="bg-gray-50 px-6 py-3 flex items-center justify-between cursor-pointer border-t border-gray-100"
+            onclick="toggleAcc('s-ag')">
+            <div class="flex items-center gap-2 text-sm text-gray-500">
+              <i class="ri-shopping-bag-line text-[#BFA370]"></i>
+              <span>4 item</span>
+              <span class="mx-1 text-gray-300">·</span>
+              <span>
+                Total
+                <strong class="text-[#BFA370]">Rp71.000</strong>
+              </span>
+            </div>
+            <i id="ico-s-ag" class="ri-arrow-up-s-line text-gray-400 transition-transform duration-300"></i>
+          </div>
+          <div id="s-ag" class="acc-body open">
+            <div class="px-6 py-4 flex gap-3">
+              <button class="btn-pesan-lagi">Pesan Lagi</button>
+              <button class="btn-ulasan">Beri Ulasan</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Burjo Ambucuy — Dibatalkan -->
+        <div class="store-card">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-gray-50">
+            <div class="flex items-center gap-2">
+              <i class="ri-store-2-line text-[#BFA370]"></i>
+              <span class="font-semibold text-gray-700">Burjo Ambucuy</span>
+            </div>
+            <span class="badge-batal">Dibatalkan</span>
+          </div>
+          <div class="grid px-6 py-4 items-center" style="grid-template-columns: 2fr 1fr 1fr 1fr">
+            <div class="flex items-center gap-3">
+              <img
+                src="assets/images/mie ayam.png"
+                onerror="this.src = 'https://placehold.co/56/f3f3f3/BFA370?text=🍗'"
+                class="w-14 h-14 rounded-xl object-cover opacity-50" />
+              <div>
+                <p class="font-medium text-gray-400 text-sm">Ayam Paha Atas</p>
+                <span
+                  class="text-[11px] bg-orange-50 text-orange-300 border border-orange-100 px-2 py-0.5 rounded-full">
+                  Super Pedas
+                </span>
+              </div>
+            </div>
+            <p class="text-center text-gray-400 font-medium text-sm">Rp17.000</p>
+            <p class="text-center text-gray-400 text-sm">x1</p>
+            <p class="text-center text-gray-400 font-semibold text-sm">Rp17.000</p>
+          </div>
+          <div
+            class="bg-gray-50 px-6 py-3 flex items-center justify-between cursor-pointer border-t border-gray-100"
+            onclick="toggleAcc('s-ba')">
+            <div class="flex items-center gap-2 text-sm text-gray-400">
+              <i class="ri-shopping-bag-line"></i>
+              <span>1 item</span>
+              <span class="mx-1 text-gray-300">·</span>
+              <span>
+                Total
+                <strong>Rp17.000</strong>
+              </span>
+            </div>
+            <i id="ico-s-ba" class="ri-arrow-down-s-line text-gray-400 transition-transform duration-300"></i>
+          </div>
+          <div id="s-ba" class="acc-body">
+            <div class="px-6 py-4 flex gap-3">
+              <button class="btn-pesan-lagi">Pesan Lagi</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== TAB 2: KERANJANG SAYA ========== -->
+      <div id="pane-keranjang" class="tab-pane space-y-5">
+        <div
+          class="grid px-10 py-2 text-sm text-gray-400 font-medium"
+          style="grid-template-columns: 2fr 1fr 1fr 1fr 40px">
+          <span class="text-[#BFA370] font-bold text-2xl">Produk</span>
+          <span class="text-center">Harga Satuan</span>
+          <span class="text-center">Kuantitas</span>
+          <span class="text-center">Total</span>
+          <span class="text-center">Ubah</span>
+        </div>
+
+        <!-- Toko AG -->
+        <div class="store-card">
+          <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-50">
+            <div class="s-radio" id="radio-ag" onclick="selectStore('ag')"></div>
+            <i class="ri-store-2-line text-[#BFA370]"></i>
+            <span class="font-semibold text-gray-700 flex-1">Ayam Goreng 39</span>
+          </div>
+          <!-- Item ag-1 -->
+          <div
+            id="row-ag-1"
+            class="grid px-6 py-4 items-center border-b border-gray-50"
+            style="grid-template-columns: 2fr 1fr 1fr 1fr 40px">
+            <div class="flex items-center gap-3">
+              <div class="c-check disabled" id="chk-ag-1" onclick="toggleItemCheck('ag', '1')"></div>
+              <img
+                src="assets/images/mie ayam.png"
+                onerror="this.src = 'https://placehold.co/56/f3f3f3/BFA370?text=🍗'"
+                class="w-14 h-14 rounded-xl object-cover" />
+              <div>
+                <p class="font-medium text-gray-800 text-sm">Ayam Paha Atas</p>
+                <span
+                  class="text-[11px] bg-orange-50 text-orange-400 border border-orange-100 px-2 py-0.5 rounded-full">
+                  Super Pedas
+                </span>
+              </div>
+            </div>
+            <p class="text-center text-[#BFA370] font-medium text-sm">Rp17.000</p>
+            <div class="flex items-center justify-center gap-1">
+              <button class="qty-btn" onclick="changeQty('ag', '1', -1)">−</button>
+              <span id="qty-ag-1" class="text-sm font-semibold text-gray-700 w-6 text-center">1</span>
+              <button class="qty-btn" onclick="changeQty('ag', '1', 1)">+</button>
+            </div>
+            <p id="total-ag-1" class="text-center text-[#BFA370] font-semibold text-sm">Rp17.000</p>
+            <div class="flex justify-center">
+              <button onclick="removeItem('ag', '1')" class="text-gray-300 hover:text-red-400 text-lg leading-none">
+                ✕
+              </button>
+            </div>
+          </div>
+          <!-- Item ag-2 -->
+          <div id="row-ag-2" class="grid px-6 py-4 items-center" style="grid-template-columns: 2fr 1fr 1fr 1fr 40px">
+            <div class="flex items-center gap-3">
+              <div class="c-check disabled" id="chk-ag-2" onclick="toggleItemCheck('ag', '2')"></div>
+              <img
+                src="assets/images/makanan2.png"
+                onerror="this.src = 'https://placehold.co/56/f3f3f3/BFA370?text=🍗'"
+                class="w-14 h-14 rounded-xl object-cover" />
+              <div>
+                <p class="font-medium text-gray-800 text-sm">Ayam Paha Bandung</p>
+                <span class="text-[11px] bg-red-50 text-red-400 border border-red-100 px-2 py-0.5 rounded-full">
+                  Super Pedas Jeletot
+                </span>
+              </div>
+            </div>
+            <p class="text-center text-[#BFA370] font-medium text-sm">Rp18.000</p>
+            <div class="flex items-center justify-center gap-1">
+              <button class="qty-btn" onclick="changeQty('ag', '2', -1)">−</button>
+              <span id="qty-ag-2" class="text-sm font-semibold text-gray-700 w-6 text-center">3</span>
+              <button class="qty-btn" onclick="changeQty('ag', '2', 1)">+</button>
+            </div>
+            <p id="total-ag-2" class="text-center text-[#BFA370] font-semibold text-sm">Rp54.000</p>
+            <div class="flex justify-center">
+              <button onclick="removeItem('ag', '2')" class="text-gray-300 hover:text-red-400 text-lg leading-none">
+                ✕
+              </button>
+            </div>
+          </div>
+          <!-- Footer AG -->
+          <div
+            class="bg-gray-50 px-6 py-3 flex items-center justify-between cursor-pointer border-t border-gray-100"
+            onclick="toggleAcc('k-ag')">
+            <div class="flex items-center gap-2 text-sm text-gray-500">
+              <i class="ri-shopping-bag-line text-[#BFA370]"></i>
+              <span id="itemcount-ag">4 item</span>
+              <span class="mx-1 text-gray-300">·</span>
+              <span>
+                Total
+                <strong id="subtotal-ag" class="text-[#BFA370]">Rp71.000</strong>
+              </span>
+            </div>
+            <i id="ico-k-ag" class="ri-arrow-up-s-line text-gray-400 transition-transform duration-300"></i>
+          </div>
+          <div id="k-ag" class="acc-body open">
+            <div class="px-6 py-4 flex gap-3">
+              <button class="btn-pesan-lagi">Pesan Lagi</button>
+              <a href="konfirmasi-pembayaran.html">
+              <button class="btn-sekarang">Pesan Sekarang</button>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toko BOJ -->
+        <div class="store-card">
+          <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-50">
+            <div class="s-radio" id="radio-boj" onclick="selectStore('boj')"></div>
+            <i class="ri-store-2-line text-[#BFA370]"></i>
+            <span class="font-semibold text-gray-700 flex-1">Burjo Oneway 69</span>
+          </div>
+          <div
+            id="row-boj-1"
+            class="grid px-6 py-4 items-center border-b border-gray-50"
+            style="grid-template-columns: 2fr 1fr 1fr 1fr 40px">
+            <div class="flex items-center gap-3">
+              <div class="c-check disabled" id="chk-boj-1" onclick="toggleItemCheck('boj', '1')"></div>
+              <img
+                src="assets/images/rawon.png"
+                onerror="this.src = 'https://placehold.co/56/f3f3f3/BFA370?text=🍜'"
+                class="w-14 h-14 rounded-xl object-cover" />
+              <div>
+                <p class="font-medium text-gray-800 text-sm">Nasgor Goreng</p>
+                <span
+                  class="text-[11px] bg-orange-50 text-orange-400 border border-orange-100 px-2 py-0.5 rounded-full">
+                  Super Pedas
+                </span>
+              </div>
+            </div>
+            <p class="text-center text-[#BFA370] font-medium text-sm">Rp17.000</p>
+            <div class="flex items-center justify-center gap-1">
+              <button class="qty-btn" onclick="changeQty('boj', '1', -1)">−</button>
+              <span id="qty-boj-1" class="text-sm font-semibold text-gray-700 w-6 text-center">1</span>
+              <button class="qty-btn" onclick="changeQty('boj', '1', 1)">+</button>
+            </div>
+            <p id="total-boj-1" class="text-center text-[#BFA370] font-semibold text-sm">Rp17.000</p>
+            <div class="flex justify-center">
+              <button onclick="removeItem('boj', '1')" class="text-gray-300 hover:text-red-400 text-lg leading-none">
+                ✕
+              </button>
+            </div>
+          </div>
+          <div
+            class="bg-gray-50 px-6 py-3 flex items-center justify-between cursor-pointer border-t border-gray-100"
+            onclick="toggleAcc('k-boj')">
+            <div class="flex items-center gap-2 text-sm text-gray-500">
+              <i class="ri-shopping-bag-line text-[#BFA370]"></i>
+              <span id="itemcount-boj">1 item</span>
+              <span class="mx-1 text-gray-300">·</span>
+              <span>
+                Total
+                <strong id="subtotal-boj" class="text-[#BFA370]">Rp17.000</strong>
+              </span>
+            </div>
+            <i id="ico-k-boj" class="ri-arrow-down-s-line text-gray-400 transition-transform duration-300"></i>
+          </div>
+          <div id="k-boj" class="acc-body">
+            <div class="px-6 py-4 flex gap-3">
+              <button class="btn-pesan-lagi">Pesan Lagi</button>
+              <button class="btn-sekarang">Pesan Sekarang</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toko GW -->
+        <div class="store-card">
+          <div class="flex items-center gap-3 px-6 py-4 border-b border-gray-50">
+            <div class="s-radio" id="radio-gw" onclick="selectStore('gw')"></div>
+            <i class="ri-store-2-line text-[#BFA370]"></i>
+            <span class="font-semibold text-gray-700 flex-1">Gulay Wowok</span>
+          </div>
+          <div
+            id="row-gw-1"
+            class="grid px-6 py-4 items-center border-b border-gray-50"
+            style="grid-template-columns: 2fr 1fr 1fr 1fr 40px">
+            <div class="flex items-center gap-3">
+              <div class="c-check disabled" id="chk-gw-1" onclick="toggleItemCheck('gw', '1')"></div>
+              <img
+                src="assets/images/daging.png"
+                onerror="this.src = 'https://placehold.co/56/f3f3f3/BFA370?text=🥘'"
+                class="w-14 h-14 rounded-xl object-cover" />
+              <div>
+                <p class="font-medium text-gray-800 text-sm">Roti Jala Maklimak Biadap</p>
+                <span
+                  class="text-[11px] bg-orange-50 text-orange-400 border border-orange-100 px-2 py-0.5 rounded-full">
+                  Super Pedas
+                </span>
+              </div>
+            </div>
+            <p class="text-center text-[#BFA370] font-medium text-sm">Rp17.000</p>
+            <div class="flex items-center justify-center gap-1">
+              <button class="qty-btn" onclick="changeQty('gw', '1', -1)">−</button>
+              <span id="qty-gw-1" class="text-sm font-semibold text-gray-700 w-6 text-center">1</span>
+              <button class="qty-btn" onclick="changeQty('gw', '1', 1)">+</button>
+            </div>
+            <p id="total-gw-1" class="text-center text-[#BFA370] font-semibold text-sm">Rp17.000</p>
+            <div class="flex justify-center">
+              <button onclick="removeItem('gw', '1')" class="text-gray-300 hover:text-red-400 text-lg leading-none">
+                ✕
+              </button>
+            </div>
+          </div>
+          <div
+            class="bg-gray-50 px-6 py-3 flex items-center justify-between cursor-pointer border-t border-gray-100"
+            onclick="toggleAcc('k-gw')">
+            <div class="flex items-center gap-2 text-sm text-gray-500">
+              <i class="ri-shopping-bag-line text-[#BFA370]"></i>
+              <span id="itemcount-gw">1 item</span>
+              <span class="mx-1 text-gray-300">·</span>
+              <span>
+                Total
+                <strong id="subtotal-gw" class="text-[#BFA370]">Rp17.000</strong>
+              </span>
+            </div>
+            <i id="ico-k-gw" class="ri-arrow-down-s-line text-gray-400 transition-transform duration-300"></i>
+          </div>
+          <div id="k-gw" class="acc-body">
+            <div class="px-6 py-4 flex gap-3">
+              <button class="btn-pesan-lagi">Pesan Lagi</button>
+              <button class="btn-sekarang">Pesan Sekarang</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== TAB 3: MENUNGGU KONFIRMASI ========== -->
+      <div id="pane-konfirmasi" class="tab-pane space-y-5">
+        <div class="info-banner">
+          <i class="ri-time-line text-[#BFA370] text-2xl mt-0.5 flex-shrink-0"></i>
+          <div>
+            <p class="font-semibold text-[#BFA370] text-sm">Menunggu konfirmasi penjual</p>
+            <p class="text-xs text-gray-500 mt-0.5">
+              Setelah dikonfirmasi, pesanan dialihkan ke halaman "Sedang Berlangsung" untuk pembayaran.
+            </p>
+          </div>
+        </div>
+        <div class="grid px-4 py-2 text-sm text-gray-400 font-medium" style="grid-template-columns: 2fr 1fr 1fr 1fr">
+          <span class="text-[#BFA370] font-semibold text-base">Produk</span>
+          <span class="text-center">Harga Satuan</span>
+          <span class="text-center">Kuantitas</span>
+          <span class="text-center">Total</span>
+        </div>
+        <!-- Toko AG -->
+        <div class="store-card">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-gray-50">
+            <div class="flex items-center gap-2">
+              <i class="ri-store-2-line text-[#BFA370]"></i>
+              <span class="font-semibold text-gray-700">Ayam Goreng 39</span>
+            </div>
+            <span class="badge-selesai">Selesai</span>
+          </div>
+          <div
+            class="grid px-6 py-4 items-center border-b border-gray-50"
+            style="grid-template-columns: 2fr 1fr 1fr 1fr">
+            <div class="flex items-center gap-3">
+              <img
+                src="assets/images/mie ayam.png"
+                onerror="this.src = 'https://placehold.co/56/f3f3f3/BFA370?text=🍗'"
+                class="w-14 h-14 rounded-xl object-cover" />
+              <div>
+                <p class="font-medium text-gray-800 text-sm">Ayam Paha Atas</p>
+                <span
+                  class="text-[11px] bg-orange-50 text-orange-400 border border-orange-100 px-2 py-0.5 rounded-full">
+                  Super Pedas
+                </span>
+              </div>
+            </div>
+            <p class="text-center text-[#BFA370] font-medium text-sm">Rp17.000</p>
+            <p class="text-center text-gray-600 text-sm">x1</p>
+            <p class="text-center text-[#BFA370] font-semibold text-sm">Rp17.000</p>
+          </div>
+          <div class="grid px-6 py-4 items-center" style="grid-template-columns: 2fr 1fr 1fr 1fr">
+            <div class="flex items-center gap-3">
+              <img
+                src="assets/images/makanan2.png"
+                onerror="this.src = 'https://placehold.co/56/f3f3f3/BFA370?text=🍗'"
+                class="w-14 h-14 rounded-xl object-cover" />
+              <div>
+                <p class="font-medium text-gray-800 text-sm">Ayam Paha Bandung</p>
+                <span class="text-[11px] bg-red-50 text-red-400 border border-red-100 px-2 py-0.5 rounded-full">
+                  Super Pedas Jeletot
+                </span>
+              </div>
+            </div>
+            <p class="text-center text-[#BFA370] font-medium text-sm">Rp18.000</p>
+            <p class="text-center text-gray-600 text-sm">x3</p>
+            <p class="text-center text-[#BFA370] font-semibold text-sm">Rp54.000</p>
+          </div>
+          <div class="px-6 py-3 flex items-center gap-3 border-t border-gray-50">
+            <div class="flex items-center gap-2 text-sm text-gray-500 flex-1">
+              <i class="ri-shopping-bag-line text-[#BFA370]"></i>
+              <span>4 item</span>
+              <span class="mx-1 text-gray-300">·</span>
+              <span>
+                Total
+                <strong class="text-[#BFA370]">Rp71.000</strong>
+              </span>
+            </div>
+            <button class="btn-batal">Batalkan Pesanan</button>
+          </div>
+        </div>
+        <!-- Toko BA -->
+        <div class="store-card">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-gray-50">
+            <div class="flex items-center gap-2">
+              <i class="ri-store-2-line text-[#BFA370]"></i>
+              <span class="font-semibold text-gray-700">Burjo Ambucuy</span>
+            </div>
+            <span class="badge-selesai">Selesai</span>
+          </div>
+          <div class="grid px-6 py-4 items-center" style="grid-template-columns: 2fr 1fr 1fr 1fr">
+            <div class="flex items-center gap-3">
+              <img
+                src="assets/images/mie ayam.png"
+                onerror="this.src = 'https://placehold.co/56/f3f3f3/BFA370?text=🍗'"
+                class="w-14 h-14 rounded-xl object-cover" />
+              <div>
+                <p class="font-medium text-gray-800 text-sm">Ayam Paha Atas</p>
+                <span
+                  class="text-[11px] bg-orange-50 text-orange-400 border border-orange-100 px-2 py-0.5 rounded-full">
+                  Super Pedas
+                </span>
+              </div>
+            </div>
+            <p class="text-center text-[#BFA370] font-medium text-sm">Rp17.000</p>
+            <p class="text-center text-gray-600 text-sm">x1</p>
+            <p class="text-center text-[#BFA370] font-semibold text-sm">Rp17.000</p>
+          </div>
+          <div class="px-6 py-3 flex items-center gap-3 border-t border-gray-50">
+            <div class="flex items-center gap-2 text-sm text-gray-500 flex-1">
+              <i class="ri-shopping-bag-line text-[#BFA370]"></i>
+              <span>1 item</span>
+              <span class="mx-1 text-gray-300">·</span>
+              <span>
+                Total
+                <strong class="text-[#BFA370]">Rp17.000</strong>
+              </span>
+            </div>
+            <button class="btn-batal">Batalkan Pesanan</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== TAB 4: SEDANG BERLANGSUNG ========== -->
+      <div id="pane-berlangsung" class="tab-pane space-y-5">
+        <div class="grid px-4 py-2 text-sm text-gray-400 font-medium" style="grid-template-columns: 2fr 1fr 1fr 1fr">
+          <span class="text-[#BFA370] font-semibold text-base">Produk</span>
+          <span class="text-center">Harga Satuan</span>
+          <span class="text-center">Kuantitas</span>
+          <span class="text-center">Total</span>
+        </div>
+        <!-- Toko AG -->
+        <div class="store-card">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-gray-50">
+            <div class="flex items-center gap-2">
+              <i class="ri-store-2-line text-[#BFA370]"></i>
+              <span class="font-semibold text-gray-700">Ayam Goreng 39</span>
+            </div>
+          </div>
+          <div
+            class="grid px-6 py-4 items-center border-b border-gray-50"
+            style="grid-template-columns: 2fr 1fr 1fr 1fr">
+            <div class="flex items-center gap-3">
+              <img
+                src="assets/images/mie ayam.png"
+                onerror="this.src = 'https://placehold.co/56/f3f3f3/BFA370?text=🍗'"
+                class="w-14 h-14 rounded-xl object-cover" />
+              <div>
+                <p class="font-medium text-gray-800 text-sm">Ayam Paha Atas</p>
+                <span
+                  class="text-[11px] bg-orange-50 text-orange-400 border border-orange-100 px-2 py-0.5 rounded-full">
+                  Super Pedas
+                </span>
+              </div>
+            </div>
+            <p class="text-center text-[#BFA370] font-medium text-sm">Rp17.000</p>
+            <p class="text-center text-gray-600 text-sm">x1</p>
+            <p class="text-center text-[#BFA370] font-semibold text-sm">Rp17.000</p>
+          </div>
+          <div class="grid px-6 py-4 items-center" style="grid-template-columns: 2fr 1fr 1fr 1fr">
+            <div class="flex items-center gap-3">
+              <img
+                src="assets/images/makanan2.png"
+                onerror="this.src = 'https://placehold.co/56/f3f3f3/BFA370?text=🍗'"
+                class="w-14 h-14 rounded-xl object-cover" />
+              <div>
+                <p class="font-medium text-gray-800 text-sm">Ayam Paha Bandung</p>
+                <span class="text-[11px] bg-red-50 text-red-400 border border-red-100 px-2 py-0.5 rounded-full">
+                  Super Pedas Jeletot
+                </span>
+              </div>
+            </div>
+            <p class="text-center text-[#BFA370] font-medium text-sm">Rp18.000</p>
+            <p class="text-center text-gray-600 text-sm">x3</p>
+            <p class="text-center text-[#BFA370] font-semibold text-sm">Rp54.000</p>
+          </div>
+          <!-- Footer + Accordion -->
+          <div class="bg-gray-50 border-t border-gray-100">
+            <div class="px-6 py-3 flex items-center gap-3">
+              <div class="flex items-center gap-2 text-sm text-gray-500 flex-1">
+                <i class="ri-shopping-bag-line text-[#BFA370]"></i>
+                <span>4 item</span>
+                <span class="mx-1 text-gray-300">·</span>
+                <span>
+                  Total
+                  <strong class="text-[#BFA370]">Rp71.000</strong>
+                </span>
+              </div>
+              <a href="menunggu-pembayaran.html"></a>
+              <button class="btn-bayar">Bayar Pesanan</button>
+            </div>
+            <div class="flex justify-center pb-2 cursor-pointer" onclick="toggleAcc('bl-ag')">
+              <i
+                id="ico-bl-ag"
+                class="ri-arrow-down-s-line text-gray-400 text-xl transition-transform duration-300"></i>
+            </div>
+          </div>
+          <div id="bl-ag" class="acc-body">
+            <div class="px-6 py-5 space-y-3">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                  <i class="ri-check-line text-green-500 font-bold"></i>
+                </div>
+                <div class="pt-1">
+                  <p class="font-semibold text-gray-700 text-sm">Pesanan Dibuat</p>
+                  <p class="text-xs text-gray-400">Pesanan berhasil dibuat</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+                  <i class="ri-store-line text-gray-400"></i>
+                </div>
+                <div class="pt-1">
+                  <p class="font-medium text-gray-400 text-sm">Diproses Penjual</p>
+                  <p class="text-xs text-gray-300">Menunggu konfirmasi</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Toko BA + timer -->
+        <div class="store-card">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-gray-50">
+            <div class="flex items-center gap-2">
+              <i class="ri-store-2-line text-[#BFA370]"></i>
+              <span class="font-semibold text-gray-700">Burjo Ambucuy</span>
+            </div>
+            <span class="badge-timer" id="store-timer">04:59</span>
+          </div>
+          <div class="grid px-6 py-4 items-center" style="grid-template-columns: 2fr 1fr 1fr 1fr">
+            <div class="flex items-center gap-3">
+              <img
+                src="assets/images/mie ayam.png"
+                onerror="this.src = 'https://placehold.co/56/f3f3f3/BFA370?text=🍗'"
+                class="w-14 h-14 rounded-xl object-cover" />
+              <div>
+                <p class="font-medium text-gray-800 text-sm">Ayam Paha Atas</p>
+                <span
+                  class="text-[11px] bg-orange-50 text-orange-400 border border-orange-100 px-2 py-0.5 rounded-full">
+                  Super Pedas
+                </span>
+              </div>
+            </div>
+            <p class="text-center text-[#BFA370] font-medium text-sm">Rp17.000</p>
+            <p class="text-center text-gray-600 text-sm">x1</p>
+            <p class="text-center text-[#BFA370] font-semibold text-sm">Rp17.000</p>
+          </div>
+          <div class="bg-gray-50 px-6 py-3 flex items-center gap-3 border-t border-gray-100">
+            <div class="flex items-center gap-2 text-sm text-gray-500 flex-1">
+              <i class="ri-shopping-bag-line text-[#BFA370]"></i>
+              <span>1 item</span>
+              <span class="mx-1 text-gray-300">·</span>
+              <span>
+                Total
+                <strong class="text-[#BFA370]">Rp17.000</strong>
+              </span>
+            </div>
+            <button class="btn-bayar">Bayar Pesanan</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== TAB 5: HISTORI PESANAN ========== -->
+      <div id="pane-histori" class="tab-pane space-y-5">
+        <div class="grid px-4 py-2 text-sm text-gray-400 font-medium" style="grid-template-columns: 2fr 1fr 1fr 1fr">
+          <span class="text-[#BFA370] font-semibold text-base">Produk</span>
+          <span class="text-center">Harga Satuan</span>
+          <span class="text-center">Kuantitas</span>
+          <span class="text-center">Total</span>
+        </div>
+        <!-- Toko AG -->
+        <div class="store-card">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-gray-50">
+            <div class="flex items-center gap-2">
+              <i class="ri-store-2-line text-[#BFA370]"></i>
+              <span class="font-semibold text-gray-700">Ayam Goreng 39</span>
+            </div>
+            <span class="badge-selesai">Selesai</span>
+          </div>
+          <div
+            class="grid px-6 py-4 items-center border-b border-gray-50"
+            style="grid-template-columns: 2fr 1fr 1fr 1fr">
+            <div class="flex items-center gap-3">
+              <img
+                src="assets/images/mie ayam.png"
+                onerror="this.src = 'https://placehold.co/56/f3f3f3/BFA370?text=🍗'"
+                class="w-14 h-14 rounded-xl object-cover" />
+              <div>
+                <p class="font-medium text-gray-800 text-sm">Ayam Paha Atas</p>
+                <span
+                  class="text-[11px] bg-orange-50 text-orange-400 border border-orange-100 px-2 py-0.5 rounded-full">
+                  Super Pedas
+                </span>
+              </div>
+            </div>
+            <p class="text-center text-[#BFA370] font-medium text-sm">Rp17.000</p>
+            <p class="text-center text-gray-600 text-sm">x1</p>
+            <p class="text-center text-[#BFA370] font-semibold text-sm">Rp17.000</p>
+          </div>
+          <div class="grid px-6 py-4 items-center" style="grid-template-columns: 2fr 1fr 1fr 1fr">
+            <div class="flex items-center gap-3">
+              <img
+                src="assets/images/makanan2.png"
+                onerror="this.src = 'https://placehold.co/56/f3f3f3/BFA370?text=🍗'"
+                class="w-14 h-14 rounded-xl object-cover" />
+              <div>
+                <p class="font-medium text-gray-800 text-sm">Ayam Paha Bandung</p>
+                <span class="text-[11px] bg-red-50 text-red-400 border border-red-100 px-2 py-0.5 rounded-full">
+                  Super Pedas Jeletot
+                </span>
+              </div>
+            </div>
+            <p class="text-center text-[#BFA370] font-medium text-sm">Rp18.000</p>
+            <p class="text-center text-gray-600 text-sm">x3</p>
+            <p class="text-center text-[#BFA370] font-semibold text-sm">Rp54.000</p>
+          </div>
+          <div
+            class="bg-gray-50 px-6 py-3 flex items-center justify-between cursor-pointer border-t border-gray-100"
+            onclick="toggleAcc('h-ag')">
+            <div class="flex items-center gap-2 text-sm text-gray-500">
+              <i class="ri-shopping-bag-line text-[#BFA370]"></i>
+              <span>4 item</span>
+              <span class="mx-1 text-gray-300">·</span>
+              <span>
+                Total
+                <strong class="text-[#BFA370]">Rp71.000</strong>
+              </span>
+            </div>
+            <i id="ico-h-ag" class="ri-arrow-up-s-line text-gray-400 transition-transform duration-300"></i>
+          </div>
+          <div id="h-ag" class="acc-body open">
+            <div class="px-6 py-4 flex gap-3">
+              <button class="btn-pesan-lagi">Pesan Lagi</button>
+              <button class="btn-ulasan">Beri Ulasan</button>
+            </div>
+          </div>
+        </div>
+        <!-- Toko BA -->
+        <div class="store-card">
+          <div class="flex items-center justify-between px-6 py-4 border-b border-gray-50">
+            <div class="flex items-center gap-2">
+              <i class="ri-store-2-line text-[#BFA370]"></i>
+              <span class="font-semibold text-gray-700">Burjo Ambucuy</span>
+            </div>
+            <span class="badge-selesai">Selesai</span>
+          </div>
+          <div class="grid px-6 py-4 items-center" style="grid-template-columns: 2fr 1fr 1fr 1fr">
+            <div class="flex items-center gap-3">
+              <img
+                src="assets/images/mie ayam.png"
+                onerror="this.src = 'https://placehold.co/56/f3f3f3/BFA370?text=🍗'"
+                class="w-14 h-14 rounded-xl object-cover" />
+              <div>
+                <p class="font-medium text-gray-800 text-sm">Ayam Paha Atas</p>
+                <span
+                  class="text-[11px] bg-orange-50 text-orange-400 border border-orange-100 px-2 py-0.5 rounded-full">
+                  Super Pedas
+                </span>
+              </div>
+            </div>
+            <p class="text-center text-[#BFA370] font-medium text-sm">Rp17.000</p>
+            <p class="text-center text-gray-600 text-sm">x1</p>
+            <p class="text-center text-[#BFA370] font-semibold text-sm">Rp17.000</p>
+          </div>
+          <div
+            class="bg-gray-50 px-6 py-3 flex items-center justify-between cursor-pointer border-t border-gray-100"
+            onclick="toggleAcc('h-ba')">
+            <div class="flex items-center gap-2 text-sm text-gray-500">
+              <i class="ri-shopping-bag-line text-[#BFA370]"></i>
+              <span>1 item</span>
+              <span class="mx-1 text-gray-300">·</span>
+              <span>
+                Total
+                <strong class="text-[#BFA370]">Rp17.000</strong>
+              </span>
+            </div>
+            <i id="ico-h-ba" class="ri-arrow-up-s-line text-gray-400 transition-transform duration-300"></i>
+          </div>
+          <div id="h-ba" class="acc-body open">
+            <div class="px-6 py-4 flex gap-3">
+              <button class="btn-pesan-lagi">Pesan Lagi</button>
+              <button class="btn-ulasan">Beri Ulasan</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script src="js/keranjang.js"></script>
+  </body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pilih Peran - Market Kita</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+
+        body {
+
+            background-image: url('assets/images/illustrasions/background.png');
+
+            background-size: cover;
+
+            background-position: center;
+
+            background-attachment: fixed;
+
+        }
+
+        .bg-gradient-orange { background: linear-gradient(to bottom, #FFCF98, #F4721E); }
+
+        .bg-gradient-blue { background: linear-gradient(to bottom, #D6E9FC, #3683DF); }
+
+        .text-blue-custom { color: #3683DF; }
+
+        .text-orange-custom { color: #F4721E; }
+
+    </style>
+
+</head>
+
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="text-center max-w-5xl w-full relative z-10">
+
+        <h1 class="text-3xl font-bold text-gray-800 mb-2 font-sans">Pilih Peran Anda</h1>
+
+        <p class="text-gray-500 mb-12 italic text-sm">silahkan pilih sebagai apa anda ingin bergabung</p>
+
+
+
+        <div class="flex flex-col md:flex-row gap-8 justify-center items-stretch">
+
+            <div onclick="window.location.href='register-pembeli-step1.html'" class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col w-full md:w-80 transform transition hover:scale-105 cursor-pointer active:scale-95">
+
+                <div class="bg-gradient-blue p-8 flex justify-center items-end h-64">
+
+                    <img src="assets/images/illustrasions/User.png" alt="Pembeli" class="h-48 w-auto object-contain">
+
+                </div>
+
+                <div class="p-6 flex-grow flex flex-col justify-center">
+
+                    <h2 class="text-xl font-bold text-blue-custom mb-4">Datang & Belanja</h2>
+
+                    <div class="border-t pt-4">
+
+                        <p class="text-sm font-semibold text-gray-700">Daftar sebagai <span class="text-blue-custom underline">Pembeli</span></p>
+
+                        <p class="text-[10px] text-gray-400 mt-1 italic">Cari dan beli produk favoritmu</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div onclick="window.location.href='register-umkm.html'" class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col w-full md:w-80 transform transition hover:scale-105 cursor-pointer active:scale-95">
+
+                <div class="bg-gradient-orange p-8 flex justify-center items-end h-64">
+
+                    <img src="assets/images/illustrasions/Penjual.png" alt="Penjual" class="h-48 w-auto object-contain">
+
+                </div>
+
+                <div class="p-6 flex-grow flex flex-col justify-center text-white">
+
+                    <h2 class="text-xl font-bold text-orange-custom mb-4">Buka Booth & Jualan</h2>
+
+                    <div class="bg-gradient-orange -mx-6 -mb-6 p-6 text-center">
+
+                        <p class="text-sm font-semibold">Daftar sebagai <span class="font-bold">Penjual</span></p>
+
+                        <p class="text-[10px] opacity-90 mt-1 italic">Cari dan beli produk favoritmu</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

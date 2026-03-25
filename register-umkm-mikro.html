@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Penjual Mikro - Market Kita</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .step-content { display: none; }
+        .step-content.active { display: flex; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-white flex min-h-screen font-sans">
+    <div class="hidden md:flex md:w-1/2 flex-col items-center justify-center p-12">
+        <h1 class="text-4xl font-bold text-blue-900 mb-8 italic">Selamat Datang!</h1>
+        <img src="assets/images/illustrasions/umkm-mikro.png" class="max-w-xs h-auto object-contain">
+        <p id="login-text" class="mt-8 text-gray-600 italic">
+            Sudah mempunyai akun? 
+            <button onclick="window.location.href='login.html'" class="text-blue-600 font-bold underline cursor-pointer">Masuk</button>
+        </p>
+    </div>
+
+    <div class="w-full md:w-1/2 bg-[#3b5998] flex flex-col items-center justify-center p-8 text-white overflow-y-auto">
+        <h2 class="text-3xl font-bold mb-8">Buat Akun</h2>
+        
+        <form id="multiStepForm" class="w-full max-w-md">
+            
+            <div id="step1" class="step-content active flex-col space-y-4">
+                <input type="email" placeholder="Email" required class="w-full p-4 rounded-lg bg-gray-100 text-gray-800">
+                <input type="password" placeholder="Password" required class="w-full p-4 rounded-lg bg-gray-100 text-gray-800">
+                <input type="password" placeholder="Konfirmasi Password" required class="w-full p-4 rounded-lg bg-gray-100 text-gray-800">
+                <div class="flex justify-end pt-4">
+                    <button type="button" onclick="nextStep(2)" class="border border-white px-6 py-2 rounded-lg font-bold">Selanjutnya →</button>
+                </div>
+                <div class="text-center py-4">Atau</div>
+                <button type="button" class="w-full bg-white text-gray-700 p-3 rounded-lg flex items-center justify-center gap-4 font-bold shadow-md">
+                    <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" class="w-5 h-5"> Masuk dengan Google
+                </button>
+            </div>
+
+            <div id="step2" class="step-content flex-col space-y-3 text-sm">
+                <label class="font-semibold">Nama Toko</label>
+                <input type="text" placeholder="Masukkan nama toko" class="w-full p-3 rounded-lg bg-gray-100 text-gray-800">
+                
+                <label class="font-semibold">Deskripsi Toko</label>
+                <textarea placeholder="Masukkan deskripsi toko" class="w-full p-3 rounded-lg bg-gray-100 text-gray-800 h-24"></textarea>
+
+                <div class="flex gap-2 py-2">
+                    <div class="w-20 h-20 border-2 border-dashed border-white rounded-lg flex items-center justify-center cursor-pointer bg-blue-900/30">
+                        <span class="text-2xl">+</span>
+                    </div>
+                    <p class="self-center italic opacity-80">Unggah foto produk/toko</p>
+                </div>
+
+                <div class="flex justify-between pt-6">
+                    <button type="button" onclick="nextStep(1)" class="border border-white px-6 py-2 rounded-lg font-bold">← Kembali</button>
+                    <button type="button" onclick="nextStep(3)" class="bg-blue-800 px-6 py-2 rounded-lg font-bold">Selanjutnya →</button>
+                </div>
+            </div>
+
+            <div id="step3" class="step-content flex-col space-y-4">
+                <label class="text-sm font-semibold">Alamat Toko</label>
+                <input type="text" placeholder="Alamat Lengkap" class="w-full p-3 rounded-lg bg-gray-100 text-gray-800">
+                
+                <label class="text-sm font-semibold">Cari Lokasi di Peta</label>
+                <div class="w-full h-48 bg-gray-200 rounded-lg relative overflow-hidden">
+                    <div class="absolute inset-0 flex items-center justify-center text-gray-500 italic text-xs text-center p-4">
+                        [ Area Peta Interaktif ]<br>Klik untuk menandai lokasi gerobak Anda
+                    </div>
+                </div>
+
+                <div class="flex justify-between pt-6">
+                    <button type="button" onclick="nextStep(2)" class="border border-white px-6 py-2 rounded-lg font-bold">← Kembali</button>
+                    <button type="button" onclick="nextStep(4)" class="bg-blue-800 px-6 py-2 rounded-lg font-bold">Selanjutnya →</button>
+                </div>
+            </div>
+
+            <div id="step4" class="step-content flex-col space-y-4">
+                <label class="text-sm font-semibold">Scan KTP</label>
+                <div class="w-full h-32 border-2 border-dashed border-white rounded-xl flex items-center justify-center bg-blue-900/30 cursor-pointer">
+                     <span class="italic opacity-70">Klik untuk upload foto KTP</span>
+                </div>
+
+                <div class="bg-white/10 p-4 rounded-lg space-y-3 text-sm">
+                    <p class="font-bold border-b border-white/30 pb-1">Rekening Bank</p>
+                    <input type="text" placeholder="Nama Bank" class="w-full p-2 rounded bg-gray-100 text-gray-800">
+                    <input type="text" placeholder="Nomor Rekening" class="w-full p-2 rounded bg-gray-100 text-gray-800">
+                </div>
+
+                <div class="flex justify-between pt-6">
+                    <button type="button" onclick="nextStep(3)" class="border border-white px-6 py-2 rounded-lg font-bold">← Kembali</button>
+                    <button type="button" onclick="alert('Pendaftaran Berhasil!')" class="bg-green-600 px-8 py-2 rounded-lg font-bold shadow-lg">Selesai ✓</button>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+
+    <script>
+        function nextStep(step) {
+            // Sembunyikan semua konten step
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            // Tampilkan step yang dipilih
+            document.getElementById('step' + step).classList.add('active');
+            
+            // Sembunyikan teks login jika sudah lewat step 1 agar bersih
+            const loginText = document.getElementById('login-text');
+            loginText.style.display = (step === 1) ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>

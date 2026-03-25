@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfirmasi Pembayaran</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .bg-emas-main { background: linear-gradient(90deg, #BFA370 39%, #8E754A 82%); }
+        .text-emas { color: #BFA370; }
+        .border-emas { border-color: #BFA370; }
+    </style>
+</head>
+<body class="bg-gray-50 pb-20">
+
+    <div id="header-container"></div>
+
+    <main class="max-w-5xl mx-auto p-6">
+        <h1 class="text-2xl font-bold mb-6 text-gray-800">Konfirmasi Pembayaran</h1>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-6">
+            <div class="grid grid-cols-12 p-4 border-b border-gray-50 items-center">
+                <div class="col-span-6">
+                    <h2 class="text-lg font-bold text-emas">Ringkasan Pesanan</h2>
+                </div>
+                <div class="col-span-2 text-center text-[11px] font-semibold text-gray-400">Harga Satuan</div>
+                <div class="col-span-1 text-center text-[11px] font-semibold text-gray-400">Kuantitas</div>
+                <div class="col-span-2 text-center text-[11px] font-semibold text-gray-400">Total</div>
+                <div class="col-span-1 text-center text-[11px] font-semibold text-gray-400">Ubah</div>
+            </div>
+
+            <div class="px-6 py-3 bg-white flex items-center gap-2 border-b border-gray-50">
+                <div class="w-6 h-6 bg-[#FFB000] rounded flex items-center justify-center">
+                    <i class="ri-store-2-fill text-white text-sm"></i>
+                </div>
+                <span class="font-bold text-sm text-gray-800">Ayam Goreng 39</span>
+            </div>
+
+            <div class="px-6 divide-y divide-gray-50">
+                <div class="grid grid-cols-12 py-6 items-center">
+                    <div class="col-span-6 flex items-center gap-4">
+                        <img src="assets/images/paha-atas.png" class="w-14 h-14 rounded-xl object-cover" onerror="this.src='https://placehold.co/60'">
+                        <div>
+                            <p class="font-bold text-sm text-gray-800">Ayam Paha Atas</p>
+                            <span class="text-[10px] text-emas border border-[#BFA370] px-2 py-0.5 rounded flex items-center gap-1 w-fit mt-1">
+                                <i class="ri-edit-2-line"></i> Super Pedas
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-span-2 text-center font-bold text-sm text-emas">Rp17.000</div>
+                    <div class="col-span-1 flex justify-center">
+                        <div class="flex items-center bg-gray-100 rounded-md px-2 py-1 gap-3">
+                            <button class="text-gray-400 text-xs">-</button>
+                            <span class="text-xs font-bold">1</span>
+                            <button class="text-gray-400 text-xs">+</button>
+                        </div>
+                    </div>
+                    <div class="col-span-2 text-center font-bold text-sm text-emas">Rp17.000</div>
+                    <div class="col-span-1 text-center">
+                        <button class="text-gray-300 hover:text-red-500"><i class="ri-close-line text-xl"></i></button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-12 py-6 items-center">
+                    <div class="col-span-6 flex items-center gap-4">
+                        <img src="assets/images/paha-bandung.png" class="w-14 h-14 rounded-xl object-cover" onerror="this.src='https://placehold.co/60'">
+                        <div>
+                            <p class="font-bold text-sm text-gray-800">Ayam Paha Bandung</p>
+                            <span class="text-[10px] text-emas border border-[#BFA370] px-2 py-0.5 rounded flex items-center gap-1 w-fit mt-1">
+                                <i class="ri-edit-2-line"></i> Super Pedas Jeletot
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-span-2 text-center font-bold text-sm text-emas">Rp18.000</div>
+                    <div class="col-span-1 flex justify-center">
+                        <div class="flex items-center bg-gray-100 rounded-md px-2 py-1 gap-3">
+                            <button class="text-gray-400 text-xs">-</button>
+                            <span class="text-xs font-bold">3</span>
+                            <button class="text-gray-400 text-xs">+</button>
+                        </div>
+                    </div>
+                    <div class="col-span-2 text-center font-bold text-sm text-emas">Rp54.000</div>
+                    <div class="col-span-1 text-center">
+                        <button class="text-gray-300 hover:text-red-500"><i class="ri-close-line text-xl"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-4 border-t border-gray-50">
+                <div class="border border-gray-200 rounded-xl p-4">
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="ri-survey-line text-emas"></i>
+                        <span class="font-bold text-sm text-gray-700">Catatan untuk penjual</span>
+                    </div>
+                    <textarea placeholder="Tulis catatan di sini..." class="w-full text-xs text-gray-400 italic outline-none bg-transparent resize-none h-8"></textarea>
+                </div>
+                
+                <div class="border border-gray-200 rounded-xl p-3 flex justify-between items-center cursor-pointer">
+                    <div class="flex items-center gap-2">
+                        <i class="ri-coupon-3-line text-emas"></i>
+                        <span class="text-xs font-medium text-gray-700">Voucher</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-gray-400">- Rp 10.000</span>
+                        <i class="ri-arrow-right-s-line text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <div class="flex">
+                <button onclick="toggleTab('ambil')" id="tab-ambil" class="px-6 py-2.5 rounded-t-xl text-xs font-bold transition-all bg-[#BFA370] text-white">Ambil Ditempat</button>
+                <button onclick="toggleTab('reservasi')" id="tab-reservasi" class="px-6 py-2.5 rounded-t-xl text-xs font-bold transition-all bg-gray-200 text-gray-500 ml-1">Reservasi</button>
+            </div>
+
+            <div id="content-reservasi" class="bg-white border border-gray-100 rounded-b-xl rounded-tr-xl p-6 shadow-sm hidden">
+                <h3 class="font-bold text-sm mb-4">Data Reservasi</h3>
+                <div class="grid grid-cols-4 gap-4 mb-4">
+                    <div class="col-span-1">
+                        <label class="block text-[10px] font-bold text-gray-400 mb-1">Jumlah Orang</label>
+                        <input type="text" placeholder="Masukkan jumlah orang" class="w-full p-2.5 bg-gray-50 rounded-lg text-xs outline-none">
+                    </div>
+                    <div class="col-span-1">
+                        <label class="block text-[10px] font-bold text-gray-400 mb-1">Tanggal Reservasi</label>
+                        <div class="relative">
+                            <input type="text" value="Pilih tanggal" class="w-full p-2.5 bg-gray-50 rounded-lg text-xs outline-none">
+                            <i class="ri-arrow-down-s-line absolute right-3 top-2.5 text-gray-400"></i>
+                        </div>
+                    </div>
+                    <div class="col-span-1">
+                        <label class="block text-[10px] font-bold text-gray-400 mb-1">Waktu Reservasi</label>
+                        <div class="flex items-center gap-2">
+                            <input type="text" value="08.00" class="w-full p-2.5 bg-gray-50 rounded-lg text-xs text-center outline-none">
+                            <span class="text-gray-300">-</span>
+                            <input type="text" value="20.00" class="w-full p-2.5 bg-gray-50 rounded-lg text-xs text-center outline-none">
+                        </div>
+                    </div>
+                    <div class="col-span-1">
+                        <label class="block text-[10px] font-bold text-gray-400 mb-1">Pembayaran</label>
+                        <div class="relative">
+                            <input type="text" value="Bayar Penuh" class="w-full p-2.5 bg-gray-50 rounded-lg text-xs outline-none">
+                            <i class="ri-arrow-down-s-line absolute right-3 top-2.5 text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400 mb-1">Keterangan</label>
+                    <textarea placeholder="Tuliskan keterangan tambahan pesanan anda" class="w-full p-3 bg-gray-50 rounded-lg text-xs outline-none h-20 resize-none"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-sm text-gray-800">Pembayaran</h3>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg" class="h-4" alt="QRIS">
+            </div>
+            <div class="space-y-3">
+                <div class="flex justify-between text-xs text-gray-500">
+                    <span>Total Pesanan (4 Menu)</span>
+                    <span class="font-semibold text-gray-700">Rp 71.000</span>
+                </div>
+                <div id="row-biaya-reservasi" class="flex justify-between text-xs text-gray-500 hidden">
+                    <span>Biaya Reservasi</span>
+                    <span class="font-semibold text-gray-700">Rp 25.000</span>
+                </div>
+                <div class="flex justify-between text-xs text-gray-500">
+                    <span>Voucher</span>
+                    <span class="font-semibold text-gray-700">- Rp 10.000</span>
+                </div>
+                <div class="flex justify-between text-sm font-bold text-gray-800 pt-3 border-t border-gray-50">
+                    <span>Total</span>
+                    <span id="grand-total">Rp 61.000</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 flex justify-end">
+            <button onclick="window.location.href='menunggu-pembayaran.html'" class="bg-emas-main text-white px-10 py-3 rounded-lg font-bold text-sm flex items-center gap-2 shadow-lg shadow-yellow-900/10">
+                Pesan & Bayar <i class="ri-arrow-right-line"></i>
+            </button>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script>
+        function toggleTab(type) {
+            const btnAmbil = document.getElementById('tab-ambil');
+            const btnRes = document.getElementById('tab-reservasi');
+            const contentRes = document.getElementById('content-reservasi');
+            const rowBiayaRes = document.getElementById('row-biaya-reservasi');
+            const grandTotal = document.getElementById('grand-total');
+
+            if (type === 'reservasi') {
+                btnRes.classList.replace('bg-gray-200', 'bg-[#BFA370]');
+                btnRes.classList.replace('text-gray-500', 'text-white');
+                btnAmbil.classList.replace('bg-[#BFA370]', 'bg-gray-200');
+                btnAmbil.classList.replace('text-white', 'text-gray-500');
+                contentRes.classList.remove('hidden');
+                rowBiayaRes.classList.remove('hidden');
+                grandTotal.innerText = "Rp 86.000"; // Contoh penambahan biaya reservasi sesuai foto 6
+            } else {
+                btnAmbil.classList.replace('bg-gray-200', 'bg-[#BFA370]');
+                btnAmbil.classList.replace('text-gray-500', 'text-white');
+                btnRes.classList.replace('bg-[#BFA370]', 'bg-gray-200');
+                btnRes.classList.replace('text-white', 'text-gray-500');
+                contentRes.classList.add('hidden');
+                rowBiayaRes.classList.add('hidden');
+                grandTotal.innerText = "Rp 61.000";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Memanggil fungsi header dari script.js
+            if(typeof loadHeader === "function") loadHeader();
+        });
+    </script>
+</body>
+</html>

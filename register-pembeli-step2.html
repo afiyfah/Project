@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Daftar Pembeli - Step 2</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-white flex min-h-screen font-sans">
+
+    <div class="hidden md:flex md:w-1/2 flex-col items-center justify-center p-12">
+
+        <h1 class="text-4xl font-bold text-blue-900 mb-12 italic">Selamat Datang!</h1>        <img src="assets/images/illustrasions/User.png" class="max-w-xs h-auto object-contain">
+
+        <p class="mt-8 text-gray-600">Sudah mempunyai akun? <button onclick="window.location.replace('login.html')" class="text-blue-600 font-bold underline cursor-pointer">Masuk</button></p>
+
+    </div>
+
+
+
+    <div class="w-full md:w-1/2 bg-[#3b5998] flex flex-col items-center justify-center p-8 text-white overflow-y-auto">
+
+        <h2 class="text-3xl font-bold mb-8 text-center">Buat Akun</h2>
+
+        <form id="f2" class="w-full max-w-md space-y-4">
+
+            <p class="text-xs font-semibold">Nama Lengkap</p>
+
+            <div class="flex gap-4">
+
+                <input type="text" placeholder="Nama depan" required class="flex-1 p-3 rounded-lg bg-gray-100 text-gray-800 focus:outline-none">
+
+                <input type="text" placeholder="Nama belakang" required class="flex-1 p-3 rounded-lg bg-gray-100 text-gray-800 focus:outline-none">
+
+            </div>
+
+
+
+            <p class="text-xs font-semibold">Username</p>
+
+            <input type="text" placeholder="Masukkan nama toko/user" required class="w-full p-3 rounded-lg bg-gray-100 text-gray-800 focus:outline-none">
+
+
+
+            <p class="text-xs font-semibold">Nomor Telepon</p>
+
+            <div class="flex gap-2">
+
+                <select class="bg-gray-100 text-gray-800 p-3 rounded-lg text-sm"><option>+62</option></select>
+
+                <input type="tel" placeholder="Masukkan nomor telepon" required class="flex-1 p-3 rounded-lg bg-gray-100 text-gray-800 focus:outline-none">
+
+            </div>
+
+
+
+            <p class="text-xs font-semibold">Tanggal Lahir</p>
+
+            <input type="date" required class="w-full p-3 rounded-lg bg-gray-100 text-gray-800 focus:outline-none">
+
+
+
+            <div class="flex justify-between items-center pt-8">
+
+                <button type="button" onclick="window.location.href='register-pembeli-step1.html'" class="text-white border border-white px-6 py-2 rounded-lg font-bold">← Kembali</button>
+
+                <button type="button" onclick="if(document.getElementById('f2').reportValidity()) alert('Pendaftaran Berhasil!')" class="bg-blue-800 px-6 py-2 rounded-lg font-bold">Selanjutnya →</button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>
