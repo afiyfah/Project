@@ -1,89 +1,106 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Menunggu Pembayaran</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .bg-emas-main { background: linear-gradient(90deg, #BFA370 39%, #8E754A 82%); }
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .bg-emas-main {
+        background: linear-gradient(90deg, #bfa370 39%, #8e754a 82%);
+      }
     </style>
-</head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen p-4">
-
+  </head>
+  <body class="bg-gray-50 flex items-center justify-center min-h-screen p-4">
     <div class="max-w-4xl w-full bg-white rounded-3xl shadow-sm border border-gray-100 p-8 md:p-12 relative">
-         <button
-    onclick="window.history.back()"
-    class="text-black absolute top-6 left-6 z-10 w-10 h-10 text-gray-600 hover:bg-gray-50 transition-colors"
-  >
-    <i class="ri-arrow-left-line text-3xl"></i>
-  </button>
+      <div class="relative flex items-center mb-10 pt-6">
+        <button
+          onclick="window.history.back()"
+          class="absolute left-6 w-10 h-10 flex items-center justify-center rounded-full text-gray-600 hover:bg-gray-100 hover:text-oren-tua transition-all active:scale-90">
+          <i class="ri-arrow-left-line text-2xl"></i>
+        </button>
 
-        <h1 class="text-xl font-bold text-center mb-10 text-gray-800">Menunggu Pembayaran</h1>
+        <h1 class="text-xl font-bold text-gray-800 px-20">Menunggu Pembayaran</h1>
+      </div>
 
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-            <div class="border border-gray-100 rounded-3xl p-6 shadow-sm bg-white">
-                <div class="flex justify-between items-center mb-4">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg" class="h-5" alt="QRIS">
-                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">QRIS</span>
-                </div>
-                
-                <div class="aspect-square bg-white border-2 border-dashed border-gray-100 rounded-2xl flex items-center justify-center mb-6">
-                    <img src="assets/images/sample-qr.png" class="w-full p-4" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=AyamGoreng39-Payment'">
-                </div>
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="border border-gray-100 rounded-3xl p-6 shadow-sm bg-white">
+          <div class="flex justify-between items-center mb-4">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg" class="h-5" alt="QRIS" />
+            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">QRIS</span>
+          </div>
 
-                <button class="w-full py-3 bg-[#0081FF] text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-blue-600 transition-all">
-                    <i class="ri-download-2-line"></i> Simpan Kode QR
-                </button>
-                <p class="text-center text-[10px] text-gray-400 mt-4 uppercase font-medium tracking-wide">Payment Guide</p>
-            </div>
+          <div
+            class="aspect-square bg-white border-2 border-dashed border-gray-100 rounded-2xl flex items-center justify-center mb-6">
+            <img
+              src="assets/images/sample-qr.png"
+              class="w-full p-4"
+              onerror="
+                this.src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=AyamGoreng39-Payment'
+              " />
+          </div>
 
-            <div class="space-y-6">
-                <div class="grid grid-cols-2 gap-y-4">
-                    <div class="text-sm text-gray-500">Merchant Name</div>
-                    <div class="text-sm font-bold text-gray-800 text-right">Ayam Goreng 39</div>
-                    
-                    <div class="text-sm text-gray-500">Invoice</div>
-                    <div class="text-sm font-bold text-gray-800 text-right">REG - 200119021138</div>
-                    
-                    <div class="text-sm font-bold text-gray-800 mt-2">Total Payment</div>
-                    <div class="text-lg font-bold text-gray-800 text-right mt-2">Rp 71.000</div>
-                </div>
-
-                <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
-                    <p class="text-[11px] leading-relaxed text-gray-500">
-                        Note: Transaksi yang telah dibayarkan <span class="font-bold text-gray-800">Tidak Dapat Dibatalkan Dengan Alasan Apapun</span>. Dengan melakukan pembayaran berarti anda telah mengerti dan menyetujui segala prosedur registrasi.
-                    </p>
-                </div>
-
-                <div class="bg-emas-main rounded-2xl p-6 text-white text-center shadow-lg shadow-yellow-900/10">
-                    <p class="text-[11px] mb-2 font-medium opacity-90">Segera lakukan pembayaran sebelum</p>
-                    <p class="text-xs font-bold mb-3">Senin, 28 Februari 2025 12.00</p>
-                    <div id="countdown" class="text-4xl font-bold tracking-widest">04.58</div>
-                </div>
-
-                <div class="text-center">
-                    <button onclick="window.location.href='keranjang.html'" class="text-xs text-gray-400 underline hover:text-gray-600">Lihat Pesanan</button>
-                </div>
-            </div>
+          <button
+            class="w-full py-3 bg-[#0081FF] text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-blue-600 transition-all">
+            <i class="ri-download-2-line"></i> Simpan Kode QR
+          </button>
+          <p class="text-center text-[10px] text-gray-400 mt-4 uppercase font-medium tracking-wide">Payment Guide</p>
         </div>
+
+        <div class="space-y-6">
+          <div class="grid grid-cols-2 gap-y-4">
+            <div class="text-sm text-gray-500">Merchant Name</div>
+            <div class="text-sm font-bold text-gray-800 text-right">Ayam Goreng 39</div>
+
+            <div class="text-sm text-gray-500">Invoice</div>
+            <div class="text-sm font-bold text-gray-800 text-right">REG - 200119021138</div>
+
+            <div class="text-sm font-bold text-gray-800 mt-2">Total Payment</div>
+            <div class="text-lg font-bold text-gray-800 text-right mt-2">Rp 71.000</div>
+          </div>
+
+          <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
+            <p class="text-[11px] leading-relaxed text-gray-500">
+              Note: Transaksi yang telah dibayarkan
+              <span class="font-bold text-gray-800">Tidak Dapat Dibatalkan Dengan Alasan Apapun</span>. Dengan melakukan
+              pembayaran berarti anda telah mengerti dan menyetujui segala prosedur registrasi.
+            </p>
+          </div>
+
+          <div class="bg-emas-main rounded-2xl p-6 text-white text-center shadow-lg shadow-yellow-900/10">
+            <p class="text-[11px] mb-2 font-medium opacity-90">Segera lakukan pembayaran sebelum</p>
+            <p class="text-xs font-bold mb-3">Senin, 28 Februari 2025 12.00</p>
+            <div id="countdown" class="text-4xl font-bold tracking-widest">04.58</div>
+          </div>
+
+          <div class="text-center">
+            <button
+              onclick="window.location.href = 'keranjang.html'"
+              class="text-xs text-gray-400 underline hover:text-gray-600">
+              Lihat Pesanan
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>
-        // Logika Timer Sederhana
-        let time = 298; // 4 menit 58 detik
-        const display = document.getElementById('countdown');
+      // Logika Timer Sederhana
+      let time = 298; // 4 menit 58 detik
+      const display = document.getElementById('countdown');
 
-        setInterval(() => {
-            let minutes = Math.floor(time / 60);
-            let seconds = time % 60;
-            display.innerText = `${String(minutes).padStart(2, '0')}.${String(seconds).padStart(2, '0')}`;
-            if (time > 0) time--;
-        }, 1000);
+      setInterval(() => {
+        let minutes = Math.floor(time / 60);
+        let seconds = time % 60;
+        display.innerText = `${String(minutes).padStart(2, '0')}.${String(seconds).padStart(2, '0')}`;
+        if (time > 0) time--;
+      }, 1000);
     </script>
-</body>
+  </body>
 </html>
