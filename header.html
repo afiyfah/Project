@@ -69,11 +69,12 @@
           <i class="ri-search-line text-[16px]"></i>
         </div>
 
-        <input
-          type="text"
-          id="main-search-input"
-          placeholder="Mau makan apa hari ini?"
-          class="w-full h-full px-14 rounded-xl text-[12px] focus:outline-none shadow-inner border-none bg-white transition-all" />
+       <input
+  type="text"
+  id="main-search-input"
+  placeholder="Mau makan apa hari ini?"
+  class="w-full h-full px-14 rounded-xl text-[12px] focus:outline-none shadow-inner border-none bg-white transition-all"
+  onkeypress="handleSearch(event)" />
 
         <div id="btn-filter-toggle" class="absolute right-5 text-gray-400 cursor-pointer hover:text-[#EE8F36]">
           <i class="ri-equalizer-2-line text-[16px]"></i>

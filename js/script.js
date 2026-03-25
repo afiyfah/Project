@@ -664,3 +664,16 @@ function showComingSoonAlert() {
     // Menggunakan SweetAlert2 (opsional tapi lebih bagus) atau alert browser biasa
     alert("🚀 Fitur Flash Sale Segera Hadir!\nNantikan promo menarik lainnya di Market Kita.");
 }
+
+// hasil pencarian
+function handleSearch(event) {
+    // Mengecek apakah tombol yang ditekan adalah Enter (kode 13)
+    if (event.key === 'Enter') {
+        const query = event.target.value.trim();
+
+        if (query.length > 0) {
+            // Arahkan ke file search-results.html
+            window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+        }
+    }
+}
