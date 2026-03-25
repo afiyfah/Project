@@ -52,8 +52,8 @@
         bottom: 0;
         left: 0;
         right: 0;
-        height: 2px;
-        background: #bfa370;
+        height: 4px;
+        background: linear-gradient(90deg, #BFA370 39%, #8E754A 82%);
         transform: scaleX(0);
         transition: transform 0.25s;
         border-radius: 99px;
@@ -68,9 +68,9 @@
 
       .store-card {
         background: #fff;
-        border-radius: 16px;
-        border: 1px solid #f0ede8;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        border-radius: 8px;
+        border: 2px solid #E9E9E9;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
         overflow: hidden;
       }
 
@@ -289,7 +289,7 @@
 
     <main class="max-w-5xl mx-auto px-10 py-8 space-y-6">
       <!-- TAB NAV -->
-      <div class="flex justify-center gap-8 border-b border-gray-100 overflow-x-auto no-scrollbar items-center">
+      <div class="flex justify-center gap-8 border-b border-gray-200 overflow-x-auto no-scrollbar items-center">
         <button onclick="switchTab('semua')" id="tab-semua" class="k-tab active">Semua Pesanan</button>
         <button onclick="switchTab('keranjang')" id="tab-keranjang" class="k-tab">Keranjang Saya</button>
         <button onclick="switchTab('konfirmasi')" id="tab-konfirmasi" class="k-tab">Menunggu Konfirmasi</button>
@@ -299,13 +299,15 @@
 
       <!-- ========== TAB 1: SEMUA PESANAN ========== -->
       <div id="pane-semua" class="tab-pane active space-y-5">
+        <div class="store-card">
         <div
           class="grid col-produk px-10 py-2 text-sm text-black font-medium"
           style="grid-template-columns: 2fr 1fr 1fr 1fr">
-          <span class="text-[#BFA370] font-bold text-2xl">Produk</span>
-          <span class="text-center">Harga Satuan</span>
-          <span class="text-center">Kuantitas</span>
-          <span class="text-center">Total</span>
+          <span class="text-[#BFA370] font-semibold text-2xl p-1.5">Produk</span>
+          <span class="text-center p-3">Harga Satuan</span>
+          <span class="text-center p-3">Kuantitas</span>
+          <span class="text-center p-3">Total</span>
+        </div>
         </div>
 
         <!-- Ayam Goreng 39 — Selesai -->
@@ -427,14 +429,16 @@
 
       <!-- ========== TAB 2: KERANJANG SAYA ========== -->
       <div id="pane-keranjang" class="tab-pane space-y-5">
+        <div class="store-card">
         <div
           class="grid px-10 py-2 text-sm text-[#464646] font-medium"
           style="grid-template-columns: 2fr 1fr 1fr 1fr 40px">
-          <span class="text-[#BFA370] font-bold text-2xl">Produk</span>
-          <span class="text-center">Harga Satuan</span>
-          <span class="text-center">Kuantitas</span>
-          <span class="text-center">Total</span>
-          <span class="text-center">Ubah</span>
+          <span class="text-[#BFA370] font-semibold text-2xl p-1.5">Produk</span>
+          <span class="text-center p-3">Harga Satuan</span>
+          <span class="text-center p-3">Kuantitas</span>
+          <span class="text-center p-3">Total</span>
+          <span class="text-center p-3">Ubah</span>
+        </div>
         </div>
 
         <!-- Toko AG -->
@@ -659,11 +663,13 @@
             </p>
           </div>
         </div>
+        <div class="store-card">
         <div class="grid px-10 py-2 text-sm text-[#464646] font-medium" style="grid-template-columns: 2fr 1fr 1fr 1fr">
-          <span class="text-[#BFA370] font-bold text-2xl">Produk</span>
-          <span class="text-center">Harga Satuan</span>
-          <span class="text-center">Kuantitas</span>
-          <span class="text-center">Total</span>
+          <span class="text-[#BFA370] font-semibold text-2xl p-1.5">Produk</span>
+          <span class="text-center p-3">Harga Satuan</span>
+          <span class="text-center p-3">Kuantitas</span>
+          <span class="text-center p-3">Total</span>
+        </div>
         </div>
         <!-- Toko AG -->
         <div class="store-card">
@@ -768,11 +774,13 @@
 
       <!-- ========== TAB 4: SEDANG BERLANGSUNG ========== -->
       <div id="pane-berlangsung" class="tab-pane space-y-5">
+        <div class="store-card">
         <div class="grid px-10 py-2 text-sm text-[#464646] font-medium" style="grid-template-columns: 2fr 1fr 1fr 1fr">
-          <span class="text-[#BFA370] font-bold text-2xl">Produk</span>
-          <span class="text-center">Harga Satuan</span>
-          <span class="text-center">Kuantitas</span>
-          <span class="text-center">Total</span>
+          <span class="text-[#BFA370] font-semibold text-2xl p-1.5">Produk</span>
+          <span class="text-center p-3">Harga Satuan</span>
+          <span class="text-center p-3">Kuantitas</span>
+          <span class="text-center p-3">Total</span>
+        </div>
         </div>
         <!-- Toko AG -->
         <div class="store-card">
@@ -907,11 +915,13 @@
 
       <!-- ========== TAB 5: HISTORI PESANAN ========== -->
       <div id="pane-histori" class="tab-pane space-y-5">
+        <div class="store-card">
         <div class="grid px-10 py-2 text-sm text-[#464646] font-medium" style="grid-template-columns: 2fr 1fr 1fr 1fr">
-          <span class="text-[#BFA370] font-semibold text-2xl">Produk</span>
-          <span class="text-center">Harga Satuan</span>
-          <span class="text-center">Kuantitas</span>
-          <span class="text-center">Total</span>
+          <span class="text-[#BFA370] font-semibold text-2xl p-1.5">Produk</span>
+          <span class="text-center p-3">Harga Satuan</span>
+          <span class="text-center p-3">Kuantitas</span>
+          <span class="text-center p-3">Total</span>
+        </div>
         </div>
         <!-- Toko AG -->
         <div class="store-card">
