@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NyamNow Seller — Notifikasi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../assets/css/seller-shared.css">
+    <style>
+        .notif-icon { width: 46px; height: 46px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+        .notif-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid #F0EDE8; }
+    </style>
+</head>
+<body>
+
+<div id="seller-header-container"></div>
+<div class="seller-shell">
+<div id="seller-sidebar-container"></div>
+<main id="seller-main">
+
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="page-title">Notifikasi</h1>
+        <button class="text-xs text-[#BFA370] hover:underline">Tandai semua sudah dibaca</button>
+    </div>
+
+    <div class="card shadow-soft px-6 py-2 max-w-3xl" id="notif-container"></div>
+
+</main>
+</div>
+
+<script src="../js/seller-shared.js"></script>
+<script>
+const notifData = [
+    {
+        grup: 'Hari Ini',
+        items: [
+            { icon: 'ri-shopping-cart-2-line', color: '#FB923C', bg: '#FFF7ED', judul: 'Pesan baru dari Watanabe', sub: '1x Ayam Paha Atas. Segera konfirmasi pesanan.', waktu: '5 menit yang lalu' },
+            { icon: 'ri-calendar-check-line',  color: '#22C55E', bg: '#F0FDF4', judul: 'Reservasi baru pukul 18.00', sub: 'Ada reservasi atas nama Juhoon untuk 2 orang pukul 18.00.', waktu: '5 menit yang lalu' },
+        ]
+    },
+    {
+        grup: 'Kemarin',
+        items: [
+            { icon: 'ri-chat-3-line', color: '#A855F7', bg: '#FAF5FF', judul: 'Pesan baru dari Nadia', sub: '"Apakah ayamnya ready?"', waktu: '5 menit yang lalu' },
+        ]
+    },
+    {
+        grup: 'Minggu Ini',
+        items: [
+            { icon: 'ri-star-line',      color: '#EAB308', bg: '#FEFCE8', judul: 'Rating baru dari pelanggan',  sub: 'Pelanggan memberi rating 5⭐ untuk menu Ayam Paha Atas.', waktu: '5 menit yang lalu' },
+            { icon: 'ri-wallet-3-line',  color: '#EE8F36', bg: '#FFF7ED', judul: 'Pembayaran Ditransfer',        sub: 'Saldo penjualan minggu ini telah ditransfer ke akun Anda.', waktu: '5 menit yang lalu' },
+        ]
+    },
+    {
+        grup: 'Bulan Ini',
+        items: [
+            { icon: 'ri-percent-line',  color: '#BFA370', bg: '#FAF8F5', judul: 'Promo diskon 20% Ayam Goreng telah aktif', sub: 'Promo berlaku hingga 30 April 2026. Jangan lupa tingkatkan penjualanmu!', waktu: '5 menit yang lalu' },
+        ]
+    },
+];
+
+function renderNotif() {
+    const el = document.getElementById('notif-container');
+    el.innerHTML = notifData.map(grup => `
+        <div class="mb-2">
+            <h3 class="font-semibold text-gray-700 text-sm py-3">${grup.grup}</h3>
+            ${grup.items.map(n => `
+                <div class="notif-row">
+                    <div class="notif-icon" style="background:${n.bg}; color:${n.color};">
+                        <i class="${n.icon}"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="font-semibold text-gray-800 text-sm">${n.judul}</p>
+                        <p class="text-xs text-gray-500 mt-0.5">${n.sub}</p>
+                    </div>
+                    <span class="text-xs text-gray-400 whitespace-nowrap flex-shrink-0">${n.waktu}</span>
+                </div>
+            `).join('')}
+        </div>
+    `).join('');
+}
+
+document.addEventListener('DOMContentLoaded', renderNotif);
+</script>
+</body>
+</html>

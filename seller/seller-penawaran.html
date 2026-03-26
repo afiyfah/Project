@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NyamNow Seller — Penawaran</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../assets/css/seller-shared.css">
+    <style>
+        .promo-card { background: white; border-radius: 14px; border: 1px solid #EEE; display: flex; align-items: center; gap: 0; overflow: hidden; }
+        .promo-img-wrap { position: relative; width: 180px; flex-shrink: 0; }
+        .promo-badge-circle { position: absolute; bottom: 12px; left: 12px; width: 68px; height: 68px; background: linear-gradient(135deg,#E1BF59,#BFA370); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 800; font-size: 11px; color: white; text-align: center; line-height: 1.2; border: 2px solid white; }
+        .sub-tab { font-size: 13px; color: #999; cursor: pointer; padding-bottom: 4px; border-bottom: 2px solid transparent; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; }
+        .sub-tab.active { color: #333; border-bottom-color: #333; font-weight: 600; }
+
+        /* Event card */
+        .event-card { border-radius: 14px; overflow: hidden; cursor: pointer; border: 1px solid #EEE; transition: transform 0.2s, box-shadow 0.2s; }
+        .event-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+
+        /* dots */
+        .promo-dots-btn { position: relative; }
+        .promo-dots-dd { position: absolute; right: 0; bottom: 0; background: white; border: 1px solid #EEE; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); z-index: 10; min-width: 100px; display: none; }
+        .promo-dots-dd.open { display: block; }
+        .promo-dots-dd button { width: 100%; padding: 10px 14px; text-align: left; font-size: 13px; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .promo-dots-dd button:hover { background: #F9F6F1; }
+    </style>
+</head>
+<body>
+
+<div id="seller-header-container"></div>
+<div class="seller-shell">
+<div id="seller-sidebar-container"></div>
+<main id="seller-main">
+
+    <div class="flex items-start justify-between mb-6">
+        <div>
+            <h1 class="page-title">Promo/Flash Sale Toko</h1>
+            <p class="page-sub">Kelola seluruh menu di toko anda</p>
+        </div>
+        <button onclick="goPage('seller-tambah-promo.html')" class="btn-gold flex items-center gap-2">
+            <i class="ri-add-line"></i> + Tambah Promo
+        </button>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="flex items-center justify-between mb-5">
+        <div class="flex gap-5 border-b border-gray-200 pb-0">
+            <button class="filter-tab" onclick="switchPromoFilter('semua',this)">Semua</button>
+            <span class="text-gray-300 self-end pb-1">|</span>
+            <button class="filter-tab" onclick="switchPromoFilter('aktif',this)">Aktif <span class="badge-aktif ml-1">2</span></button>
+            <span class="text-gray-300 self-end pb-1">|</span>
+            <button class="filter-tab" onclick="switchPromoFilter('habis',this)">Habis <span class="badge-habis ml-1">1</span></button>
+            <span class="text-gray-300 self-end pb-1">|</span>
+            <button class="filter-tab" onclick="switchPromoFilter('flashsale',this)">Flash Sale</button>
+            <span class="text-gray-300 self-end pb-1">|</span>
+            <button class="filter-tab" onclick="switchPromoFilter('promo',this)">Promo</button>
+            <span class="text-gray-300 self-end pb-1">|</span>
+            <button class="filter-tab active" onclick="switchPromoFilter('event',this)">Promo Event</button>
+        </div>
+        <div class="flex gap-2">
+            <div class="relative">
+                <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input class="s-input pl-8 text-sm w-44" placeholder="Cari menu...">
+            </div>
+            <button class="w-9 h-9 rounded-lg border border-[#BFA370] text-[#BFA370] flex items-center justify-center hover:bg-[#F9F6F1]"><i class="ri-filter-line"></i></button>
+        </div>
+    </div>
+
+    <!-- Promo List (default) -->
+    <div id="panel-promo" class="space-y-4 hidden">
+        <div class="promo-card shadow-soft">
+            <div class="promo-img-wrap h-28">
+                <img src="assets/images/rawon.png" onerror="this.src='https://placehold.co/180x112/f3f3f3/BFA370?text=Promo'" class="w-full h-full object-cover">
+                <div class="promo-badge-circle">BELI 2<br>GRATIS 1</div>
+            </div>
+            <div class="flex-1 px-5 py-4">
+                <p class="font-bold text-gray-800">Beli 2 Gratis Esteh</p>
+                <p class="text-sm text-gray-500">Beli 2 menu apa saja dan dapatkan gratis esteh</p>
+                <p class="text-xs text-[#BFA370] mt-2">Promo terpakai 321x sejak 1 Januari 2026</p>
+                <p class="text-xs text-gray-400">Berakhir 5 Januari 2026</p>
+            </div>
+            <div class="pr-4 flex flex-col items-end gap-2">
+                <button onclick="goPage('seller-tambah-promo.html')" class="btn-gold text-xs px-4 py-2">Edit Promo</button>
+                <button class="text-gray-400 text-sm hover:text-gray-600"><i class="ri-arrow-down-s-line"></i></button>
+            </div>
+        </div>
+        <div class="promo-card shadow-soft">
+            <div class="promo-img-wrap h-28">
+                <img src="assets/images/rawon.png" onerror="this.src='https://placehold.co/180x112/f3f3f3/BFA370?text=Promo'" class="w-full h-full object-cover">
+                <div class="promo-badge-circle">BELI 2<br>GRATIS 1</div>
+            </div>
+            <div class="flex-1 px-5 py-4">
+                <p class="font-bold text-gray-800">Beli 2 Gratis Esteh</p>
+                <p class="text-sm text-gray-500">Beli 2 menu apa saja dan dapatkan gratis esteh</p>
+                <p class="text-xs text-[#BFA370] mt-2">Promo terpakai 321x sejak 1 Januari 2026</p>
+                <p class="text-xs text-gray-400">Berakhir 5 Januari 2026</p>
+            </div>
+            <div class="pr-4 flex flex-col items-end gap-2">
+                <button onclick="goPage('seller-tambah-promo.html')" class="btn-gold text-xs px-4 py-2" style="background:#C9B48A;">Edit Promo</button>
+                <button class="text-gray-400 text-sm hover:text-gray-600"><i class="ri-arrow-down-s-line"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Promo Event Panel -->
+    <div id="panel-event" class="space-y-5">
+        <!-- Sub tabs -->
+        <div class="flex gap-6 border-b border-gray-200 pb-0">
+            <button class="sub-tab active" onclick="switchEventTab('tersedia',this)">Event Tersedia</button>
+            <span class="text-gray-300 self-end pb-1">|</span>
+            <button class="sub-tab" onclick="switchEventTab('diikuti',this)">Event yang diikuti</button>
+        </div>
+
+        <!-- Event Spesial Banner -->
+        <div id="event-tersedia">
+            <h3 class="font-semibold text-gray-700 mb-3">Event Spesial</h3>
+            <div class="rounded-2xl overflow-hidden relative h-32 mb-6 shadow-soft">
+                <div class="absolute inset-0 bg-gradient-to-r from-yellow-800/60 to-yellow-600/40"></div>
+                <img src="assets/images/flashsale-bg.png" onerror="this.src='https://placehold.co/800x128/C9A227/fff?text=Ramadhan+Sale'" class="w-full h-full object-cover">
+                <div class="absolute inset-0 flex items-center justify-between px-8">
+                    <div class="text-white">
+                        <p class="font-extrabold text-xl"><span class="font-light">Event Promo</span> Ramadhan Sale</p>
+                        <div class="flex items-center gap-2 mt-1 text-sm opacity-90">
+                            <i class="ri-calendar-line"></i> 1 Mar – 30 Mar 2026
+                        </div>
+                    </div>
+                    <button class="btn-gold px-6 py-2.5">Gabung Event</button>
+                </div>
+            </div>
+
+            <h3 class="font-semibold text-gray-700 mb-3">Event Tersedia</h3>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="event-card shadow-soft">
+                    <div class="relative h-40">
+                        <img src="assets/images/flashsale-bg.png" onerror="this.src='https://placehold.co/300x160/1a3a1a/FFD700?text=Ramadhan+2026'" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                    </div>
+                    <div class="p-3">
+                        <p class="font-bold text-gray-800 text-sm">Ramadhan Sale 2026</p>
+                        <p class="text-xs text-[#BFA370]">Diskon besar besaran selama bulan Ramadhan</p>
+                        <div class="flex items-center gap-3 mt-2 text-[10px] text-gray-500">
+                            <span><i class="ri-calendar-line"></i> 1 Mar – 30 Mar 2026</span>
+                            <span><i class="ri-user-line"></i> 210K+ toko bergabung</span>
+                        </div>
+                        <button class="mt-3 w-full py-2 rounded-xl font-bold text-xs text-white" style="background:#22C55E;">Gabung Event</button>
+                    </div>
+                </div>
+                <div class="event-card shadow-soft">
+                    <div class="relative h-40">
+                        <img src="assets/images/promo-1.png" onerror="this.src='https://placehold.co/300x160/1a3060/FFD700?text=Mega+Sale'" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                    </div>
+                    <div class="p-3">
+                        <p class="font-bold text-gray-800 text-sm">Ramadhan Sale 2026</p>
+                        <p class="text-xs text-[#BFA370]">Diskon besar besaran selama bulan Ramadhan</p>
+                        <div class="flex items-center gap-3 mt-2 text-[10px] text-gray-500">
+                            <span><i class="ri-calendar-line"></i> 1 Mar – 30 Mar 2026</span>
+                            <span><i class="ri-user-line"></i> 210K+ toko bergabung</span>
+                        </div>
+                        <button class="mt-3 w-full py-2 rounded-xl font-bold text-xs text-white" style="background:#22C55E;">Gabung Event</button>
+                    </div>
+                </div>
+                <div class="event-card shadow-soft">
+                    <div class="relative h-40">
+                        <img src="assets/images/promo-2.png" onerror="this.src='https://placehold.co/300x160/4a1a00/FFD700?text=Food+Fest'" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                    </div>
+                    <div class="p-3">
+                        <p class="font-bold text-gray-800 text-sm">Ramadhan Sale 2026</p>
+                        <p class="text-xs text-[#BFA370]">Diskon besar besaran selama bulan Ramadhan</p>
+                        <div class="flex items-center gap-3 mt-2 text-[10px] text-gray-500">
+                            <span><i class="ri-calendar-line"></i> 1 Mar – 30 Mar 2026</span>
+                            <span><i class="ri-user-line"></i> 210K+ toko bergabung</span>
+                        </div>
+                        <button class="mt-3 w-full py-2 rounded-xl font-bold text-xs text-white" style="background:#22C55E;">Gabung Event</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event yang diikuti -->
+        <div id="event-diikuti" class="hidden">
+            <div class="text-center py-16 text-gray-300">
+                <i class="ri-store-line text-6xl mb-3 block"></i>
+                <p class="font-medium">Belum mengikuti event apapun</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kosong Panel (Flash Sale dll) -->
+    <div id="panel-empty" class="hidden text-center py-16 text-gray-300">
+        <i class="ri-price-tag-3-line text-6xl mb-3 block"></i>
+        <p class="font-medium">Tidak ada data tersedia</p>
+    </div>
+
+</main>
+</div>
+
+<script src="../js/seller-shared.js"></script>
+<script>
+function switchPromoFilter(f, btn) {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-promo').classList.add('hidden');
+    document.getElementById('panel-event').classList.add('hidden');
+    document.getElementById('panel-empty').classList.add('hidden');
+    if (f === 'event') {
+        document.getElementById('panel-event').classList.remove('hidden');
+    } else if (f === 'promo' || f === 'semua' || f === 'aktif' || f === 'habis') {
+        document.getElementById('panel-promo').classList.remove('hidden');
+    } else {
+        document.getElementById('panel-empty').classList.remove('hidden');
+    }
+}
+
+function switchEventTab(tab, btn) {
+    document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('event-tersedia').classList.toggle('hidden', tab !== 'tersedia');
+    document.getElementById('event-diikuti').classList.toggle('hidden', tab !== 'diikuti');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Default: Event panel
+    document.getElementById('panel-event').classList.remove('hidden');
+});
+</script>
+</body>
+</html>

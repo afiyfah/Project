@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NyamNow Seller — Tambah Promo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="seller-shared.css">
+    <style>
+        .upload-box { width: 110px; height: 100px; border: 2px dashed #DDD; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: #FAF8F5; transition: border-color 0.2s; }
+        .upload-box:hover { border-color: #BFA370; }
+        .s-checkbox { width: 14px; height: 14px; accent-color: #BFA370; cursor: pointer; }
+        .detail-col { background: white; border-radius: 14px; border: 1px solid #EEE; padding: 20px; }
+        .detail-label { font-size: 11px; font-weight: 700; color: #BFA370; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+    </style>
+</head>
+<body>
+
+<div id="seller-header-container"></div>
+<div class="seller-shell">
+<div id="seller-sidebar-container"></div>
+<main id="seller-main">
+
+    <h1 class="page-title mb-6">Tambah Promo</h1>
+
+    <div class="flex gap-8 items-start">
+        <!-- Left: Edit Promo -->
+        <div class="flex-1">
+            <p class="font-semibold text-gray-700 mb-3">Edit Promo</p>
+            <div class="card shadow-soft p-6 space-y-4">
+                <!-- Upload + Judul + Jenis -->
+                <div class="flex gap-5">
+                    <div>
+                        <div class="upload-box" onclick="document.getElementById('promo-foto').click()">
+                            <i class="ri-image-add-line text-2xl text-gray-300 mb-1"></i>
+                            <span class="text-xs text-gray-400">Unggah Foto</span>
+                            <input type="file" id="promo-foto" accept="image/*" class="hidden">
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-3">
+                        <div>
+                            <label class="text-xs font-medium text-gray-600 block mb-1">Judul Promo</label>
+                            <input class="s-input" placeholder="Beli 2 Menu apapun GRATIS Es Teh!" value="Beli 2 Menu apapun GRATIS Es Teh!">
+                        </div>
+                        <div>
+                            <label class="text-xs font-medium text-gray-600 block mb-1">Jenis Promo</label>
+                            <select class="s-select w-full">
+                                <option>Beli X dan dapatkan Y secara GRATIS!</option>
+                                <option>Diskon %</option>
+                                <option>Potongan Harga</option>
+                                <option>Gratis Ongkir</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Informasi Event -->
+                <div>
+                    <p class="text-xs font-semibold text-[#BFA370] uppercase tracking-wide mb-3">Informasi Event &amp; Produksi</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="flex items-center gap-2">
+                            <label class="text-sm text-gray-600 w-24 flex-shrink-0">Jika membeli</label>
+                            <select class="s-select flex-1 text-sm">
+                                <option>Semua Menu</option>
+                                <option>Menu Pilihan</option>
+                            </select>
+                            <label class="text-sm text-gray-600 flex-shrink-0">Sebanyak</label>
+                            <input class="s-input w-12 text-center" type="number" value="2">
+                            <span class="text-sm text-gray-500">Porsi</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <label class="text-sm text-gray-600 w-24 flex-shrink-0">Mendapatkan</label>
+                            <select class="s-select flex-1 text-sm">
+                                <option>Es Teh</option>
+                                <option>Es Jeruk</option>
+                                <option>Minuman Lainnya</option>
+                            </select>
+                            <label class="text-sm text-gray-600 flex-shrink-0">Sebanyak</label>
+                            <input class="s-input w-12 text-center" type="number" value="1">
+                            <span class="text-sm text-gray-500">Porsi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pilihan Jenis + Rasa -->
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <p class="text-xs font-semibold text-gray-500 uppercase mb-2">Pilihan Jenis</p>
+                        <div class="flex flex-wrap gap-3">
+                            <label class="flex items-center gap-1.5 text-sm cursor-pointer"><input type="checkbox" class="s-checkbox"> Panas</label>
+                            <label class="flex items-center gap-1.5 text-sm cursor-pointer"><input type="checkbox" class="s-checkbox" checked> Biasa</label>
+                            <label class="flex items-center gap-1.5 text-sm cursor-pointer"><input type="checkbox" class="s-checkbox" checked> Dingin</label>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-gray-500 uppercase mb-2">Rasa</p>
+                        <div class="flex flex-wrap gap-3">
+                            <label class="flex items-center gap-1.5 text-sm cursor-pointer"><input type="checkbox" class="s-checkbox" checked> Manis</label>
+                            <label class="flex items-center gap-1.5 text-sm cursor-pointer"><input type="checkbox" class="s-checkbox" checked> Normal</label>
+                            <label class="flex items-center gap-1.5 text-sm cursor-pointer"><input type="checkbox" class="s-checkbox" checked> Less Sugar</label>
+                            <label class="flex items-center gap-1.5 text-sm cursor-pointer"><input type="checkbox" class="s-checkbox" checked> No Sugar</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div class="flex items-center gap-3">
+                    <span class="text-sm text-gray-600 font-medium">Status Promo :</span>
+                    <select class="s-select text-sm"><option>Aktif</option><option>Nonaktif</option></select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Detail Promo -->
+        <div class="w-64 flex-shrink-0 space-y-4">
+            <p class="font-semibold text-gray-700">Detail Promo</p>
+
+            <!-- Durasi Promo -->
+            <div class="detail-col">
+                <p class="detail-label">Durasi Promo</p>
+                <div class="flex items-center gap-2 mb-3">
+                    <i class="ri-calendar-line text-gray-400"></i>
+                    <input class="s-input text-xs text-center w-20" value="22 Mar">
+                    <span class="text-gray-400">–</span>
+                    <input class="s-input text-xs text-center w-20" value="30 Mar">
+                    <input class="s-input text-xs text-center w-16" value="2026">
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="ri-time-line text-gray-400"></i>
+                    <input class="s-input text-xs text-center w-16" value="12 : 00">
+                    <span class="text-gray-400">–</span>
+                    <input class="s-input text-xs text-center w-16" value="16 : 30">
+                    <select class="s-select text-xs w-16"><option>WIB</option><option>WITA</option><option>WIT</option></select>
+                </div>
+            </div>
+
+            <!-- Batasan Pengguna -->
+            <div class="detail-col">
+                <p class="detail-label">Batasan Pengguna</p>
+                <div class="flex items-center gap-2 mb-2">
+                    <i class="ri-user-line text-gray-400"></i>
+                    <span class="text-xs text-gray-600">Limit per Customer per Hari :</span>
+                    <input class="s-input w-12 text-center text-xs" type="number" value="1">
+                </div>
+                <p class="text-[10px] text-gray-400 leading-relaxed">isi dengan porsi (Contoh: "1" untuk 1 porsi per hari untuk 1 customer)</p>
+            </div>
+
+            <!-- Slot Promo -->
+            <div class="detail-col">
+                <p class="detail-label">Slot Promo</p>
+                <div class="flex items-center gap-2 mb-2">
+                    <i class="ri-box-3-line text-gray-400"></i>
+                    <span class="text-xs text-gray-600">Tersedia</span>
+                    <input class="s-input w-14 text-center text-xs" type="number" value="20">
+                    <span class="text-xs text-gray-600">Stok</span>
+                </div>
+                <p class="text-[10px] text-gray-400 leading-relaxed">Jumlah stok yang Anda masukkan adalah kuota maksimum produk yang tersedia khusus untuk program promo ini selama periode aktif yang telah ditentukan.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Buttons -->
+    <div class="flex justify-end gap-3 mt-6">
+        <button onclick="goPage('seller-penawaran.html')" class="btn-outline px-8">Batal</button>
+        <button class="btn-gold px-10">Simpan Promo</button>
+    </div>
+
+</main>
+</div>
+
+<script src="seller-shared.js"></script>
+</body>
+</html>

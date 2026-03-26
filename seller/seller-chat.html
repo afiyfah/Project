@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NyamNow Seller — Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../assets/css/seller-shared.css">
+    <style>
+        .chat-shell { display: flex; flex: 1; height: calc(100vh - 52px); overflow: hidden; }
+        .chat-list-col { width: 280px; flex-shrink: 0; background: white; border-right: 1px solid #F0EDE8; display: flex; flex-direction: column; }
+        .chat-main-col { flex: 1; display: flex; flex-direction: column; background: #FAFAFA; }
+        .chat-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; border-bottom: 1px solid #F5F5F5; transition: background 0.15s; }
+        .chat-item:hover, .chat-item.active { background: #F9F6F1; }
+        .bubble-left  { background: white; border-radius: 0 14px 14px 14px; padding: 12px 16px; max-width: 60%; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .bubble-right { background: #E8E0D0; border-radius: 14px 0 14px 14px; padding: 12px 16px; max-width: 60%; margin-left: auto; }
+    </style>
+</head>
+<body>
+
+<div id="seller-header-container"></div>
+
+<div class="flex" style="height:calc(100vh - 52px);">
+    <!-- Sidebar -->
+    <div id="seller-sidebar-container"></div>
+
+    <!-- Chat Layout -->
+    <div class="flex flex-1 overflow-hidden">
+        <!-- Contact List -->
+        <div class="chat-list-col">
+            <!-- Search + Filter -->
+            <div class="p-3 border-b border-gray-100 flex gap-2">
+                <div class="relative flex-1">
+                    <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    <input class="s-input pl-8 text-sm" placeholder="Cari nama">
+                </div>
+                <select class="s-select text-xs w-24">
+                    <option>Semua</option>
+                    <option>Belum Baca</option>
+                    <option>Sudah Baca</option>
+                </select>
+            </div>
+
+            <!-- Contact Items -->
+            <div class="overflow-y-auto flex-1">
+                <div id="contact-list"></div>
+            </div>
+        </div>
+
+        <!-- Chat Window -->
+        <div class="chat-main-col">
+            <!-- Header -->
+            <div class="px-6 py-3 border-b border-gray-200 bg-white flex items-center gap-3">
+                <img id="chat-avatar" src="https://placehold.co/36x36/BFA370/fff?text=W" class="w-9 h-9 rounded-full object-cover">
+                <div>
+                    <p id="chat-name" class="font-semibold text-gray-800 text-sm">Watanabe Haruto</p>
+                    <p class="text-xs text-gray-400">Pembeli</p>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <div class="flex-1 overflow-y-auto px-6 py-5 space-y-4" id="chat-messages">
+                <div class="text-center"><span class="text-xs text-gray-400 bg-gray-100 px-3 py-1 rounded-full">Kemarin</span></div>
+                <div class="bubble-left">
+                    <p class="text-sm text-gray-800">Untuk pesanan ayam goreng paha atas, Ayam sama nasinya bisa di pisah nggk ya?</p>
+                    <p class="text-[10px] text-gray-400 mt-1 text-right">12.24</p>
+                </div>
+                <div class="flex justify-end">
+                    <div class="bubble-right">
+                        <p class="text-sm text-gray-700">Bisa kak</p>
+                        <p class="text-[10px] text-gray-500 mt-1 text-right">12.24</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input -->
+            <div class="px-6 py-3 bg-white border-t border-gray-200 flex items-center gap-3">
+                <input id="chat-input" class="s-input flex-1 text-sm" placeholder="Tulis pesan..." onkeydown="if(event.key==='Enter')sendMsg()">
+                <button onclick="sendMsg()" class="w-10 h-10 rounded-xl flex items-center justify-center text-white" style="background:linear-gradient(90deg,#BFA370,#8E754A);">
+                    <i class="ri-send-plane-2-fill text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../js/seller-shared.js"></script>
+<script>
+const contacts = Array(10).fill(0).map((_, i) => ({
+    nama: 'Watanabe Haruto',
+    preview: 'Bisa kak',
+    waktu: 'Kemarin',
+    avatar: 'https://placehold.co/36x36/BFA370/fff?text=W',
+    aktif: i === 0,
+}));
+
+function renderContacts() {
+    const el = document.getElementById('contact-list');
+    el.innerHTML = contacts.map((c, i) => `
+        <div class="chat-item ${c.aktif ? 'active' : ''}" onclick="selectContact(${i})">
+            <img src="${c.avatar}" class="w-9 h-9 rounded-full object-cover flex-shrink-0 mr-3">
+            <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between">
+                    <p class="font-semibold text-gray-800 text-sm">${c.nama}</p>
+                    <span class="text-[10px] text-gray-400">${c.waktu}</span>
+                </div>
+                <p class="text-xs text-gray-500 truncate">${c.preview}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+function selectContact(i) {
+    contacts.forEach((c, j) => c.aktif = j === i);
+    renderContacts();
+    document.getElementById('chat-name').textContent = contacts[i].nama;
+    document.getElementById('chat-avatar').src = contacts[i].avatar;
+}
+
+function sendMsg() {
+    const input = document.getElementById('chat-input');
+    const msg = input.value.trim();
+    if (!msg) return;
+    const now = new Date();
+    const time = now.getHours().toString().padStart(2,'0') + '.' + now.getMinutes().toString().padStart(2,'0');
+    const el = document.getElementById('chat-messages');
+    el.insertAdjacentHTML('beforeend', `
+        <div class="flex justify-end">
+            <div class="bubble-right">
+                <p class="text-sm text-gray-700">${msg}</p>
+                <p class="text-[10px] text-gray-500 mt-1 text-right">${time}</p>
+            </div>
+        </div>
+    `);
+    input.value = '';
+    el.scrollTop = el.scrollHeight;
+}
+
+document.addEventListener('DOMContentLoaded', renderContacts);
+</script>
+</body>
+</html>

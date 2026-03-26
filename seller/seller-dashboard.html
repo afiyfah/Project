@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NyamNow Seller — Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/seller-shared.css">
+</head>
+<body>
+
+<div id="seller-header-container"></div>
+
+<div class="seller-shell">
+    <div id="seller-sidebar-container"></div>
+
+    <main id="seller-main">
+        <!-- Title + filter -->
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="page-title">Dashboard</h1>
+            <div class="relative">
+                <select class="s-select pr-8 text-sm font-medium" id="dash-period" onchange="updatePeriod(this.value)">
+                    <option value="mingguan">Mingguan</option>
+                    <option value="bulanan">Bulanan</option>
+                    <option value="tahunan">Tahunan</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="flex gap-6">
+            <!-- Left Column -->
+            <div class="flex-1 space-y-5">
+                <!-- Stat Cards -->
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="card shadow-soft p-4 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center flex-shrink-0">
+                            <i class="ri-wifi-line text-orange-400 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400">Pendapatan Online</p>
+                            <p class="font-bold text-gray-800">Rp. 1.270.000</p>
+                            <p class="text-xs text-green-500 font-medium">▲ 15%</p>
+                        </div>
+                    </div>
+                    <div class="card shadow-soft p-4 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-pink-50 flex items-center justify-center flex-shrink-0">
+                            <i class="ri-store-line text-pink-400 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400">Pendapatan Offline</p>
+                            <p class="font-bold text-gray-800">Rp. 1.200.000</p>
+                            <p class="text-xs text-red-500 font-medium">▼ 5%</p>
+                        </div>
+                    </div>
+                    <div class="card shadow-soft p-4 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-yellow-50 flex items-center justify-center flex-shrink-0">
+                            <i class="ri-money-dollar-circle-line text-yellow-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400">Total Pendapatan</p>
+                            <p class="font-bold text-gray-800">Rp. 2.470.000</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart -->
+                <div class="card shadow-soft p-5">
+                    <div class="flex items-center justify-between mb-4">
+                        <p class="font-semibold text-gray-700">Total Pendapatan</p>
+                        <p class="text-xs text-gray-400" id="chart-range">1 Januari – 7 Januari</p>
+                    </div>
+                    <canvas id="revenueChart" height="180"></canvas>
+                    <div class="flex gap-5 mt-4 justify-center">
+                        <div class="flex items-center gap-2 text-xs text-gray-500"><span class="w-3 h-3 rounded-full bg-blue-400 inline-block"></span> Penjualan Online</div>
+                        <div class="flex items-center gap-2 text-xs text-gray-500"><span class="w-3 h-3 rounded-full bg-orange-400 inline-block"></span> Penjualan Offline</div>
+                    </div>
+                </div>
+
+                <!-- Bottom 3 cards -->
+                <div class="grid grid-cols-3 gap-4">
+                    <!-- Total Pesanan -->
+                    <div class="card shadow-soft p-4">
+                        <p class="font-semibold text-gray-700 text-sm mb-3">Total Pesanan Minggu Ini</p>
+                        <div class="flex gap-3 mb-3">
+                            <div class="flex-1 bg-green-500 rounded-xl py-3 text-center text-white">
+                                <p class="text-2xl font-extrabold">90</p>
+                                <p class="text-xs">Diterima</p>
+                            </div>
+                            <div class="flex-1 bg-red-400 rounded-xl py-3 text-center text-white">
+                                <p class="text-2xl font-extrabold">4</p>
+                                <p class="text-xs">Ditolak</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 text-center">Total 94 pesanan</p>
+                    </div>
+                    <!-- Informasi Menu -->
+                    <div class="card shadow-soft p-4">
+                        <p class="font-semibold text-gray-700 text-sm mb-3">Informasi Menu</p>
+                        <div class="relative h-28 mb-2">
+                            <canvas id="menuChart"></canvas>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-1.5 text-xs"><span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span> Ayam aseli</div>
+                            <div class="flex items-center gap-1.5 text-xs"><span class="w-2 h-2 rounded-full bg-orange-400 inline-block"></span> Ayam palsu</div>
+                        </div>
+                    </div>
+                    <!-- Rating Toko -->
+                    <div class="card shadow-soft p-4">
+                        <p class="font-semibold text-gray-700 text-sm mb-3">Rating Toko</p>
+                        <div class="flex items-center gap-2 mb-2">
+                            <p class="text-4xl font-extrabold text-gray-800">5</p>
+                            <div>
+                                <div class="flex text-yellow-400">
+                                    <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>
+                                </div>
+                                <p class="text-xs text-gray-400">dari 101 ulasan</p>
+                            </div>
+                        </div>
+                        <a href="#" class="text-xs text-[#BFA370] hover:underline">Lihat selengkapnya &rsaquo;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="w-48 flex-shrink-0 space-y-4">
+                <!-- Favorit -->
+                <div class="card shadow-soft p-4">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i class="ri-heart-fill text-red-400"></i>
+                        <p class="font-semibold text-gray-700 text-sm">Favorit</p>
+                    </div>
+                    <div class="space-y-2 text-xs text-gray-600">
+                        <div class="flex items-center gap-2"><i class="ri-store-line text-[#BFA370]"></i><span>Toko Difavoritkan<br><strong>420 Pengguna</strong></span></div>
+                        <div class="flex items-center gap-2"><i class="ri-restaurant-line text-[#BFA370]"></i><span>Menu Difavoritkan<br><strong>785 Pengguna</strong></span></div>
+                    </div>
+                </div>
+
+                <!-- Menu Teratas -->
+                <div class="card shadow-soft p-4">
+                    <p class="font-semibold text-gray-700 text-sm mb-3">Menu Teratas</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-2">
+                            <div class="relative flex-shrink-0">
+                                <img src="assets/images/makanan2.png" onerror="this.src='https://placehold.co/44x44/f3f3f3/BFA370?text=🍗'" class="w-11 h-11 rounded-lg object-cover">
+                                <span class="absolute -top-1 -left-1 bg-[#BFA370] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">BEST</span>
+                            </div>
+                            <div><p class="text-xs font-semibold text-gray-800">Gulai Bakpao</p><p class="text-[10px] text-gray-400">1RB+ terjual</p></div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <img src="assets/images/rawon.png" onerror="this.src='https://placehold.co/44x44/f3f3f3/BFA370?text=🍜'" class="w-11 h-11 rounded-lg object-cover flex-shrink-0">
+                            <div><p class="text-xs font-semibold text-gray-800">Bakpao Kurut</p><p class="text-[10px] text-gray-400">785 terjual</p></div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <img src="assets/images/daging.png" onerror="this.src='https://placehold.co/44x44/f3f3f3/BFA370?text=🥘'" class="w-11 h-11 rounded-lg object-cover flex-shrink-0">
+                            <div><p class="text-xs font-semibold text-gray-800">Bakpao Alpukat</p><p class="text-[10px] text-gray-400">1GRB+ terjual</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="../js/seller-shared.js"></script>
+<script>
+const days = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
+const onlineData  = [150,100,170,80,200,130,160];
+const offlineData = [120,90,140,70,160,110,130];
+
+let revenueChart;
+document.addEventListener('DOMContentLoaded', () => {
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    revenueChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: days,
+            datasets: [
+                { label: 'Penjualan Online',  data: onlineData,  backgroundColor: '#60A5FA', borderRadius: 6, barPercentage: 0.4 },
+                { label: 'Penjualan Offline', data: offlineData, backgroundColor: '#FB923C', borderRadius: 6, barPercentage: 0.4 },
+            ]
+        },
+        options: { plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { beginAtZero: true, grid: { color: '#F0EDE8' } } }, responsive: true }
+    });
+
+    // Menu donut
+    const ctx2 = document.getElementById('menuChart').getContext('2d');
+    new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['Ayam aseli','Ayam palsu'],
+            datasets: [{ data: [60,40], backgroundColor: ['#22C55E','#FB923C'], borderWidth: 0 }]
+        },
+        options: { plugins: { legend: { display: false } }, cutout: '65%', responsive: true, maintainAspectRatio: false }
+    });
+});
+
+function updatePeriod(val) {
+    const ranges = { mingguan: '1 Januari – 7 Januari', bulanan: 'Januari 2026', tahunan: 'Tahun 2026' };
+    document.getElementById('chart-range').textContent = ranges[val] || '';
+}
+</script>
+</body>
+</html>

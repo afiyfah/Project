@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NyamNow Seller — Tambah Menu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../assets/css/seller-shared.css">
+    <style>
+        .upload-box { width: 120px; height: 110px; border: 2px dashed #DDD; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; background: #FAF8F5; transition: border-color 0.2s; }
+        .upload-box:hover { border-color: #BFA370; }
+        .s-checkbox { width: 15px; height: 15px; accent-color: #BFA370; cursor: pointer; }
+        .preview-card { background: white; border-radius: 16px; overflow: hidden; border: 1px solid #EEE; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    </style>
+</head>
+<body>
+
+<div id="seller-header-container"></div>
+<div class="seller-shell">
+<div id="seller-sidebar-container"></div>
+<main id="seller-main">
+
+    <h1 class="page-title mb-6">Tambah Menu</h1>
+
+    <div class="flex gap-8 items-start">
+        <!-- Left: Form -->
+        <div class="flex-1">
+            <div class="card shadow-soft p-6 space-y-5">
+                <!-- Upload + Name + Desc -->
+                <div class="flex gap-5">
+                    <div>
+                        <div class="upload-box" onclick="document.getElementById('foto-input').click()">
+                            <i class="ri-image-add-line text-2xl text-gray-300 mb-1"></i>
+                            <span class="text-xs text-gray-400">Unggah Foto</span>
+                            <input type="file" id="foto-input" accept="image/*" class="hidden" onchange="previewFoto(this)">
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-3">
+                        <div>
+                            <label class="text-xs font-medium text-gray-600 block mb-1">Nama Produk</label>
+                            <input class="s-input" id="nama-produk" placeholder="Ayam Bakar Pedas" oninput="updatePreview()">
+                        </div>
+                        <div>
+                            <label class="text-xs font-medium text-gray-600 block mb-1">Deskripsi Produk</label>
+                            <textarea class="s-input resize-none" id="deskripsi" rows="3" placeholder="Deskripsi menu..." oninput="updatePreview()"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kategori -->
+                <div>
+                    <label class="text-xs font-medium text-gray-600 block mb-1">Kategori</label>
+                    <select class="s-select w-full" id="kategori" onchange="updatePreview()">
+                        <option>Daging Ayam</option>
+                        <option>Seafood</option>
+                        <option>Vegetarian</option>
+                        <option>Minuman</option>
+                    </select>
+                </div>
+
+                <!-- Harga & Produksi -->
+                <div>
+                    <p class="text-xs font-semibold text-[#BFA370] uppercase tracking-wide mb-3">Informasi harga &amp; Produksi</p>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="text-xs font-medium text-gray-600 block mb-1">Harga</label>
+                            <input class="s-input" id="harga" placeholder="Rp 20.000" oninput="updatePreview()">
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-1">
+                                <label class="text-xs font-medium text-gray-600 block mb-1">Estimasi Waktu Masak</label>
+                                <div class="flex gap-2">
+                                    <select class="s-select" id="waktu-val" onchange="updatePreview()">
+                                        <option>10</option><option>15</option><option>20</option><option>30</option>
+                                    </select>
+                                    <select class="s-select" id="waktu-unit"><option>Menit</option><option>Jam</option></select>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="text-xs font-medium text-gray-600 block mb-1">Stok Default</label>
+                                <div class="flex gap-2 items-center">
+                                    <input class="s-input w-20" id="stok" type="number" placeholder="20" oninput="updatePreview()">
+                                    <span class="text-sm text-gray-500">Porsi</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rasa + Kandungan -->
+                <div class="flex gap-8">
+                    <div>
+                        <p class="text-xs font-semibold text-gray-500 uppercase mb-2">Rasa</p>
+                        <div class="space-y-1.5">
+                            <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer"><input type="checkbox" class="s-checkbox" checked> Pedas</label>
+                            <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer"><input type="checkbox" class="s-checkbox"> Gurih</label>
+                            <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer"><input type="checkbox" class="s-checkbox"> Manis</label>
+                            <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer"><input type="checkbox" class="s-checkbox"> Asam</label>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-gray-500 uppercase mb-2">Kandungan</p>
+                        <div class="space-y-1.5">
+                            <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer"><input type="checkbox" class="s-checkbox" checked> Ayam</label>
+                            <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer"><input type="checkbox" class="s-checkbox"> Telur</label>
+                            <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer"><input type="checkbox" class="s-checkbox"> Seafood</label>
+                            <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer"><input type="checkbox" class="s-checkbox" checked> Susu</label>
+                            <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer"><input type="checkbox" class="s-checkbox"> Kacang</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div class="flex items-center gap-3">
+                    <span class="text-sm text-gray-600 font-medium">Status Menu :</span>
+                    <select class="s-select text-sm"><option>Aktif</option><option>Nonaktif</option></select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Preview -->
+        <div class="w-60 flex-shrink-0">
+            <p class="text-sm font-semibold text-gray-600 mb-3">Preview</p>
+            <div class="preview-card">
+                <img id="preview-img" src="https://placehold.co/240x150/f3f3f3/BFA370?text=Foto+Menu" class="w-full h-36 object-cover">
+                <div class="p-4">
+                    <p id="preview-nama" class="font-bold text-gray-800">Nindi Bakar Pedas</p>
+                    <p id="preview-harga" class="text-green-600 font-bold text-base">Rp 20.000</p>
+                    <div class="flex items-center justify-between mt-2">
+                        <div class="flex items-center gap-2">
+                            <button class="w-6 h-6 border border-gray-200 rounded flex items-center justify-center text-xs">−</button>
+                            <span id="preview-stok" class="font-bold text-sm">20</span>
+                            <button class="w-6 h-6 border border-gray-200 rounded flex items-center justify-center text-xs">+</button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-green-500 mt-2">✔ 2GRB+ terjual · <span id="preview-waktu">20</span>min</p>
+                    <p id="preview-desc" class="text-xs text-gray-400 mt-1 leading-snug line-clamp-3">Deskripsi produk...</p>
+                    <button class="mt-3 w-full py-2 rounded-xl text-xs font-semibold text-white flex items-center justify-center gap-1" style="background:linear-gradient(90deg,#BFA370,#8E754A);">
+                        <i class="ri-magic-line"></i> Generate Deskripsi dengan Ai
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Buttons -->
+    <div class="flex justify-end gap-3 mt-6">
+        <button onclick="goPage('seller-menu.html')" class="btn-outline px-8">Batal</button>
+        <button class="btn-gold px-10">Simpan Menu</button>
+    </div>
+
+</main>
+</div>
+
+<script src="../js/seller-shared.js"></script>
+<script>
+function previewFoto(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => { document.getElementById('preview-img').src = e.target.result; };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function updatePreview() {
+    const nama  = document.getElementById('nama-produk').value || 'Nama Menu';
+    const harga = document.getElementById('harga').value || 'Rp 0';
+    const desc  = document.getElementById('deskripsi').value || 'Deskripsi produk...';
+    const stok  = document.getElementById('stok').value || '0';
+    const waktu = document.getElementById('waktu-val').value || '20';
+    document.getElementById('preview-nama').textContent  = nama;
+    document.getElementById('preview-harga').textContent = harga;
+    document.getElementById('preview-desc').textContent  = desc;
+    document.getElementById('preview-stok').textContent  = stok;
+    document.getElementById('preview-waktu').textContent = waktu;
+}
+</script>
+</body>
+</html>

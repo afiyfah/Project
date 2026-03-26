@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NyamNow Seller — Pesanan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../assets/css/seller-shared.css">
+    <style>
+        /* Pesanan Cepat (Kanban) */
+        .kanban-col { background: white; border-radius: 14px; border: 1.5px solid #EEE; padding: 14px; flex: 1; min-width: 0; }
+        .kanban-col.menunggu { border-color: #FCD34D; background: #FFFBEB; }
+        .kanban-col.proses   { border-color: #93C5FD; background: #EFF6FF; }
+        .kanban-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+        .kanban-badge { width: 28px; height: 28px; border-radius: 8px; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+        .kanban-badge.menunggu { background: #FCD34D; color: #78350F; }
+        .kanban-badge.proses   { background: #60A5FA; color: white; }
+        .kanban-item { background: white; border-radius: 10px; border: 1px solid #EEE; padding: 10px 12px; margin-bottom: 8px; font-size: 12px; }
+        .kanban-item:last-child { margin-bottom: 0; }
+        .kanban-item-row { display: flex; justify-content: space-between; align-items: center; }
+        .waktu-badge { background: #EF4444; color: white; border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 700; }
+        .terima-badge  { background: #22C55E; color: white; border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 700; }
+        .tolak-badge   { background: #EF4444; color: white; border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 700; }
+    </style>
+</head>
+<body>
+
+<div id="seller-header-container"></div>
+<div class="seller-shell">
+<div id="seller-sidebar-container"></div>
+<main id="seller-main">
+
+    <h1 class="page-title mb-6">Pesanan</h1>
+
+    <div class="flex gap-6">
+        <!-- Kiri: Detail Pesanan -->
+        <div class="flex-1 space-y-4">
+
+            <!-- Menunggu Konfirmasi -->
+            <div>
+                <h2 class="font-semibold text-gray-700 mb-3">Menunggu Konfirmasi</h2>
+                <div class="order-card shadow-soft">
+                    <div class="order-card-header">
+                        <div class="flex items-center gap-2">
+                            <img src="https://placehold.co/28x28/BFA370/fff?text=J" class="w-7 h-7 rounded-full">
+                            <span class="font-semibold text-gray-800 text-sm">John Wayne</span>
+                        </div>
+                        <span class="order-timer" id="timer-p1">04:55</span>
+                        <a href="seller-detail-pesanan.html" class="text-[#BFA370] text-xs font-medium hover:underline">Detail Pesanan →</a>
+                    </div>
+                    <div class="px-4 py-3 space-y-3">
+                        <div class="grid items-center gap-2 text-sm" style="grid-template-columns:52px 1fr 70px 28px 70px;">
+                            <img src="assets/images/mie ayam.png" onerror="this.src='https://placehold.co/52x52/f3f3f3/BFA370?text=🍗'" class="w-13 h-13 rounded-xl object-cover">
+                            <div><p class="font-medium text-gray-800 text-sm">Ayam Paha Atas</p><span class="text-[11px] bg-orange-50 text-orange-400 border border-orange-100 px-2 py-0.5 rounded-full">Super Pedas</span></div>
+                            <p class="text-[#BFA370] font-medium text-center text-xs">Rp17.000</p>
+                            <p class="text-gray-500 text-center text-xs">x1</p>
+                            <p class="text-[#BFA370] font-semibold text-right text-xs">Rp17.000</p>
+                        </div>
+                        <div class="grid items-center gap-2 text-sm" style="grid-template-columns:52px 1fr 70px 28px 70px;">
+                            <img src="assets/images/makanan2.png" onerror="this.src='https://placehold.co/52x52/f3f3f3/BFA370?text=🍗'" class="w-13 h-13 rounded-xl object-cover">
+                            <div><p class="font-medium text-gray-800 text-sm">Ayam Paha Bandung</p><span class="text-[11px] bg-red-50 text-red-400 border border-red-100 px-2 py-0.5 rounded-full">Super Pedas Jeletot</span></div>
+                            <p class="text-[#BFA370] font-medium text-center text-xs">Rp18.000</p>
+                            <p class="text-gray-500 text-center text-xs">x3</p>
+                            <p class="text-[#BFA370] font-semibold text-right text-xs">Rp54.000</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-100">
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-1 text-xs text-gray-500 bg-white border border-gray-200 rounded-lg px-3 py-1.5">
+                                <i class="ri-shopping-bag-line text-[#BFA370]"></i> 4 item · Total <strong class="text-[#BFA370] ml-1">Rp71.000</strong>
+                            </div>
+                            <span class="text-xs text-gray-500">Ambil Ditempat</span>
+                            <span class="text-xs text-gray-400">Order ID: 987654</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="btn-red text-xs"><i class="ri-close-line"></i> Tolak</button>
+                            <button class="btn-green text-xs"><i class="ri-check-line"></i> Terima</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Catatan -->
+                <div class="card mt-2 px-4 py-3 flex items-start gap-2">
+                    <i class="ri-file-list-3-line text-[#BFA370] text-base flex-shrink-0 mt-0.5"></i>
+                    <div><p class="text-xs font-semibold text-gray-700">Keterangan Catatan Dari Pembeli</p><p class="text-xs text-gray-500">Pedas level 5, sambalnya di pisan ya</p></div>
+                </div>
+            </div>
+
+            <!-- Proses -->
+            <div>
+                <h2 class="font-semibold text-gray-700 mb-3">Proses</h2>
+                <div class="order-card shadow-soft">
+                    <div class="order-card-header">
+                        <div class="flex items-center gap-2">
+                            <img src="https://placehold.co/28x28/BFA370/fff?text=T" class="w-7 h-7 rounded-full">
+                            <span class="font-semibold text-gray-800 text-sm">Taylor Swift</span>
+                        </div>
+                        <span class="order-timer" id="timer-p2">12:20</span>
+                        <a href="seller-detail-pesanan.html" class="text-[#BFA370] text-xs font-medium hover:underline">Detail Pesanan →</a>
+                    </div>
+                    <div class="px-4 py-3 space-y-3">
+                        <div class="grid items-center gap-2 text-sm" style="grid-template-columns:52px 1fr 70px 28px 70px;">
+                            <img src="assets/images/mie ayam.png" onerror="this.src='https://placehold.co/52x52/f3f3f3/BFA370?text=🍗'" class="w-13 h-13 rounded-xl object-cover">
+                            <div><p class="font-medium text-gray-800 text-sm">Ayam Paha Atas</p><span class="text-[11px] bg-orange-50 text-orange-400 border border-orange-100 px-2 py-0.5 rounded-full">Super Pedas</span></div>
+                            <p class="text-[#BFA370] font-medium text-center text-xs">Rp17.000</p>
+                            <p class="text-gray-500 text-center text-xs">x1</p>
+                            <p class="text-[#BFA370] font-semibold text-right text-xs">Rp17.000</p>
+                        </div>
+                        <div class="grid items-center gap-2 text-sm" style="grid-template-columns:52px 1fr 70px 28px 70px;">
+                            <img src="assets/images/makanan2.png" onerror="this.src='https://placehold.co/52x52/f3f3f3/BFA370?text=🍗'" class="w-13 h-13 rounded-xl object-cover">
+                            <div><p class="font-medium text-gray-800 text-sm">Ayam Paha Bandung</p><span class="text-[11px] bg-red-50 text-red-400 border border-red-100 px-2 py-0.5 rounded-full">Super Pedas Jeletot</span></div>
+                            <p class="text-[#BFA370] font-medium text-center text-xs">Rp18.000</p>
+                            <p class="text-gray-500 text-center text-xs">x3</p>
+                            <p class="text-[#BFA370] font-semibold text-right text-xs">Rp54.000</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-100">
+                        <div class="flex items-center gap-2 text-xs text-gray-500 bg-white border border-gray-200 rounded-lg px-3 py-1.5">
+                            <i class="ri-shopping-bag-line text-[#BFA370]"></i> 4 item · Total <strong class="text-[#BFA370] ml-1">Rp71.000</strong>
+                        </div>
+                        <button class="btn-green text-xs"><i class="ri-check-line"></i> Selesai</button>
+                    </div>
+                </div>
+                <div class="card mt-2 px-4 py-3 flex items-start gap-2">
+                    <i class="ri-file-list-3-line text-[#BFA370] text-base flex-shrink-0 mt-0.5"></i>
+                    <div><p class="text-xs font-semibold text-gray-700">Keterangan Catatan Dari Pembeli</p><p class="text-xs text-gray-500">Nasi putihnya di ganti nasi uduk</p></div>
+                </div>
+            </div>
+
+            <!-- Pesanan Cepat (Kanban) -->
+            <div>
+                <h2 class="font-semibold text-gray-700 mb-3">Pesanan Cepat</h2>
+                <div class="flex gap-4">
+                    <!-- Menunggu Disetujui -->
+                    <div class="kanban-col menunggu">
+                        <div class="kanban-header">
+                            <div class="kanban-badge menunggu">2</div>
+                            <p class="font-semibold text-gray-700 text-sm">Menunggu Disetujui</p>
+                            <span class="ml-auto text-xs text-gray-400">22/03/2026</span>
+                        </div>
+                        <div class="flex gap-8 text-xs text-gray-500 font-medium mb-2 px-1">
+                            <span>Makan Ditempat</span><span>Pre- Order</span><span class="ml-auto">Reservasi</span>
+                        </div>
+                        <!-- Item 1 -->
+                        <div class="kanban-item">
+                            <div class="text-xs text-gray-600 mb-1">Nasgor goreng magel belang<span class="text-gray-400 ml-2">1x Rp 50.000</span></div>
+                            <div class="text-xs text-gray-600 mb-2">Ayam ayan spasial<span class="text-gray-400 ml-2">2x Rp 40.000</span></div>
+                            <div class="kanban-item-row">
+                                <div class="flex items-center gap-1">
+                                    <img src="https://placehold.co/18x18/BFA370/fff?text=P" class="w-4 h-4 rounded-full">
+                                    <span class="text-[11px] text-gray-500">Pak Cucik</span>
+                                    <span class="text-[10px] text-gray-400 ml-1">Order ID: 172634</span>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold text-gray-800 text-xs">Rp 90.000</div>
+                                    <div class="flex gap-1 mt-1">
+                                        <span class="terima-badge">Terima</span>
+                                        <span class="tolak-badge">Tolak</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 2 -->
+                        <div class="kanban-item">
+                            <div class="text-xs text-gray-600 mb-1">Nasgor goreng magel belang<span class="text-gray-400 ml-2">1x Rp 50.000</span></div>
+                            <div class="text-xs text-gray-600 mb-1">Ayam ayan spasial<span class="text-gray-400 ml-2">2x Rp 40.000</span></div>
+                            <div class="text-xs text-gray-600 mb-2">Bebek Julepotan<span class="text-gray-400 ml-2">1x Rp 33.000</span></div>
+                            <div class="kanban-item-row">
+                                <div class="flex items-center gap-1">
+                                    <img src="https://placehold.co/18x18/BFA370/fff?text=Z" class="w-4 h-4 rounded-full">
+                                    <span class="text-[11px] text-gray-500">Zammud Saprudin</span>
+                                    <span class="text-[10px] text-gray-400 ml-1">Order ID: 167283</span>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold text-gray-800 text-xs">Rp 123.000</div>
+                                    <div class="flex gap-1 mt-1">
+                                        <span class="terima-badge">Terima</span>
+                                        <span class="tolak-badge">Tolak</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sedang Diproses -->
+                    <div class="kanban-col proses">
+                        <div class="kanban-header">
+                            <div class="kanban-badge proses">3</div>
+                            <p class="font-semibold text-gray-700 text-sm">Sedang Diproses</p>
+                            <span class="ml-auto text-xs text-gray-400">22/03/2026</span>
+                        </div>
+                        <div class="flex gap-8 text-xs text-gray-500 font-medium mb-2 px-1">
+                            <span>Makan Ditempat</span><span>Pre- Order</span><span class="ml-auto">Reservasi</span>
+                        </div>
+                        <!-- Item 1 -->
+                        <div class="kanban-item">
+                            <div class="text-xs text-gray-600 mb-1">Nasgor goreng magel belang<span class="text-gray-400 ml-2">1x Rp 50.000</span></div>
+                            <div class="text-xs text-gray-600 mb-2">Ayam ayan spasial<span class="text-gray-400 ml-2">2x Rp 40.000</span></div>
+                            <div class="kanban-item-row">
+                                <div class="flex items-center gap-1">
+                                    <img src="https://placehold.co/18x18/BFA370/fff?text=P" class="w-4 h-4 rounded-full">
+                                    <span class="text-[11px] text-gray-500">Pak Cucik</span>
+                                    <span class="text-[10px] text-gray-400 ml-1">Order ID: 172634</span>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold text-gray-800 text-xs">Rp 90.000</div>
+                                    <div class="waktu-badge mt-1">15 : 00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Item 2 -->
+                        <div class="kanban-item">
+                            <div class="text-xs text-gray-600 mb-1">Nasgor goreng magel belang<span class="text-gray-400 ml-2">1x Rp 50.000</span></div>
+                            <div class="text-xs text-gray-600 mb-1">Ayam ayan spasial<span class="text-gray-400 ml-2">2x Rp 40.000</span></div>
+                            <div class="text-xs text-gray-600 mb-2">Bebek Julepotan<span class="text-gray-400 ml-2">1x Rp 33.000</span></div>
+                            <div class="kanban-item-row">
+                                <div class="flex items-center gap-1">
+                                    <img src="https://placehold.co/18x18/BFA370/fff?text=Z" class="w-4 h-4 rounded-full">
+                                    <span class="text-[11px] text-gray-500">Zammud Saprudin</span>
+                                    <span class="text-[10px] text-gray-400 ml-1">Order ID: 167283</span>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold text-gray-800 text-xs">Rp 123.000</div>
+                                    <div class="waktu-badge mt-1">20 : 00</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Status Panel -->
+        <div class="w-52 flex-shrink-0 space-y-4">
+            <div class="card shadow-soft p-4">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Status Toko</p>
+                <div class="flex items-center justify-center gap-3 mb-2">
+                    <button class="store-toggle-btn on" onclick="toggleStoreBtn(this)"></button>
+                    <i class="ri-check-line text-green-500 text-lg"></i>
+                </div>
+                <p class="text-center text-sm font-semibold text-gray-700" id="store-label-p">Toko Dibuka</p>
+            </div>
+            <div class="stat-card-yellow shadow-soft text-center">
+                <i class="ri-time-line text-2xl mb-1 block"></i>
+                <p class="text-xs font-medium opacity-90">Menunggu Konfirmasi</p>
+                <p class="text-4xl font-extrabold my-1">20</p>
+                <p class="text-xs opacity-90">Pesanan</p>
+            </div>
+            <div class="stat-card-green shadow-soft text-center">
+                <i class="ri-calendar-check-line text-2xl mb-1 block"></i>
+                <p class="text-xs font-medium opacity-90">Hari ini</p>
+                <p class="text-4xl font-extrabold my-1">37</p>
+                <p class="text-xs opacity-90">Pesanan Terselesaikan</p>
+            </div>
+        </div>
+    </div>
+
+</main>
+</div>
+
+<script src="../js/seller-shared.js"></script>
+<script>
+// PERBAIKAN: Menambahkan fungsi timer yang hilang
+function startTimer(id, duration) {
+    let timer = duration, minutes, seconds;
+    const display = document.getElementById(id);
+    
+    const interval = setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            display.textContent = "WAKTU HABIS";
+            display.style.backgroundColor = "#EF4444"; // Berubah merah jika telat
+            clearInterval(interval);
+        }
+    }, 1000);
+}
+
+function toggleStoreBtn(btn) {
+    btn.classList.toggle('on');
+    const label = document.getElementById('store-label-p');
+    if(btn.classList.contains('on')) {
+        label.textContent = 'Toko Dibuka';
+        label.style.color = '#22C55E';
+    } else {
+        label.textContent = 'Toko Ditutup';
+        label.style.color = '#EF4444';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 4 menit 55 detik = 295 detik
+    startTimer('timer-p1', 295);
+    // 12 menit 20 detik = 740 detik
+    startTimer('timer-p2', 740);
+});
+</script>
+</body>
+</html>

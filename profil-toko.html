@@ -4,63 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
     <title>Profil Toko - Ayam Goreng 39</title>
   </head>
   <body class="bg-gray-50 font-sans">
     <div id="header-container"></div>
 
     <div class="max-w-6xl mx-auto p-4 md:p-8">
-      <div
-        class="bg-[#F1F3E9] rounded-2xl p-6 mb-6 shadow-sm border border-gray-100 relative"
-      >
-        <div
-          class="flex flex-col md:flex-row items-center md:items-start gap-6"
-        >
-          <div
-            class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-md"
-          >
+      <div class="bg-[#F1F3E9] rounded-2xl p-6 mb-6 shadow-sm border border-gray-100 relative">
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+          <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-md">
             <img
               src="assets/images/illustrasions/Penjual.png"
               alt="Ayam Goreng 39"
-              class="w-full h-full object-cover"
-            />
+              class="w-full h-full object-cover" />
           </div>
 
           <div class="flex-1 text-center md:text-left">
-            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-              Ayam Goreng 39
-            </h1>
-            <div
-              class="flex items-center justify-center md:justify-start gap-1 mb-4 text-yellow-400 text-2xl"
-            >
-              <i class="ri-star-s-fill"></i><i class="ri-star-s-fill"></i
-              ><i class="ri-star-s-fill"></i><i class="ri-star-s-fill"></i
-              ><i class="ri-star-s-fill"></i>
-              <span
-                class="ml-2 bg-gray-600 text-white text-xs px-1.5 py-0.5 rounded-full"
-                >5</span
-              >
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Ayam Goreng 39</h1>
+            <div class="flex items-center justify-center md:justify-start gap-1 mb-4 text-yellow-400 text-2xl">
+              <i class="ri-star-s-fill"></i><i class="ri-star-s-fill"></i><i class="ri-star-s-fill"></i
+              ><i class="ri-star-s-fill"></i><i class="ri-star-s-fill"></i>
+              <span class="ml-2 bg-gray-600 text-white text-xs px-1.5 py-0.5 rounded-full">5</span>
             </div>
 
             <div class="flex flex-wrap justify-center md:justify-start gap-3">
               <button
-                class="bg-[#B59D74] text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-[#a38c65] transition"
-              >
+                class="bg-[#B59D74] text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-[#a38c65] transition">
                 <i class="fas fa-paper-plane"></i> Menuju Lokasi
               </button>
               <a
-                href="chat-toko.html"
-                class="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition"
-              >
+                href="user/chat-toko.html"
+                class="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition">
                 <i class="far fa-comment-dots"></i> Hubungi Penjual
               </a>
               <button
-                class="bg-white text-gray-400 border border-gray-300 p-2 rounded-lg hover:text-red-500 transition"
-              >
+                onclick="toggleFavoriteShop(this)"
+                class="bg-white text-gray-400 border border-gray-300 p-2 rounded-lg hover:text-red-500 transition focus:outline-none">
                 <i class="far fa-heart text-xl"></i>
               </button>
             </div>
@@ -68,160 +48,168 @@
 
           <div class="absolute top-6 right-6">
             <span
-              class="bg-white border border-yellow-200 text-green-600 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-2 shadow-sm"
-            >
-              <span
-                class="w-2 h-2 bg-green-500 rounded-full animate-pulse"
-              ></span>
+              class="bg-white border border-yellow-200 text-green-600 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-2 shadow-sm">
+              <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
               Reservasi
             </span>
           </div>
         </div>
 
         <div class="flex gap-8 mt-10 border-b border-gray-300">
-          <button
-            class="pb-2 px-4 border-b-2 border-gray-800 font-bold text-gray-800"
-          >
-            Home
-          </button>
-          <button
-            class="pb-2 px-4 text-gray-500 hover:text-gray-800 transition"
-          >
-            All Menu
-          </button>
+          <button class="pb-2 px-4 border-b-2 border-gray-800 font-bold text-gray-800">Home</button>
+          <button class="pb-2 px-4 text-gray-500 hover:text-gray-800 transition">All Menu</button>
         </div>
       </div>
 
       <div class="mb-10 text-gray-500 text-justify">
         <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga, omnis
-          quod laboriosam quas quaerat voluptates tempore amet, reprehenderit
-          blanditiis nulla libero soluta magnam eveniet incidunt sequi
-          repellendus iste nihil autem, aut quo dolor deleniti odio ducimus.
-          Voluptates magnam, quas qui illo eaque laborum ipsa optio, eum modi
-          itaque, veritatis quae.
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga, omnis quod laboriosam quas quaerat voluptates
+          tempore amet, reprehenderit blanditiis nulla libero soluta magnam eveniet incidunt sequi repellendus iste
+          nihil autem, aut quo dolor deleniti odio ducimus. Voluptates magnam, quas qui illo eaque laborum ipsa optio,
+          eum modi itaque, veritatis quae.
         </p>
       </div>
 
       <div class="mb-6">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-xl font-bold text-[#88601B]">Rekomendasi</h2>
-          <a
-            href="menu-toko.html"
-            class="text-[#88601B] text-sm font-semibold flex items-center gap-1 hover:underline"
-          >
+          <a href="user/menu-toko.html" class="text-[#88601B] text-sm font-semibold flex items-center gap-1 hover:underline">
             Lihat Selengkapnya <i class="fas fa-chevron-right text-xs"></i>
           </a>
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           <a
-            href="detail-menu.html"
+            href="user/detail-menu.html"
             class="block bg-white rounded-2xl overflow-hidden shadow-sm border border-transparent hover:border-gray-200 transition p-3 active:scale-95"
-            style="background: #f3f3f3; box-shadow: 0px 10px 0px #e9e9e9"
-          >
+            style="background: #f3f3f3; box-shadow: 0px 10px 0px #e9e9e9">
             <img
               src="assets/images/makanan2.png"
               alt="Ayam Paha Atas"
-              class="w-full h-32 md:h-40 object-cover rounded-xl mb-3"
-            />
-            <h3 class="font-bold text-gray-800 text-sm md:text-base mb-1">
-              Ayam Paha Atas
-            </h3>
+              class="w-full h-32 md:h-40 object-cover rounded-xl mb-3" />
+            <h3 class="font-bold text-gray-800 text-sm md:text-base mb-1">Ayam Paha Atas</h3>
             <p class="text-green-600 font-bold text-base mb-3">Rp15.000</p>
 
-            <div
-              class="flex items-center justify-between text-[10px] md:text-xs text-gray-400 border-t pt-3"
-            >
+            <div class="flex items-center justify-between text-[10px] md:text-xs text-gray-400 border-t pt-3">
               <span>10RB+ terjual</span>
               <span>240m | 15min</span>
             </div>
-            <div class="mt-2 flex items-center gap-1 text-[10px] text-gray-500">
-              <i class="fas fa-heart text-red-500"></i> Disukai oleh 1341
-            </div>
+            <div class="mt-2 flex items-center justify-between">
+    <div class="flex items-center gap-1 text-[10px] text-gray-500">
+        <i onclick="toggleHeartMenu(this, event)" class="ri-heart-3-line text-sm cursor-pointer transition-all duration-200"></i>
+        <span>Disukai oleh 1341</span>
+    </div>
+</div>
           </a>
 
           <a
-            href="detail-menu.html"
+            href="user/detail-menu.html"
             class="block bg-white rounded-2xl overflow-hidden shadow-sm border border-transparent hover:border-gray-200 transition p-3 active:scale-95"
-            style="background: #f3f3f3; box-shadow: 0px 10px 0px #e9e9e9"
-          >
+            style="background: #f3f3f3; box-shadow: 0px 10px 0px #e9e9e9">
             <img
               src="assets/images/makanan2.png"
               alt="Ayam Paha Atas"
-              class="w-full h-32 md:h-40 object-cover rounded-xl mb-3"
-            />
-            <h3 class="font-bold text-gray-800 text-sm md:text-base mb-1">
-              Ayam Paha Atas
-            </h3>
+              class="w-full h-32 md:h-40 object-cover rounded-xl mb-3" />
+            <h3 class="font-bold text-gray-800 text-sm md:text-base mb-1">Ayam Paha Atas</h3>
             <p class="text-green-600 font-bold text-base mb-3">Rp15.000</p>
 
-            <div
-              class="flex items-center justify-between text-[10px] md:text-xs text-gray-400 border-t pt-3"
-            >
+            <div class="flex items-center justify-between text-[10px] md:text-xs text-gray-400 border-t pt-3">
               <span>10RB+ terjual</span>
               <span>240m | 15min</span>
             </div>
-            <div class="mt-2 flex items-center gap-1 text-[10px] text-gray-500">
-              <i class="fas fa-heart text-red-500"></i> Disukai oleh 1341
-            </div>
+            <div class="mt-2 flex items-center justify-between">
+    <div class="flex items-center gap-1 text-[10px] text-gray-500">
+        <i onclick="toggleHeartMenu(this, event)" class="ri-heart-3-line text-sm cursor-pointer transition-all duration-200"></i>
+        <span>Disukai oleh 1341</span>
+    </div>
+</div>
           </a>
 
           <a
-            href="detail-menu.html"
+            href="user/detail-menu.html"
             class="block bg-white rounded-2xl overflow-hidden shadow-sm border border-transparent hover:border-gray-200 transition p-3 active:scale-95"
-            style="background: #f3f3f3; box-shadow: 0px 10px 0px #e9e9e9"
-          >
+            style="background: #f3f3f3; box-shadow: 0px 10px 0px #e9e9e9">
             <img
               src="assets/images/makanan2.png"
               alt="Ayam Paha Atas"
-              class="w-full h-32 md:h-40 object-cover rounded-xl mb-3"
-            />
-            <h3 class="font-bold text-gray-800 text-sm md:text-base mb-1">
-              Ayam Paha Atas
-            </h3>
+              class="w-full h-32 md:h-40 object-cover rounded-xl mb-3" />
+            <h3 class="font-bold text-gray-800 text-sm md:text-base mb-1">Ayam Paha Atas</h3>
             <p class="text-green-600 font-bold text-base mb-3">Rp15.000</p>
 
-            <div
-              class="flex items-center justify-between text-[10px] md:text-xs text-gray-400 border-t pt-3"
-            >
+            <div class="flex items-center justify-between text-[10px] md:text-xs text-gray-400 border-t pt-3">
               <span>10RB+ terjual</span>
               <span>240m | 15min</span>
             </div>
-            <div class="mt-2 flex items-center gap-1 text-[10px] text-gray-500">
-              <i class="fas fa-heart text-red-500"></i> Disukai oleh 1341
-            </div>
+            <div class="mt-2 flex items-center justify-between">
+    <div class="flex items-center gap-1 text-[10px] text-gray-500">
+        <i onclick="toggleHeartMenu(this, event)" class="ri-heart-3-line text-sm cursor-pointer transition-all duration-200"></i>
+        <span>Disukai oleh 1341</span>
+    </div>
+</div>
           </a>
 
           <a
-            href="detail-menu.html"
+            href="user/detail-menu.html"
             class="block bg-white rounded-2xl overflow-hidden shadow-sm border border-transparent hover:border-gray-200 transition p-3 active:scale-95"
-            style="background: #f3f3f3; box-shadow: 0px 10px 0px #e9e9e9"
-          >
+            style="background: #f3f3f3; box-shadow: 0px 10px 0px #e9e9e9">
             <img
               src="assets/images/makanan2.png"
               alt="Ayam Paha Atas"
-              class="w-full h-32 md:h-40 object-cover rounded-xl mb-3"
-            />
-            <h3 class="font-bold text-gray-800 text-sm md:text-base mb-1">
-              Ayam Paha Atas
-            </h3>
+              class="w-full h-32 md:h-40 object-cover rounded-xl mb-3" />
+            <h3 class="font-bold text-gray-800 text-sm md:text-base mb-1">Ayam Paha Atas</h3>
             <p class="text-green-600 font-bold text-base mb-3">Rp15.000</p>
 
-            <div
-              class="flex items-center justify-between text-[10px] md:text-xs text-gray-400 border-t pt-3"
-            >
+            <div class="flex items-center justify-between text-[10px] md:text-xs text-gray-400 border-t pt-3">
               <span>10RB+ terjual</span>
               <span>240m | 15min</span>
             </div>
-            <div class="mt-2 flex items-center gap-1 text-[10px] text-gray-500">
-              <i class="fas fa-heart text-red-500"></i> Disukai oleh 1341
-            </div>
+            <div class="mt-2 flex items-center justify-between">
+    <div class="flex items-center gap-1 text-[10px] text-gray-500">
+        <i onclick="toggleHeartMenu(this, event)" class="ri-heart-3-line text-sm cursor-pointer transition-all duration-200"></i>
+        <span>Disukai oleh 1341</span>
+    </div>
+</div>
           </a>
         </div>
       </div>
     </div>
 
+    <script>
+      // Fungsi untuk Heart di Header Profil (FontAwesome)
+function toggleFavoriteShop(button) {
+    const icon = button.querySelector('i');
+    
+    // Cek apakah sedang menggunakan 'far' (regular/outline)
+    if (icon.classList.contains('far')) {
+        icon.classList.replace('far', 'fas'); // Ubah ke solid
+        icon.classList.add('text-red-500');
+        button.classList.add('border-red-200');
+    } else {
+        icon.classList.replace('fas', 'far'); // Balik ke outline
+        icon.classList.remove('text-red-500');
+        button.classList.remove('border-red-200');
+    }
+}
+
+// Fungsi untuk Heart di Kartu Menu (Remix Icon)
+function toggleHeartMenu(element, event) {
+    // Mencegah klik tembus ke link detail-menu.html
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (element.classList.contains('ri-heart-3-line')) {
+        element.classList.replace('ri-heart-3-line', 'ri-heart-3-fill');
+        element.classList.add('text-red-500');
+        
+        // Animasi kecil
+        element.style.transform = 'scale(1.4)';
+        setTimeout(() => { element.style.transform = 'scale(1)'; }, 200);
+    } else {
+        element.classList.replace('ri-heart-3-fill', 'ri-heart-3-line');
+        element.classList.remove('text-red-500');
+    }
+}
+    </script>
     <script src="js/script.js"></script>
   </body>
 </html>
