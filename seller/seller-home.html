@@ -3,170 +3,584 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NyamNow Seller — Home</title>
+    <title>NyamNow Seller — Pesanan Cepat</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
     <link rel="stylesheet" href="../assets/css/seller-shared.css">
+    <style>
+        * { font-family: 'Poppins', sans-serif; }
+
+        /* ---- Layout ---- */
+        body { background: #F6F4F0; }
+        #seller-main { padding: 24px 28px; overflow: hidden; display: flex; flex-direction: column; height: calc(100vh - 52px); position: relative; }
+
+        /* ---- Kanban wrap ---- */
+        .kanban-wrap { display: flex; gap: 20px; flex: 1; min-height: 0; }
+
+        /* ---- Kanban Column ---- */
+        .kanban-col {
+            flex: 1; border-radius: 16px; border: 1.5px solid;
+            display: flex; flex-direction: column;
+            min-width: 0; min-height: 0;
+            overflow: hidden;
+        }
+        .kanban-col.menunggu { background: #FFFBEB; border-color: #FCD34D; }
+        .kanban-col.proses   { background: #EFF6FF; border-color: #93C5FD; }
+
+        /* ---- Column top (sticky) ---- */
+        .kanban-top { padding: 14px 14px 0; flex-shrink: 0; }
+
+        /* ---- Column header ---- */
+        .kanban-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .kanban-badge {
+            width: 30px; height: 30px; border-radius: 8px;
+            font-weight: 800; font-size: 14px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .kanban-badge.m { background: #FCD34D; color: #78350F; }
+        .kanban-badge.p { background: #60A5FA; color: white; }
+
+        /* ---- Tab row ---- */
+        .col-tabs { display: flex; border-bottom: 1.5px solid rgba(0,0,0,0.08); margin-bottom: 0; }
+        .col-tab {
+            flex: 1; text-align: center; font-size: 11px; font-weight: 600;
+            color: #999; padding: 8px 4px; cursor: pointer;
+            border-bottom: 2px solid transparent; margin-bottom: -1.5px;
+            transition: color 0.18s, border-color 0.18s;
+            background: none; border-top: none; border-left: none; border-right: none;
+            white-space: nowrap;
+        }
+        .col-tab.active { color: #333; border-bottom-color: #333; }
+        .col-tab:hover  { color: #555; }
+
+        /* ---- Scrollable card list ---- */
+        .card-list {
+            flex: 1; overflow-y: auto; padding: 10px 14px 14px;
+        }
+        .card-list::-webkit-scrollbar { width: 4px; }
+        .card-list::-webkit-scrollbar-thumb { background: #D6C9B0; border-radius: 99px; }
+
+        /* ---- Order card (FIXED height) ---- */
+        .order-card {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #EEE;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: box-shadow 0.18s, border-color 0.18s;
+            overflow: hidden;
+        }
+        .order-card:last-child { margin-bottom: 0; }
+        .order-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.09); }
+        .order-card.active-card { border-color: #BFA370; box-shadow: 0 0 0 2px rgba(191,163,112,0.25); }
+
+        /* card inner — fixed layout */
+        .card-inner {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            padding: 10px 12px;
+            align-items: stretch;
+        }
+
+        /* card left */
+        .card-left { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+        .item-row { display: flex; gap: 6px; font-size: 12px; color: #333; }
+        .item-name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .item-qty  { white-space: nowrap; color: #777; font-size: 11px; }
+        .item-price{ white-space: nowrap; color: #777; font-size: 11px; text-align: right; min-width: 70px; }
+
+        /* card footer inside left */
+        .card-footer { display: flex; align-items: center; gap: 6px; margin-top: 6px; padding-top: 6px; border-top: 1px solid #F0EDE8; }
+        .card-avatar { width: 16px; height: 16px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+        .card-name   { font-size: 10px; color: #888; }
+        .card-orderid{ font-size: 10px; color: #AAA; margin-left: auto; }
+
+        /* card right */
+        .card-right {
+            display: flex; flex-direction: column; align-items: flex-end;
+            justify-content: space-between; gap: 6px; flex-shrink: 0;
+        }
+        .card-total { font-size: 13px; font-weight: 700; color: #333; white-space: nowrap; }
+
+        /* Buttons */
+        .btn-terima { background: #22C55E; color: white; border: none; border-radius: 6px; padding: 4px 12px; font-size: 11px; font-weight: 700; cursor: pointer; width: 100%; transition: opacity 0.15s; }
+        .btn-terima:hover { opacity: 0.85; }
+        .btn-tolak  { background: #EF4444; color: white; border: none; border-radius: 6px; padding: 4px 12px; font-size: 11px; font-weight: 700; cursor: pointer; width: 100%; transition: opacity 0.15s; }
+        .btn-tolak:hover  { opacity: 0.85; }
+
+        /* Waktu badge */
+        .waktu-badge {
+            background: #EF4444; color: white;
+            border-radius: 6px; padding: 3px 0; font-size: 13px; font-weight: 800;
+            font-variant-numeric: tabular-nums; text-align: center;
+            width: 70px; letter-spacing: 0.05em;
+        }
+        .waktu-label { background: #EF4444; color: white; border-radius: 6px 6px 0 0; font-size: 10px; font-weight: 700; text-align: center; padding: 2px 0; width: 70px; }
+        .waktu-time  { background: #EF4444; color: white; border-radius: 0 0 6px 6px; font-size: 15px; font-weight: 800; text-align: center; padding: 3px 0; width: 70px; font-variant-numeric: tabular-nums; }
+
+        /* ---- Detail Panel ---- */
+        .detail-panel {
+            position: absolute; top: 56px; left: 28px; right: 28px;
+            background: white; border-radius: 16px; border: 1px solid #EEE;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+            padding: 22px 24px; z-index: 30;
+            display: none; max-height: calc(100vh - 120px); overflow-y: auto;
+        }
+        .detail-panel.open { display: block; }
+        .detail-panel::-webkit-scrollbar { width: 4px; }
+        .detail-panel::-webkit-scrollbar-thumb { background: #D6C9B0; border-radius: 99px; }
+
+        /* status badge */
+        .st-menunggu { background: #FEF08A; color: #78350F; border-radius: 99px; padding: 4px 16px; font-size: 12px; font-weight: 700; }
+        .st-proses   { background: #60A5FA; color: white;   border-radius: 99px; padding: 4px 16px; font-size: 12px; font-weight: 700; }
+
+        /* ---- Toggle ---- */
+        .store-toggle {
+            width: 38px; height: 20px; border-radius: 99px;
+            background: #22C55E; position: relative;
+            border: none; cursor: pointer; flex-shrink: 0; transition: background 0.2s;
+        }
+        .store-toggle::after {
+            content: ''; position: absolute;
+            width: 14px; height: 14px; border-radius: 50%;
+            background: white; top: 3px; left: 21px;
+            transition: left 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .store-toggle.off { background: #ccc; }
+        .store-toggle.off::after { left: 3px; }
+
+        /* ---- Empty state ---- */
+        .empty-state { text-align: center; padding: 30px 10px; color: #CCC; font-size: 12px; }
+        .empty-state i { font-size: 36px; display: block; margin-bottom: 6px; }
+    </style>
 </head>
 <body>
 
-<!-- Header -->
 <div id="seller-header-container"></div>
+<div class="seller-shell" style="overflow:hidden; height:calc(100vh - 52px);">
+<div id="seller-sidebar-container"></div>
 
-<div class="seller-shell">
-    <!-- Sidebar -->
-    <div id="seller-sidebar-container"></div>
+<main id="seller-main">
+    <!-- Top bar -->
+    <div class="flex items-center justify-between mb-4 flex-shrink-0">
+        <h1 class="page-title">Pesanan Cepat</h1>
+        <div class="flex items-center gap-2 bg-green-50 border border-green-200 rounded-xl px-4 py-2">
+            <button class="store-toggle" id="store-toggle" onclick="toggleToko()"></button>
+            <i class="ri-check-line text-green-500 text-sm"></i>
+            <span class="text-sm font-semibold text-gray-700" id="toko-label">Buka</span>
+        </div>
+    </div>
 
-    <!-- Main -->
-    <main id="seller-main">
+    <!-- Kanban -->
+    <div class="kanban-wrap">
 
-        <h1 class="page-title mb-6">Pintasan Cepat</h1>
-
-        <div class="flex gap-6">
-            <!-- Kiri: Order Cards -->
-            <div class="flex-1 space-y-6">
-
-                <!-- Menunggu Konfirmasi -->
-                <div>
-                    <h2 class="font-semibold text-gray-700 mb-3">Menunggu Konfirmasi</h2>
-                    <div class="order-card shadow-soft">
-                        <div class="order-card-header">
-                            <div class="flex items-center gap-2">
-                                <img src="https://placehold.co/28x28/BFA370/fff?text=J" class="w-7 h-7 rounded-full">
-                                <span class="font-semibold text-gray-800 text-sm">John Wayne</span>
-                            </div>
-                            <span class="order-timer" id="timer-home-1">04:55</span>
-                            <a href="seller-detail-pesanan.html" class="text-[#BFA370] text-xs font-medium hover:underline">Detail Pesanan →</a>
-                        </div>
-                        <!-- Items -->
-                        <div class="px-4 py-3 space-y-3">
-                            <div class="grid items-center gap-2 text-sm" style="grid-template-columns:56px 1fr 80px 30px 80px;">
-                                <img src="assets/images/mie ayam.png" onerror="this.src='https://placehold.co/56x56/f3f3f3/BFA370?text=🍗'" class="w-14 h-14 rounded-xl object-cover">
-                                <div><p class="font-medium text-gray-800">Ayam Paha Atas</p><span class="text-[11px] bg-orange-50 text-orange-400 border border-orange-100 px-2 py-0.5 rounded-full">Super Pedas</span></div>
-                                <p class="text-[#BFA370] font-medium text-center">Rp17.000</p>
-                                <p class="text-gray-500 text-center">x1</p>
-                                <p class="text-[#BFA370] font-semibold text-right">Rp17.000</p>
-                            </div>
-                            <div class="grid items-center gap-2 text-sm" style="grid-template-columns:56px 1fr 80px 30px 80px;">
-                                <img src="assets/images/makanan2.png" onerror="this.src='https://placehold.co/56x56/f3f3f3/BFA370?text=🍗'" class="w-14 h-14 rounded-xl object-cover">
-                                <div><p class="font-medium text-gray-800">Ayam Paha Bandung</p><span class="text-[11px] bg-red-50 text-red-400 border border-red-100 px-2 py-0.5 rounded-full">Super Pedas Jeletot</span></div>
-                                <p class="text-[#BFA370] font-medium text-center">Rp18.000</p>
-                                <p class="text-gray-500 text-center">x3</p>
-                                <p class="text-[#BFA370] font-semibold text-right">Rp54.000</p>
-                            </div>
-                        </div>
-                        <!-- Footer -->
-                        <div class="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-100">
-                            <div class="flex items-center gap-3">
-                                <div class="flex items-center gap-2 text-xs text-gray-500 bg-white border border-gray-200 rounded-lg px-3 py-1.5">
-                                    <i class="ri-shopping-bag-line text-[#BFA370]"></i> 4 item · Total <strong class="text-[#BFA370] ml-1">Rp71.000</strong>
-                                </div>
-                                <span class="text-xs text-gray-500">Ambil Ditempat</span>
-                                <span class="text-xs text-gray-400">Order ID: 987654</span>
-                            </div>
-                            <div class="flex gap-2">
-                                <button class="btn-red text-xs"><i class="ri-close-line"></i> Tolak</button>
-                                <button class="btn-green text-xs"><i class="ri-check-line"></i> Terima</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button class="w-full mt-2 py-2.5 text-sm text-gray-500 bg-white border border-gray-200 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition">
-                        Lihat lebih banyak <i class="ri-arrow-down-s-line"></i>
-                    </button>
+        <!-- ===== KOLOM MENUNGGU ===== -->
+        <div class="kanban-col menunggu">
+            <div class="kanban-top">
+                <div class="kanban-head">
+                    <div class="kanban-badge m" id="badge-m">2</div>
+                    <p class="font-semibold text-gray-700 text-sm">Menunggu Disetujui</p>
+                    <span class="ml-auto text-xs text-gray-500 border border-yellow-200 bg-yellow-50 px-2 py-0.5 rounded-lg">22/03/2026</span>
                 </div>
-
-                <!-- Proses -->
-                <div>
-                    <h2 class="font-semibold text-gray-700 mb-3">Proses</h2>
-                    <div class="order-card shadow-soft">
-                        <div class="order-card-header">
-                            <div class="flex items-center gap-2">
-                                <img src="https://placehold.co/28x28/BFA370/fff?text=T" class="w-7 h-7 rounded-full">
-                                <span class="font-semibold text-gray-800 text-sm">Taylor Swift</span>
-                            </div>
-                            <span class="order-timer" id="timer-home-2">12:20</span>
-                            <a href="seller-detail-pesanan.html" class="text-[#BFA370] text-xs font-medium hover:underline">Detail Pesanan →</a>
-                        </div>
-                        <div class="px-4 py-3 space-y-3">
-                            <div class="grid items-center gap-2 text-sm" style="grid-template-columns:56px 1fr 80px 30px 80px;">
-                                <img src="assets/images/mie ayam.png" onerror="this.src='https://placehold.co/56x56/f3f3f3/BFA370?text=🍗'" class="w-14 h-14 rounded-xl object-cover">
-                                <div><p class="font-medium text-gray-800">Ayam Paha Atas</p><span class="text-[11px] bg-orange-50 text-orange-400 border border-orange-100 px-2 py-0.5 rounded-full">Super Pedas</span></div>
-                                <p class="text-[#BFA370] font-medium text-center">Rp17.000</p>
-                                <p class="text-gray-500 text-center">x1</p>
-                                <p class="text-[#BFA370] font-semibold text-right">Rp17.000</p>
-                            </div>
-                            <div class="grid items-center gap-2 text-sm" style="grid-template-columns:56px 1fr 80px 30px 80px;">
-                                <img src="assets/images/makanan2.png" onerror="this.src='https://placehold.co/56x56/f3f3f3/BFA370?text=🍗'" class="w-14 h-14 rounded-xl object-cover">
-                                <div><p class="font-medium text-gray-800">Ayam Paha Bandung</p><span class="text-[11px] bg-red-50 text-red-400 border border-red-100 px-2 py-0.5 rounded-full">Super Pedas Jeletot</span></div>
-                                <p class="text-[#BFA370] font-medium text-center">Rp18.000</p>
-                                <p class="text-gray-500 text-center">x3</p>
-                                <p class="text-[#BFA370] font-semibold text-right">Rp54.000</p>
-                            </div>
-                        </div>
-                        <div class="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-100">
-                            <div class="flex items-center gap-3">
-                                <div class="flex items-center gap-2 text-xs text-gray-500 bg-white border border-gray-200 rounded-lg px-3 py-1.5">
-                                    <i class="ri-shopping-bag-line text-[#BFA370]"></i> 4 item · Total <strong class="text-[#BFA370] ml-1">Rp71.000</strong>
-                                </div>
-                                <span class="text-xs text-gray-500">Ambil Ditempat</span>
-                                <span class="text-xs text-gray-400">Order ID: 987654</span>
-                            </div>
-                            <button class="btn-green text-xs"><i class="ri-check-line"></i> Selesai</button>
-                        </div>
-                    </div>
-
-                    <button class="w-full mt-2 py-2.5 text-sm text-gray-500 bg-white border border-gray-200 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition">
-                        Lihat lebih banyak <i class="ri-arrow-down-s-line"></i>
-                    </button>
+                <!-- Tabs -->
+                <div class="col-tabs">
+                    <button class="col-tab active" onclick="switchTab('m','makan',this)">Makan Ditempat</button>
+                    <button class="col-tab" onclick="switchTab('m','preorder',this)">Pre-Order</button>
+                    <button class="col-tab" onclick="switchTab('m','reservasi',this)">Reservasi</button>
                 </div>
             </div>
+            <!-- Cards -->
+            <div class="card-list" id="list-m-makan"></div>
+            <div class="card-list hidden" id="list-m-preorder">
+                <div class="empty-state"><i class="ri-time-line"></i>Tidak ada pre-order</div>
+            </div>
+            <div class="card-list hidden" id="list-m-reservasi">
+                <div class="empty-state"><i class="ri-calendar-line"></i>Tidak ada reservasi</div>
+            </div>
+        </div>
 
-            <!-- Kanan: Status Panel -->
-            <div class="w-52 flex-shrink-0 space-y-4">
-                <!-- Status Toko -->
-                <div class="card shadow-soft p-4">
-                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Status Toko</p>
-                    <div class="flex items-center gap-3 justify-center mb-2">
-                        <button class="store-toggle-btn on" id="store-toggle-btn" onclick="toggleStoreBtn(this)"></button>
-                        <i class="ri-check-line text-green-500 text-lg"></i>
-                    </div>
-                    <p class="text-center text-sm font-semibold text-gray-700" id="store-status-label">Toko Dibuka</p>
+        <!-- ===== KOLOM PROSES ===== -->
+        <div class="kanban-col proses">
+            <div class="kanban-top">
+                <div class="kanban-head">
+                    <div class="kanban-badge p" id="badge-p">3</div>
+                    <p class="font-semibold text-gray-700 text-sm">Sedang Diproses</p>
+                    <span class="ml-auto text-xs text-gray-500 border border-blue-200 bg-blue-50 px-2 py-0.5 rounded-lg">22/03/2026</span>
                 </div>
-
-                <!-- Menunggu Konfirmasi -->
-                <div class="stat-card-yellow shadow-soft text-center">
-                    <i class="ri-time-line text-2xl mb-1 block"></i>
-                    <p class="text-xs font-medium opacity-90">Menunggu Konfirmasi</p>
-                    <p class="text-4xl font-extrabold my-1">20</p>
-                    <p class="text-xs opacity-90">Pesanan</p>
+                <div class="col-tabs">
+                    <button class="col-tab active" onclick="switchTab('p','makan',this)">Makan Ditempat</button>
+                    <button class="col-tab" onclick="switchTab('p','preorder',this)">Pre-Order</button>
+                    <button class="col-tab" onclick="switchTab('p','reservasi',this)">Reservasi</button>
                 </div>
+            </div>
+            <div class="card-list" id="list-p-makan"></div>
+            <div class="card-list hidden" id="list-p-preorder">
+                <div class="empty-state"><i class="ri-time-line"></i>Tidak ada pre-order</div>
+            </div>
+            <div class="card-list hidden" id="list-p-reservasi">
+                <div class="empty-state"><i class="ri-calendar-line"></i>Tidak ada reservasi</div>
+            </div>
+        </div>
+    </div>
 
-                <!-- Hari Ini -->
-                <div class="stat-card-green shadow-soft text-center">
-                    <i class="ri-calendar-check-line text-2xl mb-1 block"></i>
-                    <p class="text-xs font-medium opacity-90">Hari ini</p>
-                    <p class="text-4xl font-extrabold my-1">37</p>
-                    <p class="text-xs opacity-90">Pesanan Terselesaikan</p>
+    <!-- Detail Panel (float di atas) -->
+    <div class="detail-panel" id="detail-panel">
+        <div class="flex items-start justify-between mb-10">
+            <div>
+                <p class="font-bold text-gray-800 text-2xl" id="dp-title">Detail Pesanan #172634</p>
+                <p class="text-xs text-gray-400 mt-0.5" id="dp-date">Dipesan: 22/03/2026, 12:45 WIB</p>
+            </div>
+            <div class="flex items-center gap-2 flex-shrink-0 ml-4">
+                <span id="dp-status-badge" class="st-menunggu">Menunggu Persetujuan</span>
+                <button onclick="closeDetail()" class="flex items-center gap-1 text-xs text-gray-500 border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50 flex-shrink-0">
+                    <i class="ri-close-line"></i> Tutup
+                </button>
+            </div>
+        </div>
+
+        <!-- Customer row -->
+        <div class="flex flex-wrap items-center justify-center border-t border-b gap-5 text-sm text-gray-600 bg-gray-50 rounded-xl px-4 py-3 mb-4">
+            <div class="flex items-center gap-1.5"><i class="ri-user-line text-[#BFA370]"></i><span id="dp-customer">Nama Pelanggan: Pak Cucik</span></div>
+            <div class="flex items-center gap-1.5"><i class="ri-phone-line text-[#BFA370]"></i><span id="dp-phone">0812-3378-6767</span></div>
+            <div class="flex items-center gap-1.5"><i class="ri-table-alt-line text-[#BFA370]"></i><span id="dp-meja">Meja: Meja 11</span></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-8">
+            <!-- Rincian Menu -->
+            <div>
+                <p class="text-md font-bold text-black tracking-wide mb-3">Rincian Menu</p>
+                <div class="space-y-4" id="dp-menu-list"></div>
+            </div>
+            <!-- Rincian Pembayaran -->
+            <div>
+                <p class="text-md font-bold text-black tracking-wide mb-3">Rincian Pembayaran</p>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between"><span class="text-gray-500">Subtotal Harga Menu:</span><span id="dp-subtotal" class="font-semibold">Rp130.000</span></div>
+                    <div class="flex justify-between"><span class="text-gray-500">Biaya Layanan (5%):</span><span id="dp-layanan" class="font-semibold">Rp6.500</span></div>
+                    <div class="flex justify-between font-bold border-t border-gray-100 pt-2 mt-1"><span>Total Pendapatan</span><span id="dp-total">Rp136.500</span></div>
+                    <div class="flex justify-between text-xs mt-1"><span class="text-gray-400">Metode Pembayaran:</span><span id="dp-metode" class="text-gray-600 font-medium">Cash</span></div>
+                    <div class="flex justify-between text-xs"><span class="text-gray-400">Status:</span><span id="dp-pay-status" class="text-green-500 font-semibold">● Sudah Dibayar</span></div>
                 </div>
             </div>
         </div>
 
-    </main>
+        <!-- Catatan -->
+        <div id="dp-catatan-wrap" class="mt-4 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 hidden">
+            <p class="text-xs font-semibold text-amber-700 mb-1">Catatan Pembeli:</p>
+            <p class="text-sm text-gray-700 italic" id="dp-catatan"></p>
+        </div>
+    </div>
+</main>
 </div>
 
 <script src="../js/seller-shared.js"></script>
 <script>
-function toggleStoreBtn(btn) {
-    btn.classList.toggle('on');
-    document.getElementById('store-status-label').textContent =
-        btn.classList.contains('on') ? 'Toko Dibuka' : 'Toko Ditutup';
+// ================================================================
+// DATA
+// ================================================================
+const ordersData = [
+    {
+        id: '172634', col: 'm', tipe: 'makan',
+        customer: 'Pak Cucik', phone: '0812-3378-6767', meja: 'Meja 11',
+        items: [
+            { nama: 'Nasgor goreng magel belang', qty: 1, harga: 50000, varian: ['Pedas Sedang'], tambah: ['Tambah Telur Dadar'] },
+            { nama: 'Ayam ayan spasial',           qty: 2, harga: 40000, varian: ['Sambal Matah'], tambah: ['Nasi Uduk'] },
+        ],
+        total: 90000, biayaLayanan: 4500, metode: 'QRIS', dibayar: true,
+        catatan: 'Mass jangan pakai sledri yaa sama minta acar makasihh',
+        tanggal: '22/03/2026, 12:45 WIB', waktu: null,
+    },
+    {
+        id: '167283', col: 'm', tipe: 'makan',
+        customer: 'Zammud Saprudin', phone: '0856-2211-4433', meja: 'Meja 5',
+        items: [
+            { nama: 'Nasgor goreng magel belang', qty: 1, harga: 50000, varian: [], tambah: [] },
+            { nama: 'Ayam ayan spasial',           qty: 2, harga: 40000, varian: [], tambah: [] },
+            { nama: 'Bebek Julepotan',              qty: 1, harga: 33000, varian: [], tambah: [] },
+        ],
+        total: 123000, biayaLayanan: 6150, metode: 'QRIS', dibayar: true,
+        catatan: '',
+        tanggal: '22/03/2026, 12:20 WIB', waktu: null,
+    },
+    {
+        id: '172634b', col: 'p', tipe: 'makan',
+        customer: 'Pak Cucik', phone: '0812-3378-6767', meja: 'Meja 11',
+        items: [
+            { nama: 'Nasgor goreng magel belang', qty: 1, harga: 50000, varian: [], tambah: [] },
+            { nama: 'Ayam ayan spasial',           qty: 2, harga: 40000, varian: [], tambah: [] },
+        ],
+        total: 90000, biayaLayanan: 4500, metode: 'Qris', dibayar: true,
+        catatan: 'Pedasnya dikurangin ya kak',
+        tanggal: '22/03/2026, 12:10 WIB', waktu: 15 * 60,
+    },
+    {
+        id: '167283b', col: 'p', tipe: 'makan',
+        customer: 'Zammud Saprudin', phone: '0856-2211-4433', meja: 'Meja 5',
+        items: [
+            { nama: 'Nasgor goreng magel belang', qty: 1, harga: 50000, varian: [], tambah: [] },
+            { nama: 'Ayam ayan spasial',           qty: 2, harga: 40000, varian: [], tambah: [] },
+            { nama: 'Bebek Julepotan',              qty: 1, harga: 33000, varian: [], tambah: [] },
+        ],
+        total: 123000, biayaLayanan: 6150, metode: 'Debit', dibayar: false,
+        catatan: '',
+        tanggal: '22/03/2026, 12:00 WIB', waktu: 20 * 60,
+    },
+    {
+        id: '172634c', col: 'p', tipe: 'makan',
+        customer: 'Pak Cucik', phone: '0812-3378-6767', meja: 'Meja 3',
+        items: [
+            { nama: 'Nasgor goreng magel belang', qty: 1, harga: 50000, varian: [], tambah: [] },
+            { nama: 'Ayam ayan spasial',           qty: 2, harga: 40000, varian: [], tambah: [] },
+        ],
+        total: 90000, biayaLayanan: 4500, metode: 'Tunai', dibayar: true,
+        catatan: '',
+        tanggal: '22/03/2026, 11:55 WIB', waktu: 15 * 60,
+    },
+];
+
+// Current tab state per column
+const colTab = { m: 'makan', p: 'makan' };
+let activeDetailId = null;
+const timerIntervals = {};
+
+// ================================================================
+// TAB SWITCH
+// ================================================================
+
+function switchTab(col, tipe, btn) {
+    colTab[col] = tipe;
+    // Update button styles
+    const tabs = btn.closest('.col-tabs').querySelectorAll('.col-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    // Show/hide lists
+    ['makan','preorder','reservasi'].forEach(t => {
+        const el = document.getElementById(`list-${col}-${t}`);
+        if (el) el.classList.toggle('hidden', t !== tipe);
+    });
 }
-document.addEventListener('DOMContentLoaded', () => {
-    startTimer('timer-home-1', 4*60+55);
-    startTimer('timer-home-2', 12*60+20);
-});
+
+// ================================================================
+// RENDER
+// ================================================================
+
+function fmt(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
+function fmtTime(sec) {
+    if (sec == null || sec < 0) return '00 : 00';
+    const m = Math.floor(sec / 60), s = sec % 60;
+    return String(m).padStart(2,'0') + ' : ' + String(s).padStart(2,'0');
+}
+
+function renderAll() {
+    const menunggu = ordersData.filter(o => o.col === 'm' && o.tipe === 'makan');
+    const proses   = ordersData.filter(o => o.col === 'p' && o.tipe === 'makan');
+
+    document.getElementById('badge-m').textContent = menunggu.length;
+    document.getElementById('badge-p').textContent = proses.length;
+
+    document.getElementById('list-m-makan').innerHTML = menunggu.length
+        ? menunggu.map(o => renderCard(o)).join('')
+        : '<div class="empty-state"><i class="ri-shopping-bag-line"></i>Tidak ada pesanan</div>';
+
+    document.getElementById('list-p-makan').innerHTML = proses.length
+        ? proses.map(o => renderCard(o)).join('')
+        : '<div class="empty-state"><i class="ri-shopping-bag-line"></i>Tidak ada pesanan</div>';
+
+    // Start timers for proses
+    proses.forEach(o => {
+        if (o.waktu != null && !timerIntervals[o.id]) {
+            startTimer(o);
+        }
+    });
+}
+
+function renderCard(o) {
+    const isProses  = o.col === 'p';
+    const isActive  = o.id === activeDetailId;
+    const totalFmt  = fmt(o.total);
+
+    // Item rows — max 3 visible (rest implied)
+    const itemRows = o.items.map(i => `
+        <div class="item-row">
+            <span class="item-name">${i.nama}</span>
+            <span class="item-qty">${i.qty}x</span>
+            <span class="item-price">Rp ${i.harga.toLocaleString('id-ID')}</span>
+        </div>
+    `).join('');
+
+    // Right side
+    const rightSide = isProses
+        ? `<div class="card-right">
+               <span class="card-total">${totalFmt}</span>
+               <div>
+                   <div class="waktu-label">Waktu</div>
+                   <div class="waktu-time" id="timer-${o.id}">${fmtTime(o.waktu)}</div>
+               </div>
+           </div>`
+        : `<div class="card-right">
+               <span class="card-total">${totalFmt}</span>
+               <div class="flex flex-col gap-1" style="min-width:60px;">
+                   <button class="btn-terima" onclick="event.stopPropagation(); terimaOrder('${o.id}')">Terima</button>
+                   <button class="btn-tolak"  onclick="event.stopPropagation(); tolakOrder('${o.id}')">Tolak</button>
+               </div>
+           </div>`;
+
+    return `
+        <div class="order-card ${isActive ? 'active-card' : ''}" id="card-${o.id}" onclick="openDetail('${o.id}')">
+            <div class="card-inner">
+                <div class="card-left">
+                    ${itemRows}
+                    <div class="card-footer">
+                        <img src="https://placehold.co/16x16/BFA370/fff?text=${o.customer[0]}" class="card-avatar">
+                        <span class="card-name">${o.customer}</span>
+                        <span class="card-orderid">Order ID : ${o.id}</span>
+                    </div>
+                </div>
+                ${rightSide}
+            </div>
+        </div>
+    `;
+}
+
+// ================================================================
+// TIMER
+// ================================================================
+
+function startTimer(o) {
+    timerIntervals[o.id] = setInterval(() => {
+        if (o.waktu <= 0) { clearInterval(timerIntervals[o.id]); return; }
+        o.waktu--;
+        const el = document.getElementById('timer-' + o.id);
+        if (el) el.textContent = fmtTime(o.waktu);
+    }, 1000);
+}
+
+// ================================================================
+// ACTIONS
+// ================================================================
+
+function terimaOrder(id) {
+    const o = ordersData.find(x => x.id === id);
+    if (!o) return;
+    o.col   = 'p';
+    o.waktu = 15 * 60;
+    if (activeDetailId === id) {
+        closeDetail();
+        setTimeout(() => openDetail(id), 50);
+    }
+    renderAll();
+    showToast('Pesanan diterima ✓');
+}
+
+function tolakOrder(id) {
+    if (!confirm('Tolak pesanan ini?')) return;
+    const idx = ordersData.findIndex(x => x.id === id);
+    if (idx >= 0) ordersData.splice(idx, 1);
+    if (timerIntervals[id]) { clearInterval(timerIntervals[id]); delete timerIntervals[id]; }
+    if (activeDetailId === id) closeDetail();
+    renderAll();
+    showToast('Pesanan ditolak');
+}
+
+// ================================================================
+// DETAIL PANEL
+// ================================================================
+
+function openDetail(id) {
+    const o = ordersData.find(x => x.id === id);
+    if (!o) return;
+    activeDetailId = id;
+
+    // Highlight active card
+    document.querySelectorAll('.order-card').forEach(c => c.classList.remove('active-card'));
+    document.getElementById('card-' + id)?.classList.add('active-card');
+
+    // Fill data
+    document.getElementById('dp-title').textContent    = `Detail Pesanan #${o.id}`;
+    document.getElementById('dp-date').textContent     = `Dipesan: ${o.tanggal}`;
+    document.getElementById('dp-customer').textContent = `Nama Pelanggan: ${o.customer}`;
+    document.getElementById('dp-phone').textContent    = `Kontak: ${o.phone}`;
+    document.getElementById('dp-meja').textContent     = `Meja: ${o.meja}`;
+
+    const subtotal = o.items.reduce((a, i) => a + i.harga * i.qty, 0);
+    const layanan  = Math.round(subtotal * 0.05);
+    const total    = subtotal + layanan;
+    document.getElementById('dp-subtotal').textContent  = `Rp${subtotal.toLocaleString('id-ID')}`;
+    document.getElementById('dp-layanan').textContent   = `Rp${layanan.toLocaleString('id-ID')}`;
+    document.getElementById('dp-total').textContent     = `Rp${total.toLocaleString('id-ID')}`;
+    document.getElementById('dp-metode').textContent    = o.metode;
+    const ps = document.getElementById('dp-pay-status');
+    ps.textContent = o.dibayar ? '● Sudah Dibayar' : '● Belum Dibayar';
+    ps.className   = o.dibayar ? 'text-green-500 font-semibold' : 'text-red-400 font-semibold';
+
+    // Status badge
+    const badge = document.getElementById('dp-status-badge');
+    if (o.col === 'm') { badge.textContent = 'Menunggu Persetujuan'; badge.className = 'st-menunggu'; }
+    else               { badge.textContent = 'Sedang Diproses';       badge.className = 'st-proses'; }
+
+    // Menu list
+    document.getElementById('dp-menu-list').innerHTML = o.items.map((item, i) => `
+        <div>
+            <p class="text-sm font-semibold text-gray-800">${i+1}. ${item.nama} (${item.qty}x) – Rp ${item.harga.toLocaleString('id-ID')}</p>
+            ${item.varian?.map(v => `<p class="text-xs text-gray-500 ml-3 mt-0.5">• Varian: ${v}</p>`).join('') || ''}
+            ${item.tambah?.map(t => `<p class="text-xs text-gray-500 ml-3 mt-0.5">• Tambah ${t}</p>`).join('') || ''}
+        </div>
+    `).join('');
+
+    // Catatan
+    const catatanWrap = document.getElementById('dp-catatan-wrap');
+    if (o.catatan) {
+        document.getElementById('dp-catatan').textContent = o.catatan;
+        catatanWrap.classList.remove('hidden');
+    } else {
+        catatanWrap.classList.add('hidden');
+    }
+
+    document.getElementById('detail-panel').classList.add('open');
+}
+
+function closeDetail() {
+    activeDetailId = null;
+    document.getElementById('detail-panel').classList.remove('open');
+    document.querySelectorAll('.order-card').forEach(c => c.classList.remove('active-card'));
+}
+
+// ================================================================
+// TOGGLE TOKO
+// ================================================================
+
+function toggleToko() {
+    const btn = document.getElementById('store-toggle');
+    const lbl = document.getElementById('toko-label');
+    btn.classList.toggle('off');
+    lbl.textContent = btn.classList.contains('off') ? 'Tutup' : 'Buka';
+}
+
+// ================================================================
+// TOAST
+// ================================================================
+
+function showToast(msg) {
+    let t = document.getElementById('toast-pc');
+    if (!t) {
+        t = document.createElement('div');
+        t.id = 'toast-pc';
+        t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#22C55E;color:white;font-size:13px;font-weight:600;padding:12px 20px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15);z-index:999;display:none;align-items:center;gap:8px;';
+        t.innerHTML = '<i class="ri-check-line"></i><span id="toast-pc-msg"></span>';
+        document.body.appendChild(t);
+    }
+    document.getElementById('toast-pc-msg').textContent = msg;
+    t.style.display = 'flex';
+    clearTimeout(t._t);
+    t._t = setTimeout(() => t.style.display = 'none', 2200);
+}
+
+// ================================================================
+// INIT
+// ================================================================
+document.addEventListener('DOMContentLoaded', renderAll);
 </script>
 </body>
 </html>

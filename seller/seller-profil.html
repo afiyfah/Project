@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NyamNow Seller — Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../assets/css/seller-shared.css">
+    <style>
+        .rating-bar-bg { background: #E5E7EB; border-radius: 99px; height: 7px; flex: 1; overflow: hidden; }
+        .rating-bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #BFA370, #8E754A); }
+        .profile-card { background: white; border-radius: 16px; border: 1px solid #EEE; box-shadow: 0 4px 20px rgba(0,0,0,0.05); padding: 24px; }
+    </style>
+</head>
+<body>
+
+<div id="seller-header-container"></div>
+<div class="seller-shell">
+<div id="seller-sidebar-container"></div>
+<main id="seller-main">
+
+    <h1 class="page-title mb-6">Profile</h1>
+
+    <div class="profile-card relative max-w-3xl">
+        <!-- Settings Icon -->
+        <button class="absolute top-5 right-5 text-gray-400 hover:text-gray-600 transition">
+            <i class="ri-settings-3-line text-xl"></i>
+        </button>
+
+        <div class="flex gap-8">
+            <!-- Left: Avatar + Stats -->
+            <div class="flex flex-col items-center gap-4 flex-shrink-0 w-36">
+                <!-- Avatar -->
+                <div class="relative">
+                    <img id="profile-img" src="assets/images/avatar.png"
+                         onerror="this.src='https://placehold.co/96x96/BFA370/fff?text=A'"
+                         class="w-24 h-24 rounded-full object-cover border-2 border-[#BFA370]">
+                </div>
+                <button onclick="document.getElementById('foto-input').click()"
+                        class="text-xs font-medium text-white px-4 py-1.5 rounded-lg w-full text-center"
+                        style="background:linear-gradient(90deg,#BFA370,#8E754A);">
+                    Ganti Foto Profile
+                </button>
+                <input type="file" id="foto-input" accept="image/*" class="hidden" onchange="gantiAvatar(this)">
+
+                <!-- Total Item -->
+                <div class="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-center">
+                    <p class="text-xs text-gray-500 font-medium">Total Item</p>
+                    <p class="text-2xl font-extrabold text-gray-800 mt-0.5">46 item</p>
+                </div>
+
+                <!-- Rating Toko -->
+                <div class="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-4">
+                    <p class="text-xs text-gray-500 font-medium mb-2">Rating Toko</p>
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="ri-star-fill text-yellow-400 text-xl"></i>
+                        <span class="text-2xl font-extrabold text-gray-800">4.8</span>
+                    </div>
+                    <p class="text-[11px] text-gray-400 mb-3">(500+ Ulasan)</p>
+
+                    <!-- Rating Bars -->
+                    <div class="space-y-1.5" id="rating-bars"></div>
+                </div>
+            </div>
+
+            <!-- Right: Form -->
+            <div class="flex-1 space-y-4">
+                <!-- Nama Toko -->
+                <div>
+                    <label class="text-xs font-medium text-gray-600 block mb-1">Nama Toko</label>
+                    <input class="s-input" id="nama-toko" value="Ayam Labubu">
+                </div>
+
+                <!-- Deskripsi Toko -->
+                <div>
+                    <label class="text-xs font-medium text-gray-600 block mb-1">Deskripsi Toko</label>
+                    <textarea class="s-input resize-none" id="deskripsi-toko" rows="4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in,</textarea>
+                </div>
+
+                <!-- Kontak + Email -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-xs font-medium text-gray-600 block mb-1">Kontak</label>
+                        <input class="s-input" id="kontak" value="+62 884-1213-5533">
+                    </div>
+                    <div>
+                        <label class="text-xs font-medium text-gray-600 block mb-1">Email</label>
+                        <input class="s-input" id="email" type="email" value="ayamlabubu@gmail.com">
+                    </div>
+                </div>
+
+                <!-- Alamat Toko -->
+                <div>
+                    <label class="text-xs font-medium text-gray-600 block mb-1">Alamat Toko</label>
+                    <textarea class="s-input resize-none" id="alamat-toko" rows="4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in,</textarea>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex gap-3 pt-1">
+                    <button onclick="editProfil()" class="btn-outline px-8">Edit Profil</button>
+                    <button onclick="simpanProfil()" class="btn-gold px-8">Simpan Perubahan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+</div>
+
+<script src="../js/seller-shared.js"></script>
+<script>
+// Rating data
+const ratingData = [
+    { bintang: 5, jumlah: 437 },
+    { bintang: 4, jumlah: 115 },
+    { bintang: 3, jumlah: 35  },
+    { bintang: 2, jumlah: 10  },
+    { bintang: 1, jumlah: 0   },
+];
+const maxRating = Math.max(...ratingData.map(r => r.jumlah));
+
+function renderRatingBars() {
+    const el = document.getElementById('rating-bars');
+    el.innerHTML = ratingData.map(r => `
+        <div class="flex items-center gap-2">
+            <span class="text-[11px] text-gray-500 w-3 text-right flex-shrink-0">${r.bintang}</span>
+            <div class="rating-bar-bg flex-1">
+                <div class="rating-bar-fill" style="width:${maxRating > 0 ? (r.jumlah/maxRating*100) : 0}%"></div>
+            </div>
+            <span class="text-[11px] text-gray-500 w-6 text-right flex-shrink-0">${r.jumlah}</span>
+        </div>
+    `).join('');
+}
+
+function gantiAvatar(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => { document.getElementById('profile-img').src = e.target.result; };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+let isEditing = false;
+function editProfil() {
+    isEditing = true;
+    ['nama-toko','deskripsi-toko','kontak','email','alamat-toko'].forEach(id => {
+        const el = document.getElementById(id);
+        el.removeAttribute('readonly');
+        el.classList.add('border-[#BFA370]');
+        el.focus();
+    });
+}
+
+function simpanProfil() {
+    ['nama-toko','deskripsi-toko','kontak','email','alamat-toko'].forEach(id => {
+        const el = document.getElementById(id);
+        el.setAttribute('readonly', true);
+        el.classList.remove('border-[#BFA370]');
+    });
+    isEditing = false;
+
+    // Update nama di header avatar area
+    const nama = document.getElementById('nama-toko').value;
+    const toast = document.createElement('div');
+    toast.className = 'fixed bottom-6 right-6 bg-green-500 text-white text-sm font-medium px-5 py-3 rounded-xl shadow-lg z-50 flex items-center gap-2';
+    toast.innerHTML = '<i class="ri-check-line text-lg"></i> Perubahan berhasil disimpan!';
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2500);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderRatingBars();
+    // Default: semua field readonly
+    ['nama-toko','deskripsi-toko','kontak','email','alamat-toko'].forEach(id => {
+        document.getElementById(id)?.setAttribute('readonly', true);
+    });
+});
+</script>
+</body>
+</html>

@@ -3,19 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Kita - Chat Toko</title>
+    <title>Market Kita - Chat</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
-    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        'oren-tua': '#EE8F36',
-                        'emas-teks': '#78450E'
-                    },
+                    colors: { 'oren-tua': '#EE8F36', 'emas-teks': '#78450E' },
                     backgroundImage: {
                         'emas-main': 'linear-gradient(90deg, #BFA370 39%, #8E754A 82%)',
                     }
@@ -23,299 +19,465 @@
             }
         }
     </script>
-
     <style>
         * { font-family: 'Poppins', sans-serif; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* State Aktif untuk Daftar Chat */
-        .chat-item.active { 
-            background-color: #FDF4E6; /* Warna oren muda transparan */
-            border-left: 4px solid #EE8F36; /* Garis oren di kiri */
+
+        body { background: #F5F5F5; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+        /* Header */
+        .chat-header {
+            background: linear-gradient(90deg, #BFA370 0%, #8E754A 100%);
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
         }
+
+        /* Shell */
+        .chat-shell {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            background: white;
+        }
+
+        /* Contact List */
+        .contact-col {
+            width: 280px;
+            flex-shrink: 0;
+            border-right: 1px solid #F0EDE8;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+
+        /* Contact item */
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #F8F5F1;
+            transition: background 0.15s;
+        }
+        .contact-item:hover { background: #FAF7F3; }
+        .contact-item.active { background: #F3EDE3; }
+
+        /* Chat window */
+        .chat-window {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #FAFAF9;
+        }
+
+        /* Chat header (window) */
+        .chat-win-header {
+            padding: 14px 20px;
+            background: white;
+            border-bottom: 1px solid #F0EDE8;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Messages area */
+        .messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .messages-area::-webkit-scrollbar { width: 4px; }
+        .messages-area::-webkit-scrollbar-thumb { background: #D6C9B0; border-radius: 99px; }
+
+        /* Date divider */
+        .date-divider {
+            text-align: center;
+        }
+        .date-divider span {
+            background: #E8E3DA;
+            color: #888;
+            font-size: 11px;
+            padding: 4px 14px;
+            border-radius: 99px;
+        }
+
+        /* Bubble from store (left) */
+        .bubble-left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            max-width: 55%;
+        }
+        .bubble-left .bubble-body {
+            background: white;
+            border-radius: 4px 14px 14px 14px;
+            padding: 11px 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            font-size: 14px;
+            color: #333;
+            line-height: 1.55;
+        }
+        .bubble-left .bubble-time {
+            font-size: 10px;
+            color: #aaa;
+            margin-top: 4px;
+            padding-left: 4px;
+        }
+
+        /* Bubble from me (right) */
+        .bubble-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            max-width: 55%;
+            align-self: flex-end;
+        }
+        .bubble-right .bubble-body {
+            background: #EDE4D6;
+            border-radius: 14px 4px 14px 14px;
+            padding: 11px 16px;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.55;
+        }
+        .bubble-right .bubble-time {
+            font-size: 10px;
+            color: #aaa;
+            margin-top: 4px;
+            padding-right: 4px;
+        }
+
+        /* Input area */
+        .input-area {
+            padding: 12px 20px;
+            background: white;
+            border-top: 1px solid #F0EDE8;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .msg-input {
+            flex: 1;
+            border: 1px solid #E8E3DA;
+            border-radius: 24px;
+            padding: 11px 18px;
+            font-size: 14px;
+            outline: none;
+            background: #FAFAF8;
+            color: #333;
+            transition: border-color 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .msg-input:focus { border-color: #BFA370; background: white; }
+        .send-btn {
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #BFA370, #8E754A);
+            color: white;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; border: none;
+            transition: opacity 0.2s, transform 0.1s;
+            flex-shrink: 0;
+        }
+        .send-btn:hover { opacity: 0.9; }
+        .send-btn:active { transform: scale(0.92); }
+
+        /* Search input */
+        .search-input {
+            border: 1px solid #E8E3DA;
+            border-radius: 8px;
+            padding: 7px 10px 7px 32px;
+            font-size: 12px;
+            outline: none;
+            width: 100%;
+            background: #FAFAF8;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.2s;
+        }
+        .search-input:focus { border-color: #BFA370; }
+
+        /* Filter select */
+        .filter-select {
+            border: 1px solid #E8E3DA;
+            border-radius: 8px;
+            padding: 7px 8px;
+            font-size: 11px;
+            outline: none;
+            background: white;
+            cursor: pointer;
+            color: #555;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Online dot */
+        .online-dot {
+            width: 8px; height: 8px;
+            background: #22C55E;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* No scrollbar */
+        .no-scroll::-webkit-scrollbar { display: none; }
+        .no-scroll { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-[#FDFDFD] h-screen flex flex-col overflow-hidden">
+<body>
 
-    <div id="header-container"></div>
+<!-- Top Header -->
+<div class="chat-header">
+    <button onclick="history.back()" class="text-white hover:opacity-75 transition">
+        <i class="ri-arrow-left-line text-xl"></i>
+    </button>
+    <h1 class="text-white font-bold text-lg">Chat <span class="bg-white/25 text-white text-sm font-semibold px-2 py-0.5 rounded-full ml-1" id="chat-count">7</span></h1>
+</div>
 
-    <main class="flex-grow max-w-[1440px] mx-auto w-full flex bg-white border border-gray-100 overflow-hidden shadow-sm">
-        
-        <aside class="w-[380px] border-r border-gray-100 flex flex-col">
-            
-            <div class="p-6 border-b border-gray-100 space-y-4">
-                <div class="flex items-center gap-3">
-                    <a href="profil-toko.html" class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200 hover:text-gray-700 transition-colors">
-                        <i class="ri-arrow-left-line text-xl"></i>
-                    </a>
-                    <h1 class="text-2xl font-bold text-gray-800">Chat</h1>
-                </div>
-                <div class="relative">
-                    <i class="ri-search-line absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                    <input type="text" placeholder="Cari nama toko atau pembeli..." class="w-full pl-11 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:ring-1 focus:ring-oren-tua/50 focus:border-oren-tua outline-none transition-all">
+<!-- Main Shell -->
+<div class="chat-shell">
+
+    <!-- Contact List -->
+    <div class="contact-col">
+        <!-- Search + Filter -->
+        <div class="flex items-center gap-2 px-3 py-3 border-b border-gray-100">
+            <div class="relative flex-1">
+                <i class="ri-search-line absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input class="search-input" placeholder="Cari nama" id="search-contact" oninput="filterContacts()">
+            </div>
+            <select class="filter-select" onchange="filterContacts()">
+                <option>Semua</option>
+                <option>Belum Baca</option>
+                <option>Sudah Baca</option>
+            </select>
+        </div>
+
+        <!-- List -->
+        <div class="overflow-y-auto flex-1 no-scroll" id="contact-list"></div>
+    </div>
+
+    <!-- Chat Window -->
+    <div class="chat-window">
+        <!-- Window Header -->
+        <div class="chat-win-header">
+            <img id="win-avatar" src="assets/images/makanan2.png"
+                 onerror="this.src='https://placehold.co/40x40/BFA370/fff?text=A'"
+                 class="w-10 h-10 rounded-full object-cover border border-[#E8E3DA]">
+            <div>
+                <p id="win-name" class="font-semibold text-gray-800 text-sm">Ayam Goreng 39</p>
+                <div class="flex items-center gap-2 mt-0.5">
+                    <span class="online-dot"></span>
+                    <span class="text-xs text-green-500 font-medium">Online</span>
+                    <span class="text-gray-200 text-xs">|</span>
+                    <i class="ri-star-fill text-yellow-400 text-xs"></i>
+                    <span class="text-xs text-gray-500 font-medium" id="win-rating">4.8</span>
                 </div>
             </div>
+        </div>
 
-            <div class="flex-grow overflow-y-auto no-scrollbar py-2" id="chat-list-container">
-                
-                <div class="chat-item active flex items-center gap-4 px-6 py-4 cursor-pointer hover:bg-gray-50 transition-colors" onclick="loadChat(1)">
-                    <img src="assets/images/rawon.png" class="w-14 h-14 rounded-full" alt="Ayam Goreng 39">
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-center">
-                            <h3 class="font-semibold text-gray-800">Ayam Goreng 39</h3>
-                            <span class="text-xs text-gray-400">12:24</span>
-                        </div>
-                        <p class="text-sm text-gray-500 truncate mt-0.5">Bisa kak, untuk paha atas bisa dipisah...</p>
-                    </div>
-                </div>
+        <!-- Messages -->
+        <div class="messages-area" id="messages-area"></div>
 
-                <div class="chat-item flex items-center gap-4 px-6 py-4 cursor-pointer hover:bg-gray-50 transition-colors" onclick="loadChat(2)">
-                    <div class="relative">
-                        <img src="assets/images/mie ayam.png" class="w-14 h-14 rounded-full" alt="Soto Lamongan Pak Jo">
-                        <span class="absolute bottom-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></span> </div>
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-center">
-                            <h3 class="font-semibold text-gray-800">Soto Lamongan Pak Jo</h3>
-                            <span class="text-xs text-oren-tua font-medium">10:15</span>
-                        </div>
-                        <p class="text-sm text-gray-800 font-medium truncate mt-0.5">Pesanan sedang dalam pengiriman kak!</p>
-                    </div>
-                </div>
+        <!-- Input -->
+        <div class="input-area">
+            <input class="msg-input" id="msg-input" placeholder="Tulis pesan..."
+                   onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); sendMessage(); }">
+            <button class="send-btn" onclick="sendMessage()">
+                <i class="ri-send-plane-2-fill text-lg"></i>
+            </button>
+        </div>
+    </div>
 
-                <div class="chat-item flex items-center gap-4 px-6 py-4 cursor-pointer hover:bg-gray-50 transition-colors" onclick="loadChat(3)">
-                    <img src="assets/images/mie ayam.png" class="w-14 h-14 rounded-full" alt="Rawon Daging Mak Erot">
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-center">
-                            <h3 class="font-semibold text-gray-800">Rawon Daging Mak Erot</h3>
-                            <span class="text-xs text-gray-400">Kemarin</span>
-                        </div>
-                        <p class="text-sm text-gray-500 truncate mt-0.5">Rawonnya ready ya kak.</p>
-                    </div>
-                </div>
+</div>
 
+<script src="js/script.js"></script>
+<script>
+// ================================================================
+// DATA
+// ================================================================
+
+const contacts = [
+    { id: 1, nama: 'Ayam Goreng 39',  preview: 'Bisa kak',                          waktu: 'Kemarin', avatar: 'assets/images/makanan2.png', rating: 4.8, unread: 0, aktif: true  },
+    { id: 2, nama: 'Ayam Goreng 39',  preview: 'Untuk pesanan ayam goreng paha atas...', waktu: 'Kemarin', avatar: 'assets/images/makanan2.png', rating: 4.8, unread: 2, aktif: false },
+    { id: 3, nama: 'Ayam Goreng 39',  preview: 'Untuk pesanan ayam goreng paha atas...', waktu: 'Kemarin', avatar: 'assets/images/makanan2.png', rating: 4.8, unread: 0, aktif: false },
+    { id: 4, nama: 'Ayam Goreng 39',  preview: 'Untuk pesanan ayam goreng paha atas...', waktu: 'Kemarin', avatar: 'assets/images/makanan2.png', rating: 4.8, unread: 1, aktif: false },
+    { id: 5, nama: 'Ayam Goreng 39',  preview: 'Untuk pesanan ayam goreng paha atas...', waktu: 'Kemarin', avatar: 'assets/images/makanan2.png', rating: 4.8, unread: 0, aktif: false },
+    { id: 6, nama: 'Ayam Goreng 39',  preview: 'Untuk pesanan ayam goreng paha atas...', waktu: 'Kemarin', avatar: 'assets/images/makanan2.png', rating: 4.8, unread: 0, aktif: false },
+    { id: 7, nama: 'Ayam Goreng 39',  preview: 'Untuk pesanan ayam goreng paha atas...', waktu: 'Kemarin', avatar: 'assets/images/makanan2.png', rating: 4.8, unread: 0, aktif: false },
+];
+
+// Messages per contact id
+const messagesDB = {
+    1: [
+        { tipe: 'date', label: 'Kemarin' },
+        { tipe: 'left',  text: 'Untuk pesanan ayam goreng paha atas, Ayam sama nasinya bisa di pisah nggk ya?', waktu: '12.24' },
+        { tipe: 'right', text: 'Bisa kak', waktu: '12.24' },
+    ],
+    2: [
+        { tipe: 'date', label: 'Kemarin' },
+        { tipe: 'left',  text: 'Untuk pesanan ayam goreng paha atas, gimana pesanannya?', waktu: '11.30' },
+    ],
+    3: [
+        { tipe: 'date', label: 'Kemarin' },
+        { tipe: 'right', text: 'Kak, pesanannya sudah siap belum?', waktu: '10.00' },
+        { tipe: 'left',  text: 'Sebentar ya kak, masih dalam proses.', waktu: '10.05' },
+    ],
+    4: [
+        { tipe: 'date', label: 'Kemarin' },
+        { tipe: 'left',  text: 'Halo kak, ada yang bisa kami bantu?', waktu: '09.00' },
+    ],
+    5: [
+        { tipe: 'date', label: 'Kemarin' },
+        { tipe: 'right', text: 'Min, tolong tambah sambalnya ya.', waktu: '14.00' },
+        { tipe: 'left',  text: 'Siap kak!', waktu: '14.02' },
+    ],
+    6: [
+        { tipe: 'date', label: 'Kemarin' },
+        { tipe: 'left',  text: 'Terima kasih sudah memesan di toko kami!', waktu: '16.00' },
+    ],
+    7: [
+        { tipe: 'date', label: 'Kemarin' },
+        { tipe: 'right', text: 'Berapa lama estimasi pengiriman?', waktu: '13.00' },
+        { tipe: 'left',  text: 'Sekitar 15-20 menit kak.', waktu: '13.03' },
+    ],
+};
+
+let activeId = 1;
+
+// ================================================================
+// RENDER
+// ================================================================
+
+function renderContacts(list) {
+    const el = document.getElementById('contact-list');
+    el.innerHTML = list.map(c => `
+        <div class="contact-item ${c.aktif ? 'active' : ''}" onclick="selectContact(${c.id})">
+            <div class="relative flex-shrink-0">
+                <img src="${c.avatar}" onerror="this.src='https://placehold.co/44x44/BFA370/fff?text=${c.nama[0]}'"
+                     class="w-11 h-11 rounded-full object-cover border border-gray-100">
+                ${c.unread > 0 ? `<span class="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">${c.unread}</span>` : ''}
             </div>
-        </aside>
-
-        <section class="flex-grow flex flex-col" id="chat-main-area">
-            
-            <header class="p-4 border-b border-gray-100 flex items-center justify-between gap-4">
-                <div class="flex items-center gap-3">
-                    <img id="header-avatar" src="assets/images/user.png" class="w-12 h-12 rounded-full" alt="Store Avatar">
-                    <div>
-                        <h2 id="header-store-name" class="font-semibold text-lg text-gray-800">Ayam Goreng 39</h2>
-                        <div class="flex items-center gap-1.5 text-xs text-green-600">
-                            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
-                            <span>Online</span>
-                            <span class="text-gray-300 mx-1">|</span>
-                            <i class="ri-star-fill text-yellow-400"></i>
-                            <span class="text-orange-400 font-medium">4.8</span>
-                        </div>
-                    </div>
+            <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between">
+                    <p class="font-semibold text-gray-800 text-sm truncate">${c.nama}</p>
+                    <span class="text-[10px] text-gray-400 flex-shrink-0 ml-2">${c.waktu}</span>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-full">
-                        <i class="ri-phone-line text-lg"></i>
-                    </button>
-                    <button class="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-full">
-                        <i class="ri-more-2-line text-lg"></i>
-                    </button>
-                </div>
-            </header>
-
-            <div class="flex-grow bg-[#FDFDFD] p-10 overflow-y-auto no-scrollbar space-y-6" id="chat-messages-container">
-                
-                <div class="text-center my-8">
-                    <span class="bg-[#F3F3F3] text-gray-500 text-xs px-4 py-1.5 rounded-full font-medium">Kemarin</span>
-                </div>
-
-                <div class="flex justify-end group">
-                    <div class="flex flex-col items-end gap-1 max-w-[70%]">
-                        <div class="bg-white border border-gray-100 text-gray-800 p-4 rounded-xl rounded-br-none shadow-sm text-sm leading-relaxed">
-                            Untuk pesanan ayam goreng paha atas, Ayam sama nasinya bisa di pisah nggak ya?
-                        </div>
-                        <span class="text-[10px] text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">12:20</span>
-                    </div>
-                </div>
-
-                <div class="flex justify-start group">
-                    <div class="flex items-start gap-3 max-w-[70%]">
-                        <img src="assets/images/user.png" class="w-8 h-8 rounded-full mt-1" alt="Store Avatar">
-                        <div class="flex flex-col gap-1">
-                            <div class="bg-emas-main text-white p-4 rounded-xl rounded-bl-none text-sm leading-relaxed">
-                                Bisa kak
-                            </div>
-                            <span class="text-[10px] text-gray-400">12:24</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="new-message-placeholder"></div>
-
+                <p class="text-xs text-gray-500 truncate mt-0.5">${c.preview}</p>
             </div>
+        </div>
+    `).join('');
+}
 
-            <footer class="p-4 bg-white border-t border-gray-100">
-                <form id="chat-form" class="flex items-center gap-3 relative">
-                    
-                    <div id="typing-indicator" class="hidden absolute -top-12 left-4 bg-white/80 backdrop-blur-sm border border-gray-100 text-xs text-gray-400 px-3 py-1.5 rounded-full shadow-md flex items-center gap-1.5">
-                        <div class="flex gap-0.5">
-                            <div class="w-1.5 h-1.5 bg-gray-300 rounded-full animate-pulse"></div>
-                            <div class="w-1.5 h-1.5 bg-gray-300 rounded-full animate-pulse [animation-delay:200ms]"></div>
-                            <div class="w-1.5 h-1.5 bg-gray-300 rounded-full animate-pulse [animation-delay:400ms]"></div>
-                        </div>
-                        Ayam Goreng 39 sedang mengetik...
-                    </div>
-
-                    <button type="button" class="w-11 h-11 flex items-center justify-center text-gray-400 hover:text-oren-tua hover:bg-oren-tua/10 rounded-full transition-all">
-                        <i class="ri-attachment-2 text-xl rotate-45"></i>
-                    </button>
-                    
-                    <input type="text" id="chat-input" placeholder="Tulis pesan..." class="flex-grow px-5 py-3 border border-gray-200 rounded-full text-sm focus:ring-1 focus:ring-oren-tua/50 focus:border-oren-tua outline-none transition-all">
-                    
-                    <button type="submit" id="send-btn" class="w-11 h-11 flex items-center justify-center bg-oren-tua text-white rounded-full shadow-md hover:bg-[#D97926] active:scale-95 transition-all disabled:bg-gray-300 disabled:shadow-none" disabled>
-                        <i class="ri-send-plane-2-fill text-xl"></i>
-                    </button>
-                </form>
-            </footer>
-        </section>
-
-    </main>
-
-    <script src="js/script.js"></script>
-
-    <script>
-    // 1. DATA CONFIGURATION
-    const chatData = {
-        1: {
-            name: "Ayam Goreng 39",
-            avatar: "assets/images/user.png",
-            status: "Online",
-            messages: [
-                { sender: 'them', text: 'Untuk pesanan ayam goreng paha atas, Ayam sama nasinya bisa di pisah nggak ya?', time: '12:20' },
-                { sender: 'me', text: 'Bisa kak', time: '12:24' }
-            ]
-        },
-        2: {
-            name: "Soto Lamongan Pak Jo",
-            avatar: "https://via.placeholder.com/56x56/FF9A6A/FFFFFF?text=S",
-            status: "Offline",
-            messages: [
-                { sender: 'them', text: 'Cek stok soto dong kak?', time: '10:10' },
-                { sender: 'me', text: 'Stok Soto sisa 5 porsi kak.', time: '10:12' }
-            ]
+function renderMessages(id) {
+    const msgs = messagesDB[id] || [];
+    const el = document.getElementById('messages-area');
+    el.innerHTML = msgs.map(m => {
+        if (m.tipe === 'date') {
+            return `<div class="date-divider"><span>${m.label}</span></div>`;
         }
-    };
-
-    // 2. DOM ELEMENTS
-    const chatInput = document.getElementById('chat-input');
-    const sendBtn = document.getElementById('send-btn');
-    const chatForm = document.getElementById('chat-form');
-    const messagesContainer = document.getElementById('chat-messages-container');
-    const typingIndicator = document.getElementById('typing-indicator');
-
-    // 3. CORE FUNCTIONS
-    function appendMessage(sender, text, time = null) {
-        // Cek apakah placeholder ada, jika tidak (karena innerHTML baru), buat lagi
-        let placeholder = document.getElementById('new-message-placeholder');
-        if (!placeholder) {
-            messagesContainer.insertAdjacentHTML('beforeend', '<div id="new-message-placeholder"></div>');
-            placeholder = document.getElementById('new-message-placeholder');
-        }
-
-        const timeStr = time || new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-
-        let messageHtml = '';
-        if (sender === 'me') {
-            // Bubble Biru/Emas (Penjual - Kanan)
-            messageHtml = `
-                <div class="flex justify-start group">
-                    <div class="flex items-start gap-3 max-w-[70%]">
-                        <img src="assets/images/user.png" class="w-8 h-8 rounded-full mt-1" alt="Avatar">
-                        <div class="flex flex-col gap-1">
-                            <div class="bg-emas-main text-white p-4 rounded-xl rounded-bl-none text-sm shadow-sm animate-in fade-in slide-in-from-bottom-2 duration-300">
-                                ${text}
-                            </div>
-                            <span class="text-[10px] text-gray-400">${timeStr}</span>
-                        </div>
-                    </div>
-                </div>`;
-        } else {
-            // Bubble Putih (Pembeli - Kiri)
-            messageHtml = `
-                <div class="flex justify-end group">
-                    <div class="flex flex-col items-end gap-1 max-w-[70%]">
-                        <div class="bg-white border border-gray-100 text-gray-800 p-4 rounded-xl rounded-br-none shadow-sm text-sm animate-in fade-in slide-in-from-bottom-2 duration-300">
-                            ${text}
-                        </div>
-                        <span class="text-[10px] text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">${timeStr}</span>
-                    </div>
+        if (m.tipe === 'left') {
+            return `
+                <div class="bubble-left">
+                    <div class="bubble-body">${m.text}</div>
+                    <span class="bubble-time">${m.waktu}</span>
                 </div>`;
         }
+        if (m.tipe === 'right') {
+            return `
+                <div class="bubble-right">
+                    <div class="bubble-body">${m.text}</div>
+                    <span class="bubble-time">${m.waktu}</span>
+                </div>`;
+        }
+        return '';
+    }).join('');
+    // Scroll to bottom
+    el.scrollTop = el.scrollHeight;
+}
 
-        placeholder.insertAdjacentHTML('beforebegin', messageHtml);
-        scrollToBottom();
-    }
+function updateWindowHeader(id) {
+    const c = contacts.find(x => x.id === id);
+    if (!c) return;
+    document.getElementById('win-name').textContent   = c.nama;
+    document.getElementById('win-rating').textContent = c.rating;
+    const avatar = document.getElementById('win-avatar');
+    avatar.src = c.avatar;
+    avatar.onerror = () => { avatar.src = `https://placehold.co/40x40/BFA370/fff?text=${c.nama[0]}`; };
+}
 
-    function scrollToBottom() {
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
+// ================================================================
+// INTERACTIONS
+// ================================================================
 
-    // 4. EVENT LISTENERS
-    // Toggle tombol kirim
-    chatInput.addEventListener('input', (e) => {
-        sendBtn.disabled = e.target.value.trim().length === 0;
+function selectContact(id) {
+    contacts.forEach(c => {
+        c.aktif = c.id === id;
+        if (c.id === id) c.unread = 0; // clear unread
     });
+    activeId = id;
+    renderContacts(contacts);
+    renderMessages(id);
+    updateWindowHeader(id);
+    updateChatCount();
+}
 
-    // Handle Kirim Pesan
-    chatForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const text = chatInput.value.trim();
-        if (!text) return;
+function filterContacts() {
+    const q = (document.getElementById('search-contact')?.value || '').toLowerCase();
+    const filtered = contacts.filter(c => c.nama.toLowerCase().includes(q));
+    renderContacts(filtered);
+}
 
-        appendMessage('me', text);
-        chatInput.value = '';
-        sendBtn.disabled = true;
+function sendMessage() {
+    const input = document.getElementById('msg-input');
+    const text = input.value.trim();
+    if (!text) return;
 
-        // Simulasi Balasan
-        setTimeout(() => {
-            typingIndicator.classList.remove('hidden');
-            scrollToBottom();
-            
-            setTimeout(() => {
-                typingIndicator.classList.add('hidden');
-                appendMessage('them', 'Oke kak, ditunggu ya!');
-            }, 1500);
-        }, 800);
-    });
+    const now = new Date();
+    const time = now.getHours().toString().padStart(2,'0') + '.' + now.getMinutes().toString().padStart(2,'0');
 
-    // Handle Ganti Chat
-    function loadChat(chatId) {
-        const data = chatData[chatId];
-        if (!data) return;
+    // Add to DB
+    if (!messagesDB[activeId]) messagesDB[activeId] = [];
+    messagesDB[activeId].push({ tipe: 'right', text, waktu: time });
 
-        // UI Active State
-        document.querySelectorAll('.chat-item').forEach(item => item.classList.remove('active'));
-        event.currentTarget.classList.add('active');
+    // Update contact preview
+    const c = contacts.find(x => x.id === activeId);
+    if (c) c.preview = text;
 
-        // Update Header
-        document.getElementById('header-avatar').src = data.avatar;
-        document.getElementById('header-store-name').innerText = data.name;
+    input.value = '';
+    renderMessages(activeId);
+    renderContacts(contacts);
 
-        // Clear & Load History
-        messagesContainer.innerHTML = `
-            <div class="text-center my-8">
-                <span class="bg-[#F3F3F3] text-gray-500 text-xs px-4 py-1.5 rounded-full font-medium uppercase tracking-wider">Percakapan Dimulai</span>
-            </div>
-            <div id="new-message-placeholder"></div>
-        `;
+    // Simulate reply after 1s
+    setTimeout(() => {
+        const replies = ['Siap kak!', 'Oke kak, noted!', 'Baik kak, akan kami proses.', 'Terima kasih pesanannya kak!', 'Sebentar ya kak.'];
+        const reply = replies[Math.floor(Math.random() * replies.length)];
+        const replyTime = new Date().getHours().toString().padStart(2,'0') + '.' + new Date().getMinutes().toString().padStart(2,'0');
+        messagesDB[activeId].push({ tipe: 'left', text: reply, waktu: replyTime });
+        const cc = contacts.find(x => x.id === activeId);
+        if (cc) cc.preview = reply;
+        renderMessages(activeId);
+        renderContacts(contacts);
+    }, 1000 + Math.random() * 800);
+}
 
-        data.messages.forEach(msg => {
-            appendMessage(msg.sender, msg.text, msg.time);
-        });
-    }
+function updateChatCount() {
+    const total = contacts.reduce((acc, c) => acc + (c.unread || 0), 0);
+    document.getElementById('chat-count').textContent = total > 0 ? total : contacts.length;
+}
 
-    // Initialize
-    window.onload = scrollToBottom;
+// ================================================================
+// INIT
+// ================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    renderContacts(contacts);
+    renderMessages(activeId);
+    updateWindowHeader(activeId);
+    updateChatCount();
+});
 </script>
 </body>
 </html>

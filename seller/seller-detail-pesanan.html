@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NyamNow Seller — Detail Pesanan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../assets/css/seller-shared.css">
+</head>
+<body>
+
+<div id="seller-header-container"></div>
+<div class="seller-shell">
+<div id="seller-sidebar-container"></div>
+<main id="seller-main">
+
+    <div class="flex items-center gap-3 mb-6">
+        <button onclick="history.back()" class="btn-outline flex items-center gap-1 text-xs"><i class="ri-arrow-left-line"></i> Kembali</button>
+        <h1 class="page-title">Detail Pesanan</h1>
+    </div>
+
+    <div class="flex gap-6">
+        <!-- Left -->
+        <div class="flex-1 space-y-4">
+            <div>
+                <h2 class="font-semibold text-gray-700 mb-3">Menunggu Konfirmasi</h2>
+                <div class="order-card shadow-soft">
+                    <div class="order-card-header">
+                        <div class="flex items-center gap-2">
+                            <img src="https://placehold.co/28x28/BFA370/fff?text=J" class="w-7 h-7 rounded-full">
+                            <span class="font-semibold text-gray-800 text-sm">John Wayne</span>
+                        </div>
+                        <span class="order-timer" id="timer-d1">04:55</span>
+                    </div>
+                    <div class="px-4 py-3 space-y-3">
+                        <div class="grid items-center gap-2 text-sm" style="grid-template-columns:52px 1fr 70px 28px 70px;">
+                            <img src="assets/images/mie ayam.png" onerror="this.src='https://placehold.co/52x52/f3f3f3/BFA370?text=🍗'" class="w-13 h-13 rounded-xl object-cover">
+                            <div><p class="font-medium text-gray-800">Ayam Paha Atas</p><span class="text-[11px] bg-orange-50 text-orange-400 border border-orange-100 px-2 py-0.5 rounded-full">Super Pedas</span></div>
+                            <p class="text-[#BFA370] text-center text-xs">Rp17.000</p>
+                            <p class="text-gray-500 text-center text-xs">x1</p>
+                            <p class="text-[#BFA370] font-semibold text-right text-xs">Rp17.000</p>
+                        </div>
+                        <div class="grid items-center gap-2 text-sm" style="grid-template-columns:52px 1fr 70px 28px 70px;">
+                            <img src="assets/images/makanan2.png" onerror="this.src='https://placehold.co/52x52/f3f3f3/BFA370?text=🍗'" class="w-13 h-13 rounded-xl object-cover">
+                            <div><p class="font-medium text-gray-800">Ayam Paha Bandung</p><span class="text-[11px] bg-red-50 text-red-400 border border-red-100 px-2 py-0.5 rounded-full">Super Pedas Jeletot</span></div>
+                            <p class="text-[#BFA370] text-center text-xs">Rp18.000</p>
+                            <p class="text-gray-500 text-center text-xs">x3</p>
+                            <p class="text-[#BFA370] font-semibold text-right text-xs">Rp54.000</p>
+                        </div>
+                    </div>
+                    <div class="px-4 py-3 border-t border-gray-100">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2 text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-3 py-1.5">
+                                <i class="ri-shopping-bag-line text-[#BFA370]"></i> 4 item · Total <strong class="text-[#BFA370] ml-1">Rp71.000</strong>
+                            </div>
+                            <span class="text-xs text-gray-500">Order ID: 987654</span>
+                        </div>
+                        <p class="text-xs text-gray-500 text-right mb-3">Metode Pemesanan: Ambil Ditempat</p>
+                        <div class="flex gap-2 justify-end">
+                            <button class="btn-red text-xs"><i class="ri-close-line"></i> Tolak</button>
+                            <button class="btn-green text-xs"><i class="ri-check-line"></i> Terima</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Catatan -->
+                <div class="card mt-3 px-4 py-3 flex items-start gap-2 shadow-soft">
+                    <i class="ri-file-list-3-line text-[#BFA370] text-base flex-shrink-0 mt-0.5"></i>
+                    <div><p class="text-xs font-semibold text-gray-700">Keterangan Catatan Dari Pembeli</p><p class="text-xs text-gray-500">Pedas level 5, sambalnya di pisan ya</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Status Panel -->
+        <div class="w-52 flex-shrink-0 space-y-4">
+            <div class="card shadow-soft p-4">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Status Toko</p>
+                <div class="flex items-center justify-center gap-3 mb-2">
+                    <button class="store-toggle-btn on" onclick="toggleStoreBtn(this)"></button>
+                    <i class="ri-check-line text-green-500 text-lg"></i>
+                </div>
+                <p class="text-center text-sm font-semibold text-gray-700" id="store-label-d">Toko Dibuka</p>
+            </div>
+            <div class="stat-card-yellow shadow-soft text-center">
+                <i class="ri-time-line text-2xl mb-1 block"></i>
+                <p class="text-xs font-medium opacity-90">Menunggu Konfirmasi</p>
+                <p class="text-4xl font-extrabold my-1">20</p>
+                <p class="text-xs opacity-90">Pesanan</p>
+            </div>
+            <div class="stat-card-green shadow-soft text-center">
+                <i class="ri-calendar-check-line text-2xl mb-1 block"></i>
+                <p class="text-xs font-medium opacity-90">Hari ini</p>
+                <p class="text-4xl font-extrabold my-1">37</p>
+                <p class="text-xs opacity-90">Pesanan Terselesaikan</p>
+            </div>
+        </div>
+    </div>
+
+</main>
+</div>
+
+<script src="../js/seller-shared.js"></script>
+<script>
+function toggleStoreBtn(btn) {
+    btn.classList.toggle('on');
+    document.getElementById('store-label-d').textContent = btn.classList.contains('on') ? 'Toko Dibuka' : 'Toko Ditutup';
+}
+document.addEventListener('DOMContentLoaded', () => startTimer('timer-d1', 4*60+55));
+</script>
+</body>
+</html>

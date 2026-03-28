@@ -7,39 +7,42 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+      rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
     <style>
       body {
-        font-family: "Poppins", sans-serif;
+        font-family: 'Poppins', sans-serif;
       }
     </style>
   </head>
 
   <button
     onclick="window.history.back()"
-    class="text-black absolute top-6 left-6 z-10 w-10 h-10 text-gray-600 hover:bg-gray-50 transition-colors"
-  >
+    class="text-black absolute top-6 left-6 z-10 w-10 h-10 text-gray-600 hover:bg-gray-50 transition-colors">
     <i class="ri-arrow-left-line text-3xl"></i>
   </button>
   <body class="min-h-screen flex items-center justify-center p-4">
     <div
-      class="bg-[#F5F5F5] rounded-md max-w-4xl w-full overflow-hidden relative flex flex-col md:flex-row p-6 md:p-8 gap-8"
-    >
+      class="bg-[#F5F5F5] rounded-md max-w-4xl w-full overflow-hidden relative flex flex-col md:flex-row p-6 md:p-8 gap-8">
       <div class="w-full md:w-1/2 h-[300px] md:h-[450px]">
         <img
           src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1000&auto=format&fit=crop"
           alt="Makan MBG Gratis"
-          class="w-full h-full object-cover rounded-[1rem]"
-        />
+          class="w-full h-full object-cover rounded-[1rem]" />
       </div>
 
       <div class="w-full md:w-1/2 flex flex-col">
         <div class="flex justify-between items-start">
           <h1 class="text-3xl font-bold text-[#4A3933]">Makan MBG Gratis</h1>
-          <div class="flex items-center gap-1.5 text-gray-400 bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
-            <i class="ri-heart-line"></i>
+          <div
+            class="flex items-center gap-1.5 text-gray-400 bg-gray-50 px-3 py-1 rounded-full border border-gray-100 cursor-pointer transition-all hover:bg-white active:scale-95"
+            onclick="
+              event.preventDefault();
+              event.stopPropagation();
+              toggleLike(this);
+            ">
+            <i class="ri-heart-3-line text-gray-300 transition-colors"></i>
+
             <span class="text-xs font-medium">1828</span>
           </div>
         </div>
@@ -84,8 +87,7 @@
             <input
               type="text"
               placeholder="Tulis catatan di sini..."
-              class="w-full bg-[#F9F9F9] border border-gray-200 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none"
-            />
+              class="w-full bg-[#F9F9F9] border border-gray-200 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none" />
           </div>
         </div>
 
@@ -96,8 +98,8 @@
             <button onclick="changeQty(1)" class="w-8 h-8 font-bold text-xl text-gray-600">+</button>
           </div>
           <button
-            class="flex-1 bg-[#633A07] text-white font-bold py-3 rounded-xl shadow-lg active:scale-95 transition-transform"
-          >
+            onclick="showToast('Pesanan berhasil ditambahkan ke keranjang!')"
+            class="flex-1 bg-[#633A07] text-white font-bold py-3 rounded-xl shadow-lg active:scale-95 transition-transform">
             Tambahkan Pesanan
           </button>
         </div>
@@ -106,12 +108,48 @@
 
     <script>
       function changeQty(val) {
-        const el = document.getElementById("qty");
+        const el = document.getElementById('qty');
         let current = parseInt(el.innerText);
         current += val;
         if (current < 1) current = 1;
         el.innerText = current;
       }
+
+      function showToast(message) {
+    // 1. Buat elemen toast
+    const toast = document.createElement('div');
+    toast.className = `
+        fixed top-10 left-1/2 -translate-x-1/2 z-[999]
+        bg-[#633A07] text-white px-6 py-3 rounded-full shadow-2xl
+        flex items-center gap-3 transition-all duration-500 opacity-0 -translate-y-5
+    `;
+    
+    // 2. Isi konten toast (dengan ikon check)
+    toast.innerHTML = `
+        <i class="ri-checkbox-circle-fill text-green-400 text-xl"></i>
+        <span class="text-sm font-medium">${message}</span>
+    `;
+
+    // 3. Masukkan ke body
+    document.body.appendChild(toast);
+
+    // 4. Animasi Masuk (perlu sedikit delay agar transisi jalan)
+    setTimeout(() => {
+        toast.classList.remove('opacity-0', '-translate-y-5');
+        toast.classList.add('opacity-100', 'translate-y-0');
+    }, 100);
+
+    // 5. Animasi Keluar setelah 3 detik
+    setTimeout(() => {
+        toast.classList.replace('opacity-100', 'opacity-0');
+        toast.classList.replace('translate-y-0', '-translate-y-5');
+        
+        // Hapus elemen dari folder setelah animasi selesai
+        setTimeout(() => toast.remove(), 500);
+    }, 3000);
+}
+
     </script>
+    <script src="js/script.js"></script>
   </body>
 </html>

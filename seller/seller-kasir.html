@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NyamNow Seller — Kasir</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="seller-shared.css">
+    <style>
+        * { font-family: 'Poppins', sans-serif; }
+        body { background: #F6F4F0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+        /* Header */
+        .kasir-header {
+            background: linear-gradient(90deg, #BFA370 0%, #8E754A 100%);
+            padding: 10px 20px;
+            display: flex; align-items: center; gap: 16px;
+            flex-shrink: 0; z-index: 30;
+        }
+
+        /* Main shell */
+        .kasir-shell { display: flex; flex: 1; overflow: hidden; }
+
+        /* Left panel */
+        .kasir-left {
+            width: 240px; flex-shrink: 0;
+            background: white;
+            border-right: 1px solid #F0EDE8;
+            display: flex; flex-direction: column;
+            padding: 0;
+        }
+
+        /* Right panel */
+        .kasir-right { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+        /* Menu grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            padding: 16px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .menu-grid::-webkit-scrollbar { width: 4px; }
+        .menu-grid::-webkit-scrollbar-thumb { background: #D6C9B0; border-radius: 99px; }
+
+        /* Menu card */
+        .menu-card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: border-color 0.18s, transform 0.15s, box-shadow 0.15s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+        .menu-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.10); }
+        .menu-card.selected { border-color: #BFA370; }
+        .menu-card img { width: 100%; height: 90px; object-fit: cover; }
+        .menu-card-body { padding: 8px 10px; }
+
+        /* Category pill */
+        .cat-pill {
+            padding: 5px 14px; border-radius: 99px; font-size: 12px; font-weight: 500;
+            cursor: pointer; border: 1.5px solid #E8E3DA; background: white; color: #888;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+            white-space: nowrap;
+        }
+        .cat-pill.active { background: #BFA370; color: white; border-color: #BFA370; }
+
+        /* Cart item */
+        .cart-row {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            padding: 6px 0; font-size: 13px;
+        }
+        .cart-name { color: #333; font-weight: 500; }
+        .cart-price { color: #333; font-size: 12px; }
+        .cart-orig  { color: #AAA; text-decoration: line-through; font-size: 11px; }
+        .cart-disc  { color: #EF4444; font-size: 12px; font-weight: 600; }
+
+        /* Bottom action bar */
+        .action-bar {
+            display: flex; gap: 0; border-top: 1px solid #F0EDE8;
+            flex-shrink: 0;
+        }
+        .action-btn {
+            flex: 1; display: flex; flex-direction: column; align-items: center;
+            justify-content: center; padding: 10px 6px; gap: 3px;
+            font-size: 11px; font-weight: 600; color: #555; cursor: pointer;
+            border: none; background: #FAFAF8; transition: background 0.15s;
+        }
+        .action-btn:hover { background: #F0EDE8; }
+        .action-btn i { font-size: 20px; }
+        .action-btn.hapus   { color: #EF4444; }
+        .action-btn.diskon  { color: #EAB308; }
+        .action-btn.cetak   { color: #EE8F36; }
+        .action-btn.simpan  { color: #22C55E; }
+
+        /* Pay button */
+        .pay-btn {
+            background: #22C55E; color: white;
+            font-size: 16px; font-weight: 700;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 20px; cursor: pointer; border: none;
+            transition: opacity 0.2s;
+        }
+        .pay-btn:hover { opacity: 0.9; }
+
+        /* Modal overlay */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.35);
+            z-index: 50; display: flex; align-items: center; justify-content: center;
+        }
+        .modal-overlay.hidden { display: none; }
+
+        /* Modal box */
+        .modal-box {
+            background: white; border-radius: 18px;
+            width: 500px; max-width: 95vw;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+            overflow: hidden;
+        }
+        .modal-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 20px; border-bottom: 1px solid #F0EDE8;
+        }
+
+        /* Payment method button */
+        .pay-method {
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            padding: 12px 18px; border-radius: 14px; border: 2px solid #E8E3DA;
+            cursor: pointer; transition: border-color 0.18s, background 0.18s;
+            min-width: 80px;
+        }
+        .pay-method:hover { border-color: #BFA370; }
+        .pay-method.selected { border-color: #EAB308; background: #FEF9C3; }
+
+        /* Qty control in modal */
+        .qty-ctrl { display: flex; align-items: center; gap: 10px; }
+        .qty-ctrl-btn {
+            width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid #E8E3DA;
+            background: white; font-size: 18px; font-weight: 700; color: #555;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: background 0.15s;
+        }
+        .qty-ctrl-btn:hover { background: #BFA370; color: white; border-color: #BFA370; }
+
+        /* Search */
+        .kasir-search {
+            border: 1px solid #E8E3DA; border-radius: 24px;
+            padding: 7px 16px 7px 36px; font-size: 13px;
+            outline: none; background: white; width: 100%;
+            font-family: 'Poppins', sans-serif; transition: border-color 0.2s;
+        }
+        .kasir-search:focus { border-color: #BFA370; }
+
+        /* Separator */
+        .sep { border-top: 1px solid #F0EDE8; margin: 8px 0; }
+
+        .no-scroll::-webkit-scrollbar { display: none; }
+        .no-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .input-kasir {
+            border: 1px solid #E8E3DA; border-radius: 8px;
+            padding: 8px 12px; font-size: 13px; outline: none; width: 100%;
+            font-family: 'Poppins', sans-serif; transition: border-color 0.2s;
+        }
+        .input-kasir:focus { border-color: #BFA370; }
+
+        .save-btn {
+            width: 100%; padding: 14px; border-radius: 12px; border: none;
+            font-size: 15px; font-weight: 700; color: white; cursor: pointer;
+            background: linear-gradient(90deg, #BFA370, #8E754A);
+            transition: opacity 0.2s;
+        }
+        .save-btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="kasir-header">
+    <button onclick="toggleSidebarKasir()" class="text-white text-xl w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/20 transition">
+        <i class="ri-menu-line"></i>
+    </button>
+    <span class="text-white font-bold text-lg">Kasir</span>
+
+    <!-- Search -->
+    <div class="flex-1 max-w-md mx-4 relative">
+        <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+        <input class="kasir-search" placeholder="Cari menu" id="search-menu" oninput="filterMenuKasir()">
+        <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"><i class="ri-equalizer-line"></i></button>
+    </div>
+
+    <!-- Profile -->
+    <div class="ml-auto flex items-center gap-2">
+        <img src="assets/images/avatar.png" onerror="this.src='https://placehold.co/32x32/fff/BFA370?text=W'" class="w-8 h-8 rounded-full object-cover border-2 border-white/50">
+        <div class="text-right">
+            <p class="text-white font-semibold text-sm leading-tight">Warung 67</p>
+            <p class="text-white/70 text-xs">Penjual</p>
+        </div>
+    </div>
+</div>
+
+<!-- Main -->
+<div class="kasir-shell">
+
+    <!-- LEFT: Cart -->
+    <div class="kasir-left">
+        <!-- Logo -->
+        <div class="flex flex-col items-center py-5 border-b border-gray-100">
+            <img src="assets/images/logo.png" onerror="this.src='https://placehold.co/56x56/BFA370/fff?text=N'" class="w-14 h-14 rounded-full border-2 border-[#BFA370] mb-2">
+            <p class="font-bold text-gray-800 text-base">NyamNow</p>
+        </div>
+
+        <!-- Cart Items -->
+        <div class="flex-1 overflow-y-auto px-4 py-3 no-scroll" id="cart-items">
+            <p class="text-xs text-gray-400 text-center py-8">Klik menu untuk menambah pesanan</p>
+        </div>
+
+        <!-- Subtotal -->
+        <div class="px-4 py-3 border-t border-gray-100 space-y-1.5">
+            <div class="flex justify-between text-sm">
+                <span class="text-gray-600 font-medium" id="subtotal-label">Subtotal(Qty 0)</span>
+                <span class="text-gray-800 font-semibold" id="subtotal-val">Rp0</span>
+            </div>
+            <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Diskon</span>
+                <span class="text-gray-700" id="diskon-val">Rp0</span>
+            </div>
+            <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Diskon Keranjang</span>
+                <span class="text-gray-700" id="diskon-keranjang-val">Rp0</span>
+            </div>
+        </div>
+
+        <!-- Action Bar -->
+        <div class="action-bar">
+            <button class="action-btn hapus"  onclick="hapusKeranjang()"><i class="ri-delete-bin-6-line"></i> Hapus</button>
+            <button class="action-btn diskon" onclick="openDiskonKeranjang()"><i class="ri-percent-line"></i> Diskon</button>
+            <button class="action-btn cetak"  onclick="cetakStruk()"><i class="ri-printer-line"></i> Cetak</button>
+            <button class="action-btn simpan" onclick="simpanPesanan()"><i class="ri-save-line"></i> Simpan</button>
+        </div>
+
+        <!-- Pay Button -->
+        <button class="pay-btn" onclick="openBayar()">
+            <span>Bayar</span>
+            <span id="pay-total">Rp0</span>
+        </button>
+    </div>
+
+    <!-- RIGHT: Menu -->
+    <div class="kasir-right">
+        <!-- Category Pills -->
+        <div class="flex gap-2 px-4 py-3  no-scroll border-b border-gray-100 bg-white">
+            <button class="cat-pill active" onclick="filterKat('semua', this)">✓ Semua (11)</button>
+            <button class="cat-pill" onclick="filterKat('makanan', this)">Makanan (3)</button>
+            <button class="cat-pill" onclick="filterKat('minuman', this)">Minuman (5)</button>
+            <button class="cat-pill" onclick="filterKat('snack', this)">Snack (3)</button>
+        </div>
+
+        <!-- Menu Grid -->
+        <div class="menu-grid" id="menu-grid"></div>
+    </div>
+</div>
+
+<!-- ===== MODAL: Detail Item ===== -->
+<div class="modal-overlay hidden" id="modal-item">
+    <div class="modal-box">
+        <div class="modal-header">
+            <button onclick="closeModal('modal-item')" class="text-xs text-gray-500 border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50">Tutup</button>
+            <span></span>
+        </div>
+        <div class="px-6 pb-6 pt-4 space-y-4">
+            <div class="flex justify-between items-center">
+                <p class="font-bold text-gray-800 text-base" id="modal-item-nama">Nasi Gudeg</p>
+                <p class="font-bold text-gray-700" id="modal-item-harga">Rp20.000</p>
+            </div>
+            <div>
+                <label class="text-sm text-gray-600 block mb-1">Catatan</label>
+                <textarea id="modal-catatan" class="input-kasir resize-none" rows="3" placeholder="Tambah catatan untuk item ini..."></textarea>
+            </div>
+            <div class="flex items-center justify-between">
+                <label class="text-sm text-gray-600">Jumlah</label>
+                <div class="qty-ctrl">
+                    <button class="qty-ctrl-btn" onclick="changeModalQty(-1)">−</button>
+                    <span id="modal-qty" class="w-8 text-center font-bold text-gray-800">1</span>
+                    <button class="qty-ctrl-btn" onclick="changeModalQty(1)">+</button>
+                </div>
+            </div>
+            <div class="flex items-center justify-between">
+                <label class="text-sm text-gray-600">Diskon</label>
+                <div class="flex items-center gap-2">
+                    <input type="number" id="modal-diskon" class="input-kasir w-16 text-center" value="0" min="0" max="100" oninput="calcModalSubtotal()">
+                    <span class="text-gray-500 font-bold">%</span>
+                </div>
+            </div>
+            <div class="sep"></div>
+            <div class="flex justify-between text-sm"><span class="font-semibold text-gray-700">SUBTOTAL</span><span id="modal-subtotal" class="font-bold text-gray-800">Rp20.000</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Diskon</span><span id="modal-disc-rp" class="text-gray-700">Rp0</span></div>
+            <div class="flex justify-between text-sm font-bold"><span class="text-gray-800">TOTAL HARGA</span><span id="modal-total" class="text-gray-800">Rp20.000</span></div>
+            <button class="save-btn" onclick="simpanItem()">Simpan</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MODAL: Bayar ===== -->
+<div class="modal-overlay hidden" id="modal-bayar">
+    <div class="modal-box">
+        <div class="modal-header">
+            <button onclick="closeModal('modal-bayar')" class="text-xs text-gray-500 border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50">Tutup</button>
+            <p class="font-bold text-gray-800">Pembayaran</p>
+            <span></span>
+        </div>
+        <div class="px-6 pb-6 pt-4 space-y-4">
+            <p class="text-sm font-semibold text-gray-600">Rincian Transaksi</p>
+            <div class="space-y-2 text-sm border-b border-gray-100 pb-4">
+                <div class="flex justify-between"><span class="text-gray-500" id="bayar-item-label">Sub Total (0 item)</span><span id="bayar-subtotal">Rp0</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">Diskon</span><span id="bayar-diskon">Rp0</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">Diskon Keranjang</span><span id="bayar-dk">Rp0</span></div>
+                <div class="flex justify-between font-bold text-gray-800"><span>Grand Total</span><span id="bayar-grand">Rp0</span></div>
+            </div>
+            <p class="text-sm font-semibold text-gray-600">Metode Pembayaran</p>
+            <div class="flex gap-3">
+                <div class="pay-method" onclick="selectPayMethod('tunai', this)">
+                    <span class="text-3xl">💵</span>
+                    <span class="text-xs font-semibold text-gray-700">Tunai</span>
+                </div>
+                <div class="pay-method" onclick="selectPayMethod('qris', this)">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/QRIS_logo.svg/200px-QRIS_logo.svg.png" class="h-8 object-contain" onerror="this.src='https://placehold.co/60x32/222/fff?text=QRIS'">
+                    <span class="text-xs font-semibold text-gray-700">QRIS</span>
+                </div>
+                <div class="pay-method" onclick="selectPayMethod('debit', this)">
+                    <span class="text-3xl">💳</span>
+                    <span class="text-xs font-semibold text-gray-700">Debit</span>
+                </div>
+                <div class="pay-method" onclick="selectPayMethod('credit', this)">
+                    <span class="text-3xl">🏦</span>
+                    <span class="text-xs font-semibold text-gray-700">Credit</span>
+                </div>
+            </div>
+
+            <!-- Tunai detail (muncul kalau pilih tunai) -->
+            <div id="tunai-detail" class="space-y-3 hidden">
+                <div>
+                    <label class="text-xs text-gray-500 block mb-1">Nominal yang diberikan</label>
+                    <input type="number" id="tunai-nominal" class="input-kasir" placeholder="Rp100.000" oninput="calcKembalian()">
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Kembalian</span>
+                    <span id="kembalian-val" class="font-bold text-gray-800">Rp0</span>
+                </div>
+            </div>
+
+            <button class="save-btn" id="btn-selesai" onclick="selesaiTransaksi()">Simpan</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MODAL: Diskon Keranjang ===== -->
+<div class="modal-overlay hidden" id="modal-diskon">
+    <div class="modal-box" style="width:360px;">
+        <div class="modal-header">
+            <button onclick="closeModal('modal-diskon')" class="text-xs text-gray-500 border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50">Tutup</button>
+            <p class="font-bold text-gray-800">Diskon Keranjang</p>
+            <span></span>
+        </div>
+        <div class="px-6 pb-6 pt-4 space-y-4">
+            <div class="flex items-center gap-3">
+                <input type="number" id="diskon-keranjang-input" class="input-kasir flex-1" placeholder="0" min="0" max="100">
+                <span class="font-bold text-gray-600">%</span>
+            </div>
+            <button class="save-btn" onclick="applyDiskonKeranjang()">Terapkan</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div id="toast" class="fixed bottom-6 right-6 bg-green-500 text-white text-sm font-medium px-5 py-3 rounded-xl shadow-lg z-[999] items-center gap-2 hidden">
+    <i class="ri-check-line text-lg"></i>
+    <span id="toast-msg">Berhasil!</span>
+</div>
+
+<script>
+// ================================================================
+// DATA
+// ================================================================
+
+const allMenu = [
+    { id:1,  nama:'Nasi Gudeg',     harga:20000, kat:'makanan', img:'assets/images/mie ayam.png'  },
+    { id:2,  nama:'Nasi Goreng',    harga:15000, kat:'makanan', img:'assets/images/makanan2.png'  },
+    { id:3,  nama:'Rawon Daging',   harga:25000, kat:'makanan', img:'assets/images/rawon.png'     },
+    { id:4,  nama:'Es Teh',         harga: 3000, kat:'minuman', img:'assets/images/promo-1.png'   },
+    { id:5,  nama:'Es Jeruk',       harga: 5000, kat:'minuman', img:'assets/images/promo-2.png'   },
+    { id:6,  nama:'Jus Alpukat',    harga: 8000, kat:'minuman', img:'assets/images/promo-1.png'   },
+    { id:7,  nama:'Kopi Susu',      harga: 7000, kat:'minuman', img:'assets/images/promo-2.png'   },
+    { id:8,  nama:'Air Mineral',    harga: 3000, kat:'minuman', img:'assets/images/promo-1.png'   },
+    { id:9,  nama:'Keripik Singkong',harga:5000, kat:'snack',   img:'assets/images/daging.png'    },
+    { id:10, nama:'Bakwan Jagung',  harga: 3000, kat:'snack',   img:'assets/images/daging.png'    },
+    { id:11, nama:'Tahu Crispy',    harga: 4000, kat:'snack',   img:'assets/images/daging.png'    },
+];
+
+let cart = []; // { id, nama, harga, qty, diskon, catatan }
+let currentKat = 'semua';
+let currentSearch = '';
+let modalItemId = null;
+let diskonKeranjangPct = 0;
+let selectedPayMethod = null;
+
+// ================================================================
+// RENDER MENU
+// ================================================================
+
+function filterMenuKasir() {
+    currentSearch = document.getElementById('search-menu').value.toLowerCase();
+    renderMenu();
+}
+
+function filterKat(kat, btn) {
+    currentKat = kat;
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    renderMenu();
+}
+
+function renderMenu() {
+    const grid = document.getElementById('menu-grid');
+    const filtered = allMenu.filter(m => {
+        const matchKat = currentKat === 'semua' || m.kat === currentKat;
+        const matchQ   = m.nama.toLowerCase().includes(currentSearch);
+        return matchKat && matchQ;
+    });
+    grid.innerHTML = filtered.map(m => {
+        const inCart = cart.find(c => c.id === m.id);
+        return `
+            <div class="menu-card ${inCart ? 'selected' : ''}" onclick="openItemModal(${m.id})">
+                <img src="${m.img}" onerror="this.src='../assets/images/makanan2.png'">
+                <div class="menu-card-body">
+                    <p class="font-semibold text-gray-800 text-xs leading-tight mb-1">${m.nama}</p>
+                    <p class="text-[#BFA370] font-bold text-xs">Rp${m.harga.toLocaleString('id-ID')}</p>
+                    ${inCart ? `<span class="text-[10px] bg-[#BFA370] text-white px-1.5 py-0.5 rounded-full">${inCart.qty}x</span>` : ''}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ================================================================
+// CART
+// ================================================================
+
+function renderCart() {
+    const el = document.getElementById('cart-items');
+    if (cart.length === 0) {
+        el.innerHTML = '<p class="text-xs text-gray-400 text-center py-8">Klik menu untuk menambah pesanan</p>';
+        updateTotals();
+        return;
+    }
+    el.innerHTML = cart.map(item => {
+        const disc = Math.round(item.harga * item.qty * item.diskon / 100);
+        const sub  = item.harga * item.qty;
+        return `
+            <div class="cart-row">
+                <div class="flex-1">
+                    <p class="cart-name">${item.qty}x ${item.nama}</p>
+                    ${item.catatan ? `<p class="text-[10px] text-gray-400 italic">${item.catatan}</p>` : ''}
+                    ${item.diskon > 0 ? `<p class="text-[10px] text-red-400">Diskon ${item.diskon}%</p>` : ''}
+                </div>
+                <div class="text-right ml-2">
+                    ${item.diskon > 0 ? `<p class="cart-orig">Rp${sub.toLocaleString('id-ID')}</p>` : ''}
+                    <p class="${item.diskon > 0 ? 'cart-disc' : 'cart-price'}">Rp${(sub - disc).toLocaleString('id-ID')}</p>
+                </div>
+            </div>
+        `;
+    }).join('') + '<div class="sep"></div>';
+    updateTotals();
+}
+
+function updateTotals() {
+    let totalQty = cart.reduce((a, c) => a + c.qty, 0);
+    let subtotal = cart.reduce((a, c) => a + c.harga * c.qty, 0);
+    let totalDisc = cart.reduce((a, c) => a + Math.round(c.harga * c.qty * c.diskon / 100), 0);
+    let afterDisc = subtotal - totalDisc;
+    let keranjangDisc = Math.round(afterDisc * diskonKeranjangPct / 100);
+    let grandTotal = afterDisc - keranjangDisc;
+
+    document.getElementById('subtotal-label').textContent = `Subtotal(Qty ${totalQty})`;
+    document.getElementById('subtotal-val').textContent   = `Rp${subtotal.toLocaleString('id-ID')}`;
+    document.getElementById('diskon-val').textContent     = `Rp${totalDisc.toLocaleString('id-ID')}`;
+    document.getElementById('diskon-keranjang-val').textContent = `Rp${keranjangDisc.toLocaleString('id-ID')}`;
+    document.getElementById('pay-total').textContent      = `Rp${grandTotal.toLocaleString('id-ID')}`;
+}
+
+// ================================================================
+// MODAL ITEM
+// ================================================================
+
+function openItemModal(id) {
+    const m = allMenu.find(x => x.id === id);
+    if (!m) return;
+    modalItemId = id;
+
+    // Pre-fill from cart if exists
+    const existing = cart.find(c => c.id === id);
+    const qty    = existing ? existing.qty    : 1;
+    const diskon = existing ? existing.diskon : 0;
+    const cat    = existing ? existing.catatan: '';
+
+    document.getElementById('modal-item-nama').textContent = m.nama;
+    document.getElementById('modal-item-harga').textContent = `Rp${m.harga.toLocaleString('id-ID')}`;
+    document.getElementById('modal-qty').textContent = qty;
+    document.getElementById('modal-diskon').value = diskon;
+    document.getElementById('modal-catatan').value = cat;
+    calcModalSubtotal();
+    document.getElementById('modal-item').classList.remove('hidden');
+}
+
+function changeModalQty(d) {
+    const el = document.getElementById('modal-qty');
+    const val = Math.max(1, parseInt(el.textContent) + d);
+    el.textContent = val;
+    calcModalSubtotal();
+}
+
+function calcModalSubtotal() {
+    const m = allMenu.find(x => x.id === modalItemId);
+    if (!m) return;
+    const qty    = parseInt(document.getElementById('modal-qty').textContent) || 1;
+    const disc   = parseFloat(document.getElementById('modal-diskon').value) || 0;
+    const sub    = m.harga * qty;
+    const discRp = Math.round(sub * disc / 100);
+    const total  = sub - discRp;
+    document.getElementById('modal-subtotal').textContent = `Rp${sub.toLocaleString('id-ID')}`;
+    document.getElementById('modal-disc-rp').textContent  = `Rp${discRp.toLocaleString('id-ID')}`;
+    document.getElementById('modal-total').textContent    = `Rp${total.toLocaleString('id-ID')}`;
+}
+
+function simpanItem() {
+    const m = allMenu.find(x => x.id === modalItemId);
+    if (!m) return;
+    const qty     = parseInt(document.getElementById('modal-qty').textContent) || 1;
+    const diskon  = parseFloat(document.getElementById('modal-diskon').value) || 0;
+    const catatan = document.getElementById('modal-catatan').value.trim();
+
+    const idx = cart.findIndex(c => c.id === modalItemId);
+    if (idx >= 0) {
+        cart[idx] = { ...cart[idx], qty, diskon, catatan };
+    } else {
+        cart.push({ id: m.id, nama: m.nama, harga: m.harga, qty, diskon, catatan });
+    }
+    closeModal('modal-item');
+    renderCart();
+    renderMenu();
+    showToast(`${m.nama} ditambahkan ke keranjang`);
+}
+
+// ================================================================
+// BAYAR MODAL
+// ================================================================
+
+function openBayar() {
+    if (cart.length === 0) { showToast('Keranjang masih kosong!', 'error'); return; }
+
+    let totalQty = cart.reduce((a, c) => a + c.qty, 0);
+    let subtotal = cart.reduce((a, c) => a + c.harga * c.qty, 0);
+    let totalDisc = cart.reduce((a, c) => a + Math.round(c.harga * c.qty * c.diskon / 100), 0);
+    let afterDisc = subtotal - totalDisc;
+    let keranjangDisc = Math.round(afterDisc * diskonKeranjangPct / 100);
+    let grandTotal = afterDisc - keranjangDisc;
+
+    document.getElementById('bayar-item-label').textContent = `Sub Total (${totalQty} item)`;
+    document.getElementById('bayar-subtotal').textContent   = `Rp${subtotal.toLocaleString('id-ID')}`;
+    document.getElementById('bayar-diskon').textContent     = `Rp${totalDisc.toLocaleString('id-ID')}`;
+    document.getElementById('bayar-dk').textContent         = `Rp${keranjangDisc.toLocaleString('id-ID')}`;
+    document.getElementById('bayar-grand').textContent      = `Rp${grandTotal.toLocaleString('id-ID')}`;
+
+    selectedPayMethod = null;
+    document.getElementById('tunai-detail').classList.add('hidden');
+    document.querySelectorAll('.pay-method').forEach(p => p.classList.remove('selected'));
+    document.getElementById('btn-selesai').textContent = 'Simpan';
+    document.getElementById('modal-bayar').classList.remove('hidden');
+}
+
+function selectPayMethod(method, el) {
+    selectedPayMethod = method;
+    document.querySelectorAll('.pay-method').forEach(p => p.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('tunai-detail').classList.toggle('hidden', method !== 'tunai');
+    document.getElementById('btn-selesai').textContent = method === 'tunai' ? 'Selesai' : 'Selesai';
+}
+
+function calcKembalian() {
+    const grandEl = document.getElementById('bayar-grand').textContent.replace(/[^0-9]/g,'');
+    const grand = parseInt(grandEl) || 0;
+    const nominal = parseInt(document.getElementById('tunai-nominal').value) || 0;
+    const kembalian = Math.max(0, nominal - grand);
+    document.getElementById('kembalian-val').textContent = `Rp${kembalian.toLocaleString('id-ID')}`;
+}
+
+function selesaiTransaksi() {
+    if (!selectedPayMethod) { showToast('Pilih metode pembayaran dulu!', 'error'); return; }
+    closeModal('modal-bayar');
+    showToast('Transaksi berhasil! 🎉');
+    setTimeout(() => {
+        cart = [];
+        diskonKeranjangPct = 0;
+        renderCart();
+        renderMenu();
+    }, 800);
+}
+
+// ================================================================
+// DISKON KERANJANG
+// ================================================================
+
+function openDiskonKeranjang() {
+    document.getElementById('diskon-keranjang-input').value = diskonKeranjangPct;
+    document.getElementById('modal-diskon-x').classList.remove('hidden');
+}
+
+function applyDiskonKeranjang() {
+    diskonKeranjangPct = parseFloat(document.getElementById('diskon-keranjang-input').value) || 0;
+    closeModal('modal-diskon');
+    updateTotals();
+    showToast(`Diskon keranjang ${diskonKeranjangPct}% diterapkan`);
+}
+
+function openDiskonKeranjang() {
+    document.getElementById('diskon-keranjang-input').value = diskonKeranjangPct;
+    document.getElementById('modal-diskon').classList.remove('hidden');
+}
+
+// ================================================================
+// UTILITY
+// ================================================================
+
+function hapusKeranjang() {
+    if (cart.length === 0) return;
+    if (!confirm('Hapus semua item dari keranjang?')) return;
+    cart = [];
+    renderCart();
+    renderMenu();
+    showToast('Keranjang dikosongkan');
+}
+
+function cetakStruk() {
+    if (cart.length === 0) { showToast('Keranjang kosong!', 'error'); return; }
+    showToast('Mencetak struk...');
+    setTimeout(() => window.print(), 400);
+}
+
+function simpanPesanan() {
+    if (cart.length === 0) { showToast('Keranjang kosong!', 'error'); return; }
+    showToast('Pesanan disimpan!');
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.add('hidden');
+}
+
+function showToast(msg, type = 'success') {
+    const toast = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    toast.className = `fixed bottom-6 right-6 text-white text-sm font-medium px-5 py-3 rounded-xl shadow-lg z-[999] flex items-center gap-2 ${type === 'error' ? 'bg-red-500' : 'bg-green-500'}`;
+    toast.classList.remove('hidden');
+    setTimeout(() => toast.classList.add('hidden'), 2200);
+}
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => {
+        if (e.target === overlay) overlay.classList.add('hidden');
+    });
+});
+
+// ================================================================
+// INIT
+// ================================================================
+renderMenu();
+renderCart();
+</script>
+</body>
+</html>

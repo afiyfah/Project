@@ -25,7 +25,7 @@ const menuData = [
     harga: "Rp15.000",
     terjual: "10RB+",
     suka: 1341,
-    rating: 5.0,
+    jarak: "240m | 15min",
     kategori: "terlaris",
   },
   {
@@ -34,7 +34,7 @@ const menuData = [
     harga: "Rp17.000",
     terjual: "8RB+",
     suka: 950,
-    rating: 4.9,
+    jarak: "240m | 15min",
     kategori: "terlaris",
   },
   {
@@ -43,7 +43,7 @@ const menuData = [
     harga: "Rp25.000",
     terjual: "5RB+",
     suka: 1200,
-    rating: 5.0,
+    jarak: "240m | 15min",
     kategori: "rating",
   },
   {
@@ -79,7 +79,7 @@ const menuData = [
     harga: "Rp8.000",
     terjual: "9RB+",
     suka: 1100,
-    rating: 5.0,
+    jarak: "240m | 15min",
     kategori: "rating",
   },
   {
@@ -88,7 +88,7 @@ const menuData = [
     harga: "Rp5.000",
     terjual: "25RB+",
     suka: 3500,
-    rating: 4.6,
+    jarak: "240m | 15min",
     kategori: "terlaris",
   },
 ];
@@ -280,7 +280,7 @@ function renderMenuToko(kategori) {
 
   container.innerHTML = ""; // Kosongkan container
 
-  // Filter data berdasarkan kategori
+  // Filter data berdasarkan kategori menu toko
   const filteredData =
     kategori === "semua"
       ? menuData
@@ -293,12 +293,18 @@ function renderMenuToko(kategori) {
         <h3 class="font-bold text-gray-800 text-sm md:text-base mb-1">${item.nama}</h3>
         <p class="text-green-600 font-bold text-base mb-3">${item.harga}</p>
         <div class="flex items-center justify-between text-[10px] md:text-xs text-gray-400 border-t pt-3">
-          <span>${item.terjual} terjual</span>
-          <span>⭐ ${item.rating}</span>
-        </div>
-        <div class="mt-2 flex items-center gap-1 text-[10px] text-gray-500">
-          <i class="fas fa-heart text-red-500"></i> Disukai oleh ${item.suka}
-        </div>
+              <span>${item.terjual}terjual</span>
+              <span>${item.jarak}</span>
+            </div>
+        <div class="mt-2 flex items-center gap-1 text-[12px] text-gray-500">
+    <div class="cursor-pointer flex items-center gap-1 group" 
+         onclick="event.preventDefault(); event.stopPropagation(); toggleLike(this)">
+        
+        <i class="ri-heart-3-line text-sm text-gray-400 transition-all duration-300 group-hover:text-red-400"></i> 
+        
+        <span>Disukai oleh ${item.suka}</span>
+    </div>
+</div>
       </a>
     `;
     container.innerHTML += card;
@@ -675,5 +681,39 @@ function handleSearch(event) {
             // Arahkan ke file search-results.html
             window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
         }
+    }
+}
+
+// heart search result
+// FUNGSI LIKE/UNLIKE GLOBAL
+// Parameter 'el' menerima 'this' dari HTML, jadi tidak perlu ID lagi!
+function toggleLike(el) {
+    // 1. Cari icon <i> di dalam tombol yang diklik
+    const heart = el.querySelector('i');
+    
+    if (!heart) return; // Keamanan jika icon tidak ditemukan
+
+    // 2. Cek apakah icon menggunakan ri-heart-3-line (kosong/abu)
+    // Kita cek juga variasi 'ri-heart-line' (tanpa angka 3) supaya aman di semua halaman
+    const isLine = heart.classList.contains('ri-heart-3-line') || heart.classList.contains('ri-heart-line');
+
+    if (isLine) {
+        // --- PROSES LIKE (Ubah ke Merah Fill) ---
+        // Hapus class garis & abu-abu
+        heart.classList.remove('ri-heart-3-line', 'ri-heart-line', 'text-gray-300');
+        // Tambah class isi & merah
+        heart.classList.add('ri-heart-3-fill', 'text-red-500');
+
+        // Animasi Pop (Biar interaktif)
+        heart.style.transition = "transform 0.15s ease";
+        heart.style.transform = "scale(1.4)";
+        setTimeout(() => {
+            heart.style.transform = "scale(1)";
+        }, 150);
+
+    } else {
+        // --- PROSES UNLIKE (Balik ke Abu-abu Line) ---
+        heart.classList.remove('ri-heart-3-fill', 'text-red-500');
+        heart.classList.add('ri-heart-3-line', 'text-gray-300');
     }
 }

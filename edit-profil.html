@@ -1,616 +1,948 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Market Kita - Profil</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { 'oren-tua': '#EE8F36', 'emas-teks': '#78450E' },
-                    backgroundImage: {
-                        'emas-main': 'linear-gradient(90deg, #BFA370 39%, #8E754A 82%)',
-                        'oren-grd':  'linear-gradient(90deg, #FF7A3D 0%, #FF9A6A 100%)',
-                        'gold-grd':  'linear-gradient(90deg, #B88214 0%, #E1BF59 100%)',
-                    }
-                }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { 'oren-tua': '#EE8F36', 'emas-teks': '#78450E' },
+            backgroundImage: {
+              'emas-main': 'linear-gradient(90deg, #BFA370 39%, #8E754A 82%)',
+              'oren-grd': 'linear-gradient(90deg, #FF7A3D 0%, #FF9A6A 100%)',
+              'gold-grd': 'linear-gradient(90deg, #B88214 0%, #E1BF59 100%)'
             }
+          }
         }
+      };
     </script>
     <style>
-        * { font-family: 'Poppins', sans-serif; }
+      * {
+        font-family: 'Poppins', sans-serif;
+      }
 
-        /* Sidebar nav item */
-        .nav-item {
-            display: flex; align-items: center; gap: 10px;
-            padding: 9px 14px; border-radius: 99px;
-            cursor: pointer; font-size: 14px; color: #555;
-            transition: background 0.18s, color 0.18s;
-        }
-        .nav-item:hover { background: #F3EFE8; color: #78450E; }
-        .nav-item.active { background: #EFE9DE; color: #78450E; font-weight: 600; }
-        .nav-item i { font-size: 17px; width: 20px; text-align: center; }
+      /* Sidebar nav item */
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 14px;
+        border-radius: 99px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #555;
+        transition:
+          background 0.18s,
+          color 0.18s;
+      }
+      .nav-item:hover {
+        background: #f3efe8;
+        color: #78450e;
+      }
+      .nav-item.active {
+        background: #efe9de;
+        color: #78450e;
+        font-weight: 600;
+      }
+      .nav-item i {
+        font-size: 17px;
+        width: 20px;
+        text-align: center;
+      }
 
-        /* Section title */
-        .section-label { font-size: 11px; font-weight: 700; color: #999; letter-spacing: 0.08em; text-transform: uppercase; padding: 14px 14px 4px; }
+      /* Section title */
+      .section-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: #999;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 14px 14px 4px;
+      }
 
-        /* Form input */
-        .form-input {
-            width: 100%; border: 1px solid #E0D9CF; border-radius: 8px;
-            padding: 10px 14px; font-size: 14px; color: #333;
-            outline: none; transition: border-color 0.2s;
-            background: white;
-        }
-        .form-input:focus { border-color: #BFA370; box-shadow: 0 0 0 3px rgba(191,163,112,0.12); }
+      /* Form input */
+      .form-input {
+        width: 100%;
+        border: 1px solid #e0d9cf;
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 14px;
+        color: #333;
+        outline: none;
+        transition: border-color 0.2s;
+        background: white;
+      }
+      .form-input:focus {
+        border-color: #bfa370;
+        box-shadow: 0 0 0 3px rgba(191, 163, 112, 0.12);
+      }
 
-        /* Panel content */
-        .panel { display: none; }
-        .panel.active { display: block; }
+      /* Panel content */
+      .panel {
+        display: none;
+      }
+      .panel.active {
+        display: block;
+      }
 
-        /* Voucher card */
-        .voucher-card {
-            border: 1.5px solid #E0D9CF; border-radius: 12px;
-            display: flex; overflow: hidden; background: white;
-            position: relative;
-        }
-        .voucher-card::before, .voucher-card::after {
-            content: ''; position: absolute;
-            width: 18px; height: 18px; border-radius: 50%;
-            background: #F5F5F5; top: 50%; transform: translateY(-50%);
-            border: 1.5px solid #E0D9CF;
-        }
-        .voucher-card::before { left: 115px; }
-        .voucher-card::after  { left: 115px; }
-        .voucher-left { width: 118px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding: 16px 10px; border-right: 1.5px dashed #E0D9CF; }
-        .voucher-right { flex: 1; padding: 14px 16px; }
-        .voucher-card.expired { opacity: 0.5; }
+      /* Voucher card */
+      .voucher-card {
+        border: 1.5px solid #e0d9cf;
+        border-radius: 12px;
+        display: flex;
+        overflow: hidden;
+        background: white;
+        position: relative;
+      }
+      .voucher-card::before,
+      .voucher-card::after {
+        content: '';
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #f5f5f5;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 1.5px solid #e0d9cf;
+      }
+      .voucher-card::before {
+        left: 115px;
+      }
+      .voucher-card::after {
+        left: 115px;
+      }
+      .voucher-left {
+        width: 118px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px 10px;
+        border-right: 1.5px dashed #e0d9cf;
+      }
+      .voucher-right {
+        flex: 1;
+        padding: 14px 16px;
+      }
+      .voucher-card.expired {
+        opacity: 0.5;
+      }
 
-        /* Member card */
-        .member-silver { background: linear-gradient(135deg, #A0A0A0, #D0D0D0, #888); }
-        .member-gold   { background: linear-gradient(135deg, #B88214, #E1BF59, #8E6010); }
+      /* Member card */
+      .member-silver {
+        background: linear-gradient(135deg, #a0a0a0, #d0d0d0, #888);
+      }
+      .member-gold {
+        background: linear-gradient(135deg, #b88214, #e1bf59, #8e6010);
+      }
 
-        /* Notif item */
-        .notif-item { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid #F0EDE8; }
+      /* Notif item */
+      .notif-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 14px 0;
+        border-bottom: 1px solid #f0ede8;
+      }
 
-        /* FAQ accordion */
-        .faq-item { border-bottom: 1px solid #E0D9CF; }
-        .faq-q { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; cursor: pointer; font-size: 14px; color: #333; font-weight: 500; }
-        .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; font-size: 13px; color: #666; line-height: 1.7; }
-        .faq-a.open { max-height: 300px; padding-bottom: 14px; }
-        .faq-icon { font-size: 18px; flex-shrink: 0; color: #999; transition: transform 0.25s; }
-        .faq-icon.open { transform: rotate(45deg); }
+      /* FAQ accordion */
+      .faq-item {
+        border-bottom: 1px solid #e0d9cf;
+      }
+      .faq-q {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0;
+        cursor: pointer;
+        font-size: 14px;
+        color: #333;
+        font-weight: 500;
+      }
+      .faq-a {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        font-size: 13px;
+        color: #666;
+        line-height: 1.7;
+      }
+      .faq-a.open {
+        max-height: 300px;
+        padding-bottom: 14px;
+      }
+      .faq-icon {
+        font-size: 18px;
+        flex-shrink: 0;
+        color: #999;
+        transition: transform 0.25s;
+      }
+      .faq-icon.open {
+        transform: rotate(45deg);
+      }
 
-        /* Privacy accordion */
-        .prv-item { border-bottom: 1px solid #E5E5E5; }
-        .prv-q { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; cursor: pointer; font-size: 14px; font-weight: 500; color: #222; }
-        .prv-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; background: #F9F9F9; border-radius: 8px; font-size: 13px; color: #555; line-height: 1.7; }
-        .prv-a.open { max-height: 400px; padding: 14px 16px; margin-bottom: 12px; }
+      /* Privacy accordion */
+      .prv-item {
+        border-bottom: 1px solid #e5e5e5;
+      }
+      .prv-q {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 0;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        color: #222;
+      }
+      .prv-a {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        background: #f9f9f9;
+        border-radius: 8px;
+        font-size: 13px;
+        color: #555;
+        line-height: 1.7;
+      }
+      .prv-a.open {
+        max-height: 400px;
+        padding: 14px 16px;
+        margin-bottom: 12px;
+      }
 
-        /* Btn */
-        .btn-blue { background: #4285F4; color: white; border-radius: 8px; padding: 10px 28px; font-weight: 600; font-size: 14px; cursor: pointer; border: none; transition: opacity 0.2s; }
-        .btn-blue:hover { opacity: 0.9; }
-        .btn-gold { background: linear-gradient(90deg, #BFA370, #8E754A); color: white; border-radius: 8px; padding: 10px 28px; font-weight: 600; font-size: 14px; cursor: pointer; border: none; transition: opacity 0.2s; }
-        .btn-gold:hover { opacity: 0.88; }
-        .btn-outline { background: white; color: #555; border: 1px solid #E0D9CF; border-radius: 8px; padding: 8px 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.15s; }
-        .btn-outline:hover { background: #F5F0EA; }
+      /* Btn */
+      .btn-blue {
+        background: #4285f4;
+        color: white;
+        border-radius: 8px;
+        padding: 10px 28px;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        transition: opacity 0.2s;
+      }
+      .btn-blue:hover {
+        opacity: 0.9;
+      }
+      .btn-gold {
+        background: linear-gradient(90deg, #bfa370, #8e754a);
+        color: white;
+        border-radius: 8px;
+        padding: 10px 28px;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        transition: opacity 0.2s;
+      }
+      .btn-gold:hover {
+        opacity: 0.88;
+      }
+      .btn-outline {
+        background: white;
+        color: #555;
+        border: 1px solid #e0d9cf;
+        border-radius: 8px;
+        padding: 8px 20px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .btn-outline:hover {
+        background: #f5f0ea;
+      }
 
-        /* Favorit store card */
-        .store-fav-card { border-radius: 12px; overflow: hidden; border: 1px solid #EEE; background: white; cursor: pointer; transition: transform 0.2s; }
-        .store-fav-card:hover { transform: translateY(-2px); }
+      /* Favorit store card */
+      .store-fav-card {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #eee;
+        background: white;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .store-fav-card:hover {
+        transform: translateY(-2px);
+      }
 
-        /* Langganan */
-        .sub-card { border: 1.5px solid #E0D9CF; border-radius: 14px; padding: 20px; display: flex; justify-content: space-between; align-items: flex-start; background: white; }
+      /* Langganan */
+      .sub-card {
+        border: 1.5px solid #e0d9cf;
+        border-radius: 14px;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        background: white;
+      }
 
-        /* Keluar button */
-        .btn-keluar { background: #C0392B; color: white; border-radius: 10px; padding: 10px 14px; width: 100%; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: opacity 0.2s; }
-        .btn-keluar:hover { opacity: 0.88; }
+      /* Keluar button */
+      .btn-keluar {
+        background: #c0392b;
+        color: white;
+        border-radius: 10px;
+        padding: 10px 14px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        transition: opacity 0.2s;
+      }
+      .btn-keluar:hover {
+        opacity: 0.88;
+      }
 
-        /* Nyamber tabs */
-        .nyamber-tab-btn { border: none; cursor: pointer; outline: none; }
-        .active-nyamber { background: linear-gradient(90deg, #BFA370 0%, #8E754A 100%); color: white; }
+      /* Nyamber tabs */
+      .nyamber-tab-btn {
+        border: none;
+        cursor: pointer;
+        outline: none;
+      }
+      .active-nyamber {
+        background: linear-gradient(90deg, #bfa370 0%, #8e754a 100%);
+        color: white;
+      }
 
-        /* Card shadow (from reference) */
-        .card-shadow { box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05); }
+      /* Card shadow (from reference) */
+      .card-shadow {
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+      }
 
-        /* kontak form */
-        .kontak-input { width: 100%; border: none; border-bottom: 1px solid #CCC; padding: 8px 0; font-size: 14px; outline: none; background: transparent; color: #333; }
-        .kontak-input:focus { border-bottom-color: #BFA370; }
+      /* kontak form */
+      .kontak-input {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        padding: 8px 0;
+        font-size: 14px;
+        outline: none;
+        background: transparent;
+        color: #333;
+      }
+      .kontak-input:focus {
+        border-bottom-color: #bfa370;
+      }
     </style>
-</head>
-<body class="bg-[#F5F5F5] min-h-screen">
+  </head>
+  <body class="bg-[#F5F5F5] min-h-screen">
+    <div id="header-container"></div>
 
-<div id="header-container"></div>
-
-<div class="max-w-6xl mx-auto px-6 py-8 flex gap-6">
-
-    <!-- ===== SIDEBAR ===== -->
-    <aside class="w-[240px] flex-shrink-0">
+    <div class="max-w-6xl mx-auto px-6 py-8 flex gap-6">
+      <!-- ===== SIDEBAR ===== -->
+      <aside class="w-[240px] flex-shrink-0">
         <div class="bg-white rounded-2xl p-4 shadow-sm sticky top-6">
+          <!-- User Info -->
+          <div class="flex items-center gap-3 px-2 py-3 mb-2 border-b border-gray-100">
+            <img
+              src="assets/images/avatar.png"
+              onerror="this.src = 'https://placehold.co/44x44/BFA370/fff?text=F'"
+              class="w-11 h-11 rounded-full object-cover" />
+            <div>
+              <p class="font-semibold text-gray-800 text-sm leading-tight">Faiz Faadillah</p>
+              <p class="text-xs text-gray-400">
+                <a
+                  href="/cdn-cgi/l/email-protection"
+                  class="__cf_email__"
+                  data-cfemail="701611190a16111114191c1c111830171d11191c5e131f1d"
+                  >[email&#160;protected]</a
+                >
+              </p>
+            </div>
+          </div>
 
-            <!-- User Info -->
-            <div class="flex items-center gap-3 px-2 py-3 mb-2 border-b border-gray-100">
-                <img src="assets/images/avatar.png" onerror="this.src='https://placehold.co/44x44/BFA370/fff?text=F'" class="w-11 h-11 rounded-full object-cover">
-                <div>
-                    <p class="font-semibold text-gray-800 text-sm leading-tight">Faiz Faadillah</p>
-                    <p class="text-xs text-gray-400"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="701611190a16111114191c1c111830171d11191c5e131f1d">[email&#160;protected]</a></p>
-                </div>
-            </div>
+          <!-- Akun Saya -->
+          <div class="section-label">Akun Saya</div>
+          <div class="nav-item active" onclick="showPanel('edit-profil')" id="nav-edit-profil">
+            <i class="ri-pencil-line"></i> Edit Profil
+          </div>
+          <div class="nav-item" onclick="showPanel('jenis-member')" id="nav-jenis-member">
+            <i class="ri-shield-check-fill text-[#BFA370]"></i> Jenis Member
+          </div>
+          <div class="nav-item" onclick="showPanel('data-privasi')" id="nav-data-privasi">
+            <i class="ri-shield-line"></i> Data &amp; Privasi
+          </div>
+          <div class="nav-item" onclick="showPanel('voucher-kamu')" id="nav-voucher-kamu">
+            <i class="ri-coupon-line"></i> Voucher Kamu
+          </div>
 
-            <!-- Akun Saya -->
-            <div class="section-label">Akun Saya</div>
-            <div class="nav-item active" onclick="showPanel('edit-profil')" id="nav-edit-profil">
-                <i class="ri-pencil-line"></i> Edit Profil
-            </div>
-            <div class="nav-item" onclick="showPanel('jenis-member')" id="nav-jenis-member">
-                <i class="ri-shield-check-fill text-[#BFA370]"></i> Jenis Member
-            </div>
-            <div class="nav-item" onclick="showPanel('data-privasi')" id="nav-data-privasi">
-                <i class="ri-shield-line"></i> Data &amp; Privasi
-            </div>
-            <div class="nav-item" onclick="showPanel('voucher-kamu')" id="nav-voucher-kamu">
-                <i class="ri-coupon-line"></i> Voucher Kamu
-            </div>
+          <!-- Aktivitas -->
+          <div class="section-label">Aktivitas</div>
+          <div class="nav-item" onclick="showPanel('favorit-kamu')" id="nav-favorit-kamu">
+            <i class="ri-heart-line"></i> Favorit Kamu
+          </div>
+          <div class="nav-item" onclick="showPanel('notifikasi')" id="nav-notifikasi">
+            <i class="ri-notification-3-line"></i> Notifikasi
+          </div>
+          <div class="nav-item" onclick="showPanel('histori-pesanan')" id="nav-histori-pesanan">
+            <i class="ri-history-line"></i> Histori Pesanan
+          </div>
+          <div class="nav-item" onclick="showPanel('langganan')" id="nav-langganan">
+            <i class="ri-vip-crown-line"></i> Langganan
+          </div>
 
-            <!-- Aktivitas -->
-            <div class="section-label">Aktivitas</div>
-            <div class="nav-item" onclick="showPanel('favorit-kamu')" id="nav-favorit-kamu">
-                <i class="ri-heart-line"></i> Favorit Kamu
-            </div>
-            <div class="nav-item" onclick="showPanel('notifikasi')" id="nav-notifikasi">
-                <i class="ri-notification-3-line"></i> Notifikasi
-            </div>
-            <div class="nav-item" onclick="showPanel('histori-pesanan')" id="nav-histori-pesanan">
-                <i class="ri-history-line"></i> Histori Pesanan
-            </div>
-            <div class="nav-item" onclick="showPanel('langganan')" id="nav-langganan">
-                <i class="ri-vip-crown-line"></i> Langganan
-            </div>
+          <!-- Bantuan -->
+          <div class="section-label">Bantuan Pusat &amp; Layanan</div>
+          <div class="nav-item" onclick="showPanel('kontak-kami')" id="nav-kontak-kami">
+            <i class="ri-phone-line"></i> Kontak Kami
+          </div>
+          <div class="nav-item" onclick="showPanel('kebijakan')" id="nav-kebijakan">
+            <i class="ri-file-text-line"></i> Kebijakan
+          </div>
+          <div class="nav-item" onclick="showPanel('pusat-bantuan')" id="nav-pusat-bantuan">
+            <i class="ri-question-line"></i> Pusat Bantuan &amp; SSD
+          </div>
 
-            <!-- Bantuan -->
-            <div class="section-label">Bantuan Pusat &amp; Layanan</div>
-            <div class="nav-item" onclick="showPanel('kontak-kami')" id="nav-kontak-kami">
-                <i class="ri-phone-line"></i> Kontak Kami
-            </div>
-            <div class="nav-item" onclick="showPanel('kebijakan')" id="nav-kebijakan">
-                <i class="ri-file-text-line"></i> Kebijakan
-            </div>
-            <div class="nav-item" onclick="showPanel('pusat-bantuan')" id="nav-pusat-bantuan">
-                <i class="ri-question-line"></i> Pusat Bantuan &amp; SSD
-            </div>
-
-            <!-- Keluar -->
-            <div class="mt-3">
-                <button class="btn-keluar" onclick="konfirmasiKeluar()">
-                    <i class="ri-logout-box-line text-lg"></i> Keluar
-                </button>
-            </div>
+          <!-- Keluar -->
+          <div class="mt-3">
+            <button class="btn-keluar" onclick="konfirmasiKeluar()">
+              <i class="ri-logout-box-line text-lg"></i> Keluar
+            </button>
+          </div>
         </div>
-    </aside>
+      </aside>
 
-    <!-- ===== CONTENT AREA ===== -->
-    <main class="flex-1 min-w-0">
-
+      <!-- ===== CONTENT AREA ===== -->
+      <main class="flex-1 min-w-0">
         <!-- ================== EDIT PROFIL ================== -->
         <div id="panel-edit-profil" class="panel active bg-white rounded-2xl p-8 shadow-sm">
-            <h1 class="text-2xl font-bold text-gray-800 mb-7">Profil Saya</h1>
+          <h1 class="text-2xl font-bold text-gray-800 mb-7">Profil Saya</h1>
 
-            <!-- Avatar -->
-            <div class="flex items-center gap-5 mb-8">
-                <div class="relative">
-                    <img src="assets/images/avatar.png" onerror="this.src='https://placehold.co/80x80/BFA370/fff?text=F'" class="w-20 h-20 rounded-full object-cover border-2 border-[#BFA370]">
-                </div>
-                <button class="flex items-center gap-2 border border-gray-200 rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 transition">
-                    <i class="ri-pencil-line text-[#BFA370]"></i> Edit Foto
+          <!-- Avatar -->
+          <div class="flex items-center gap-5 mb-8">
+            <div class="relative">
+              <img
+                src="assets/images/avatar.png"
+                onerror="this.src = 'https://placehold.co/80x80/BFA370/fff?text=F'"
+                class="w-20 h-20 rounded-full object-cover border-2 border-[#BFA370]" />
+            </div>
+            <button
+              class="flex items-center gap-2 border border-gray-200 rounded-lg px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 transition">
+              <i class="ri-pencil-line text-[#BFA370]"></i> Edit Foto
+            </button>
+          </div>
+
+          <div class="space-y-5 max-w-lg">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Username</label>
+              <input class="form-input" type="text" value="Faiz Faadillah" id="input-username" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
+              <input class="form-input" type="email" value="faizfaadillah@gmail.com" id="input-email" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Sandi</label>
+              <div class="relative">
+                <input class="form-input pr-28" type="password" value="12345" id="input-sandi" />
+                <button
+                  onclick="showPanel('ubah-sandi')"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-blue-500 font-medium hover:underline">
+                  Ubah Sandi
                 </button>
+              </div>
             </div>
-
-            <div class="space-y-5 max-w-lg">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Username</label>
-                    <input class="form-input" type="text" value="Faiz Faadillah" id="input-username">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
-                    <input class="form-input" type="email" value="faizfaadillah@gmail.com" id="input-email">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Sandi</label>
-                    <div class="relative">
-                        <input class="form-input pr-28" type="password" value="12345" id="input-sandi">
-                        <button onclick="showPanel('ubah-sandi')" class="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-blue-500 font-medium hover:underline">Ubah Sandi</button>
-                    </div>
-                </div>
-                <button class="btn-blue mt-2">Simpan</button>
-            </div>
+            <button class="btn-blue mt-2">Simpan</button>
+          </div>
         </div>
 
         <!-- ================== UBAH SANDI ================== -->
         <div id="panel-ubah-sandi" class="panel bg-white rounded-2xl p-8 shadow-sm">
-            <h1 class="text-2xl font-bold text-gray-800 mb-7">Ubah Kata Sandi</h1>
-            <div class="space-y-5 max-w-lg">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Kata sandi saat ini</label>
-                    <div class="relative">
-                        <input class="form-input pr-10" type="password" id="pw-lama" placeholder="">
-                        <button onclick="togglePw('pw-lama')" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"><i class="ri-eye-off-line"></i></button>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Kata sandi baru</label>
-                    <div class="relative">
-                        <input class="form-input pr-10" type="password" id="pw-baru" placeholder="">
-                        <button onclick="togglePw('pw-baru')" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"><i class="ri-eye-off-line"></i></button>
-                    </div>
-                    <p class="text-xs text-gray-400 mt-1.5">Kata sandi Anda harus paling tidak 8 karakter dan harus menyertakan kombinasi angka, huruf, dan karakter khusus (! $@%)</p>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Tulis ulang kata sandi baru</label>
-                    <div class="relative">
-                        <input class="form-input pr-10" type="password" id="pw-konfirm" placeholder="">
-                        <button onclick="togglePw('pw-konfirm')" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"><i class="ri-eye-off-line"></i></button>
-                    </div>
-                </div>
-                <p class="text-sm text-blue-500 cursor-pointer hover:underline">Lupa kata sandi Anda?</p>
-                <button class="btn-blue">Ubah kata sandi</button>
+          <h1 class="text-2xl font-bold text-gray-800 mb-7">Ubah Kata Sandi</h1>
+          <div class="space-y-5 max-w-lg">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Kata sandi saat ini</label>
+              <div class="relative">
+                <input class="form-input pr-10" type="password" id="pw-lama" placeholder="" />
+                <button
+                  onclick="togglePw('pw-lama')"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                  <i class="ri-eye-off-line"></i>
+                </button>
+              </div>
             </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Kata sandi baru</label>
+              <div class="relative">
+                <input class="form-input pr-10" type="password" id="pw-baru" placeholder="" />
+                <button
+                  onclick="togglePw('pw-baru')"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                  <i class="ri-eye-off-line"></i>
+                </button>
+              </div>
+              <p class="text-xs text-gray-400 mt-1.5">
+                Kata sandi Anda harus paling tidak 8 karakter dan harus menyertakan kombinasi angka, huruf, dan karakter
+                khusus (! $@%)
+              </p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Tulis ulang kata sandi baru</label>
+              <div class="relative">
+                <input class="form-input pr-10" type="password" id="pw-konfirm" placeholder="" />
+                <button
+                  onclick="togglePw('pw-konfirm')"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                  <i class="ri-eye-off-line"></i>
+                </button>
+              </div>
+            </div>
+            <p class="text-sm text-blue-500 cursor-pointer hover:underline">Lupa kata sandi Anda?</p>
+            <button class="btn-blue">Ubah kata sandi</button>
+          </div>
         </div>
 
         <!-- ================== JENIS MEMBER ================== -->
         <div id="panel-jenis-member" class="panel bg-white rounded-2xl p-8 shadow-sm">
-            <h1 class="text-2xl font-bold text-gray-800 mb-6">Member Anda</h1>
+          <h1 class="text-2xl font-bold text-gray-800 mb-6">Member Anda</h1>
 
-            <!-- Member Card -->
-            <div class="member-silver rounded-2xl p-6 text-white flex items-center justify-between mb-4">
-                <div>
-                    <p class="text-xs uppercase tracking-widest opacity-80 mb-1">Status Keanggotaan</p>
-                    <p class="text-2xl font-bold tracking-wide">MEMBER SILVER</p>
-                </div>
-                <i class="ri-arrow-right-s-line text-3xl opacity-70"></i>
+          <!-- Member Card -->
+          <div class="member-silver rounded-2xl p-6 text-white flex items-center justify-between mb-4">
+            <div>
+              <p class="text-xs uppercase tracking-widest opacity-80 mb-1">Status Keanggotaan</p>
+              <p class="text-2xl font-bold tracking-wide">MEMBER SILVER</p>
             </div>
+            <i class="ri-arrow-right-s-line text-3xl opacity-70"></i>
+          </div>
 
-            <div class="flex justify-end mb-6">
-                <button onclick="showPanel('voucher-kamu')" class="flex items-center gap-2 text-sm text-gray-600 border border-gray-200 rounded-lg px-4 py-2 hover:bg-gray-50">
-                    <i class="ri-coupon-line text-[#BFA370]"></i> Lihat Voucher
-                </button>
-            </div>
+          <div class="flex justify-end mb-6">
+            <button
+              onclick="showPanel('voucher-kamu')"
+              class="flex items-center gap-2 text-sm text-gray-600 border border-gray-200 rounded-lg px-4 py-2 hover:bg-gray-50">
+              <i class="ri-coupon-line text-[#BFA370]"></i> Lihat Voucher
+            </button>
+          </div>
 
-            <h2 class="font-semibold text-gray-700 mb-4">Keuntungan :</h2>
-            <div class="border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-100">
-                <div class="flex items-center gap-4 p-5">
-                    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f4b0.png" class="w-12 h-12 object-contain" onerror="this.src='https://placehold.co/48/FFF3CD/EE8F36?text=💰'">
-                    <div>
-                        <p class="font-bold text-gray-800">CASHBACK 3%</p>
-                        <p class="text-sm text-gray-500">Dapatkan kembali 3% uang dari setiap transaksi</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4 p-5">
-                    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f3ab.png" class="w-12 h-12 object-contain" onerror="this.src='https://placehold.co/48/FFF3CD/EE8F36?text=🎫'">
-                    <div>
-                        <p class="font-bold text-gray-800">VOUCHER EXCLUSIF RP 5.000</p>
-                        <p class="text-sm text-gray-500">Kupon spesial hanya untuk member setiap bulan</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-4 p-5">
-                    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/26a1.png" class="w-12 h-12 object-contain" onerror="this.src='https://placehold.co/48/FFF3CD/EE8F36?text=⚡'">
-                    <div>
-                        <p class="font-bold text-gray-800">FLASH SALE PRIORITAS</p>
-                        <p class="text-sm text-gray-500">Akses 30 detik lebih cepat untuk FlashSale</p>
-                    </div>
-                </div>
+          <h2 class="font-semibold text-gray-700 mb-4">Keuntungan :</h2>
+          <div class="border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-100">
+            <div class="flex items-center gap-4 p-5">
+              <img
+                src="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f4b0.png"
+                class="w-12 h-12 object-contain"
+                onerror="this.src = 'https://placehold.co/48/FFF3CD/EE8F36?text=💰'" />
+              <div>
+                <p class="font-bold text-gray-800">CASHBACK 3%</p>
+                <p class="text-sm text-gray-500">Dapatkan kembali 3% uang dari setiap transaksi</p>
+              </div>
             </div>
+            <div class="flex items-center gap-4 p-5">
+              <img
+                src="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/1f3ab.png"
+                class="w-12 h-12 object-contain"
+                onerror="this.src = 'https://placehold.co/48/FFF3CD/EE8F36?text=🎫'" />
+              <div>
+                <p class="font-bold text-gray-800">VOUCHER EXCLUSIF RP 5.000</p>
+                <p class="text-sm text-gray-500">Kupon spesial hanya untuk member setiap bulan</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 p-5">
+              <img
+                src="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/72x72/26a1.png"
+                class="w-12 h-12 object-contain"
+                onerror="this.src = 'https://placehold.co/48/FFF3CD/EE8F36?text=⚡'" />
+              <div>
+                <p class="font-bold text-gray-800">FLASH SALE PRIORITAS</p>
+                <p class="text-sm text-gray-500">Akses 30 detik lebih cepat untuk FlashSale</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- ================== DATA & PRIVASI ================== -->
         <div id="panel-data-privasi" class="panel bg-white rounded-2xl p-8 shadow-sm">
-            <h1 class="text-2xl font-bold text-gray-800 mb-2">Data &amp; Privasi</h1>
-            <p class="text-sm text-gray-500 mb-7 leading-relaxed">Kami ingin Anda memahami secara pasti bagaimana layanan NyamNow bekerja dan mengapa kami memerlukan detail Anda. Dengan meninjau kebijakan kami, Anda dapat terus menggunakan aplikasi ini dengan tenang.</p>
+          <h1 class="text-2xl font-bold text-gray-800 mb-2">Data &amp; Privasi</h1>
+          <p class="text-sm text-gray-500 mb-7 leading-relaxed">
+            Kami ingin Anda memahami secara pasti bagaimana layanan NyamNow bekerja dan mengapa kami memerlukan detail
+            Anda. Dengan meninjau kebijakan kami, Anda dapat terus menggunakan aplikasi ini dengan tenang.
+          </p>
 
-            <div id="prv-list" class="divide-y divide-gray-100">
-            </div>
+          <div id="prv-list" class="divide-y divide-gray-100"></div>
         </div>
 
         <!-- ================== VOUCHER KAMU ================== -->
         <div id="panel-voucher-kamu" class="panel bg-white rounded-2xl p-8 shadow-sm">
-            <h1 class="text-2xl font-bold text-gray-800 mb-6">Voucher Saya</h1>
+          <h1 class="text-2xl font-bold text-gray-800 mb-6">Voucher Saya</h1>
 
-            <!-- Kode input -->
-            <div class="flex gap-3 mb-8">
-                <input class="form-input flex-1" type="text" placeholder="Masukan Kode Voucher">
-                <button class="btn-gold px-6">Pakai</button>
-            </div>
+          <!-- Kode input -->
+          <div class="flex gap-3 mb-8">
+            <input class="form-input flex-1" type="text" placeholder="Masukan Kode Voucher" />
+            <button class="btn-gold px-6">Pakai</button>
+          </div>
 
-            <h3 class="font-semibold text-gray-700 mb-4">Voucher yang anda miliki</h3>
-            <div class="grid grid-cols-2 gap-4 mb-7" id="my-vouchers"></div>
+          <h3 class="font-semibold text-gray-700 mb-4">Voucher yang anda miliki</h3>
+          <div class="grid grid-cols-2 gap-4 mb-7" id="my-vouchers"></div>
 
-            <h3 class="font-semibold text-gray-700 mb-4">Voucher untuk anda</h3>
-            <div class="grid grid-cols-2 gap-4" id="for-vouchers"></div>
+          <h3 class="font-semibold text-gray-700 mb-4">Voucher untuk anda</h3>
+          <div class="grid grid-cols-2 gap-4" id="for-vouchers"></div>
         </div>
 
         <!-- ================== FAVORIT KAMU ================== -->
         <div id="panel-favorit-kamu" class="panel bg-white rounded-2xl p-8 shadow-sm">
-            <h1 class="text-2xl font-bold text-gray-800 mb-6">Favorit Kamu</h1>
+          <h1 class="text-2xl font-bold text-gray-800 mb-6">Favorit Kamu</h1>
 
-            <!-- Toko -->
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-[20px] font-semibold text-[#78450E]">Toko</h3>
-                <a href="#" class="flex items-center gap-1 text-[#BFA370] font-medium text-sm hover:text-[#8E754A]">Lihat Selengkapnya <i class="ri-arrow-right-s-line"></i></a>
-            </div>
-            <div id="fav-toko-grid" class="grid grid-cols-3 gap-5 mb-10"></div>
+          <!-- Toko -->
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-[20px] font-semibold text-[#78450E]">Toko</h3>
+            <a href="#" class="flex items-center gap-1 text-[#BFA370] font-medium text-sm hover:text-[#8E754A]"
+              >Lihat Selengkapnya <i class="ri-arrow-right-s-line"></i
+            ></a>
+          </div>
+          <div id="fav-toko-grid" class="grid grid-cols-3 gap-5 mb-10"></div>
 
-            <!-- Menu -->
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-[20px] font-semibold text-[#78450E]">Menu</h3>
-                <a href="#" class="flex items-center gap-1 text-[#BFA370] font-medium text-sm hover:text-[#8E754A]">Lihat Selengkapnya <i class="ri-arrow-right-s-line"></i></a>
-            </div>
-            <div id="fav-menu-grid" class="grid grid-cols-2 gap-5"></div>
+          <!-- Menu -->
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-[20px] font-semibold text-[#78450E]">Menu</h3>
+            <a href="#" class="flex items-center gap-1 text-[#BFA370] font-medium text-sm hover:text-[#8E754A]"
+              >Lihat Selengkapnya <i class="ri-arrow-right-s-line"></i
+            ></a>
+          </div>
+          <div id="fav-menu-grid" class="grid grid-cols-2 gap-5"></div>
         </div>
 
         <!-- ================== NOTIFIKASI ================== -->
         <!-- Konten dimuat dari notifikasi.html via fetch, tetap di dalam frame profil -->
         <div id="panel-notifikasi" class="panel bg-white rounded-2xl shadow-sm min-h-[300px]">
-            <div id="notif-frame">
-                <div class="flex items-center justify-center py-20 text-gray-300">
-                    <i class="ri-loader-4-line text-4xl"></i>
-                </div>
+          <div id="notif-frame">
+            <div class="flex items-center justify-center py-20 text-gray-300">
+              <i class="ri-loader-4-line text-4xl"></i>
             </div>
+          </div>
         </div>
 
         <!-- ================== HISTORI PESANAN ================== -->
         <div id="panel-histori-pesanan" class="panel bg-white rounded-2xl p-8 shadow-sm">
-            <h1 class="text-2xl font-bold text-gray-800 mb-6">Histori Pesanan</h1>
-            <div class="text-center py-16 text-gray-300">
-                <i class="ri-history-line text-6xl mb-3 block"></i>
-                <p class="text-base font-medium">Belum ada histori pesanan</p>
-            </div>
+          <h1 class="text-2xl font-bold text-gray-800 mb-6">Histori Pesanan</h1>
+          <div class="text-center py-16 text-gray-300">
+            <i class="ri-history-line text-6xl mb-3 block"></i>
+            <p class="text-base font-medium">Belum ada histori pesanan</p>
+          </div>
         </div>
 
         <!-- ================== LANGGANAN ================== -->
         <div id="panel-langganan" class="panel bg-white rounded-2xl p-8 shadow-sm">
-            <div class="flex items-center gap-2 mb-2">
-                <i class="ri-vip-crown-2-line text-[#BFA370] text-2xl"></i>
-                <h1 class="text-2xl font-bold text-gray-800">Nyamber</h1>
-            </div>
-            <p class="text-sm text-gray-500 mb-6 leading-relaxed max-w-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</p>
+          <div class="flex items-center gap-2 mb-2">
+            <i class="ri-vip-crown-2-line text-[#BFA370] text-2xl"></i>
+            <h1 class="text-2xl font-bold text-gray-800">Nyamber</h1>
+          </div>
+          <p class="text-sm text-gray-500 mb-6 leading-relaxed max-w-lg">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat
+          </p>
 
-            <!-- Tab Durasi -->
-            <div class="flex rounded-xl overflow-hidden border border-gray-200 w-fit mb-6" id="nyamber-tabs">
-                <button onclick="switchNyamber('1')" id="nyamber-tab-1" class="nyamber-tab-btn active-nyamber px-10 py-2.5 text-sm font-semibold transition-all">1 bulan</button>
-                <button onclick="switchNyamber('3')" id="nyamber-tab-3" class="nyamber-tab-btn px-10 py-2.5 text-sm font-medium text-gray-400 bg-gray-100 transition-all">3 bulan</button>
-                <button onclick="switchNyamber('6')" id="nyamber-tab-6" class="nyamber-tab-btn px-10 py-2.5 text-sm font-medium text-gray-400 bg-gray-100 transition-all">6 bulan</button>
-            </div>
+          <!-- Tab Durasi -->
+          <div class="flex rounded-xl overflow-hidden border border-gray-200 w-fit mb-6" id="nyamber-tabs">
+            <button
+              onclick="switchNyamber('1')"
+              id="nyamber-tab-1"
+              class="nyamber-tab-btn active-nyamber px-10 py-2.5 text-sm font-semibold transition-all">
+              1 bulan
+            </button>
+            <button
+              onclick="switchNyamber('3')"
+              id="nyamber-tab-3"
+              class="nyamber-tab-btn px-10 py-2.5 text-sm font-medium text-gray-400 bg-gray-100 transition-all">
+              3 bulan
+            </button>
+            <button
+              onclick="switchNyamber('6')"
+              id="nyamber-tab-6"
+              class="nyamber-tab-btn px-10 py-2.5 text-sm font-medium text-gray-400 bg-gray-100 transition-all">
+              6 bulan
+            </button>
+          </div>
 
-            <!-- Harga Card -->
-            <div class="border border-gray-200 rounded-2xl p-6 max-w-lg mb-8">
-                <div id="nyamber-harga" class="text-3xl font-bold text-gray-800 mb-0.5">Rp150.000</div>
-                <div id="nyamber-sub" class="text-sm text-gray-400 mb-5">Langganan Nyamber selama 1 bulan!</div>
-                <div class="flex items-center gap-2 text-sm text-gray-500 bg-gray-50 rounded-xl px-4 py-3 mb-4">
-                    <i class="ri-calendar-2-line text-[#BFA370]"></i>
-                    <span>Hemat mulai dari Rp250.000 tiap pembelian</span>
-                </div>
-                <button class="w-full py-3 rounded-xl font-semibold text-white text-sm transition-opacity hover:opacity-90" style="background: linear-gradient(90deg, #BFA370 0%, #8E754A 100%);">Cobain Nyamber, yuk!</button>
+          <!-- Harga Card -->
+          <div class="border border-gray-200 rounded-2xl p-6 max-w-lg mb-8">
+            <div id="nyamber-harga" class="text-3xl font-bold text-gray-800 mb-0.5">Rp150.000</div>
+            <div id="nyamber-sub" class="text-sm text-gray-400 mb-5">Langganan Nyamber selama 1 bulan!</div>
+            <div class="flex items-center gap-2 text-sm text-gray-500 bg-gray-50 rounded-xl px-4 py-3 mb-4">
+              <i class="ri-calendar-2-line text-[#BFA370]"></i>
+              <span>Hemat mulai dari Rp250.000 tiap pembelian</span>
             </div>
+            <button
+              class="w-full py-3 rounded-xl font-semibold text-white text-sm transition-opacity hover:opacity-90"
+              style="background: linear-gradient(90deg, #bfa370 0%, #8e754a 100%)">
+              Cobain Nyamber, yuk!
+            </button>
+          </div>
 
-            <!-- FAQ Nyamber -->
-            <div id="nyamber-faq" class="max-w-lg divide-y divide-gray-100"></div>
+          <!-- FAQ Nyamber -->
+          <div id="nyamber-faq" class="max-w-lg divide-y divide-gray-100"></div>
         </div>
 
         <!-- ================== KONTAK KAMI ================== -->
         <div id="panel-kontak-kami" class="panel bg-white rounded-2xl p-8 shadow-sm">
-            <h1 class="text-2xl font-bold text-gray-800 mb-1">Kontak Kami</h1>
-            <p class="text-sm text-gray-500 mb-7">Ada pertanyaan atau komentar? Cukup kirimkan pesan kepada kami!</p>
+          <h1 class="text-2xl font-bold text-gray-800 mb-1">Kontak Kami</h1>
+          <p class="text-sm text-gray-500 mb-7">Ada pertanyaan atau komentar? Cukup kirimkan pesan kepada kami!</p>
 
-            <div class="flex gap-8">
-                <!-- Left: Info card -->
-                <div class="w-56 flex-shrink-0 bg-[#2B2B2B] text-white rounded-2xl p-6 flex flex-col justify-between">
-                    <div>
-                        <p class="text-base font-semibold mb-6 leading-snug">Ucapkan sesuatu untuk memulai obrolan langsung!</p>
-                        <div class="space-y-4 text-sm">
-                            <div class="flex items-center gap-3"><i class="ri-phone-line text-lg"></i> +123456789</div>
-                            <div class="flex items-center gap-3"><i class="ri-mail-line text-lg"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d8b9a8b9a1b998bfb5b9b1b4f6bbb7b5">[email&#160;protected]</a></div>
-                            <div class="flex items-center gap-3"><i class="ri-map-pin-line text-lg"></i> Jl. Deket Rumah</div>
-                        </div>
-                    </div>
-                    <div class="flex gap-3 mt-6">
-                        <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center cursor-pointer hover:bg-white/30"><i class="ri-twitter-x-line text-sm"></i></div>
-                        <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center cursor-pointer hover:bg-white/30"><i class="ri-instagram-line text-sm"></i></div>
-                        <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center cursor-pointer hover:bg-white/30"><i class="ri-discord-line text-sm"></i></div>
-                    </div>
+          <div class="flex gap-8">
+            <!-- Left: Info card -->
+            <div class="w-56 flex-shrink-0 bg-[#2B2B2B] text-white rounded-2xl p-6 flex flex-col justify-between">
+              <div>
+                <p class="text-base font-semibold mb-6 leading-snug">Ucapkan sesuatu untuk memulai obrolan langsung!</p>
+                <div class="space-y-4 text-sm">
+                  <div class="flex items-center gap-3"><i class="ri-phone-line text-lg"></i> +123456789</div>
+                  <div class="flex items-center gap-3">
+                    <i class="ri-mail-line text-lg"></i>
+                    <a
+                      href="/cdn-cgi/l/email-protection"
+                      class="__cf_email__"
+                      data-cfemail="d8b9a8b9a1b998bfb5b9b1b4f6bbb7b5"
+                      >[email&#160;protected]</a
+                    >
+                  </div>
+                  <div class="flex items-center gap-3"><i class="ri-map-pin-line text-lg"></i> Jl. Deket Rumah</div>
                 </div>
-
-                <!-- Right: Form -->
-                <div class="flex-1">
-                    <div class="grid grid-cols-2 gap-6 mb-5">
-                        <div>
-                            <label class="text-xs text-gray-400 block mb-1">Nama Depan</label>
-                            <input class="kontak-input" placeholder="">
-                        </div>
-                        <div>
-                            <label class="text-xs text-gray-400 block mb-1">Nama Belakang</label>
-                            <input class="kontak-input" placeholder="">
-                        </div>
-                        <div>
-                            <label class="text-xs text-gray-400 block mb-1">Email</label>
-                            <input class="kontak-input" type="email" placeholder="">
-                        </div>
-                        <div>
-                            <label class="text-xs text-gray-400 block mb-1">Nomor HP</label>
-                            <input class="kontak-input" type="tel" placeholder="">
-                        </div>
-                    </div>
-                    <div class="mb-6">
-                        <label class="text-xs text-gray-400 block mb-1">Pesan</label>
-                        <input class="kontak-input" placeholder="Tulis pesanmu disini...">
-                    </div>
-                    <div class="flex justify-end">
-                        <button class="btn-gold px-8">Kirim Pesanmu</button>
-                    </div>
+              </div>
+              <div class="flex gap-3 mt-6">
+                <div
+                  class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center cursor-pointer hover:bg-white/30">
+                  <i class="ri-twitter-x-line text-sm"></i>
                 </div>
+                <div
+                  class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center cursor-pointer hover:bg-white/30">
+                  <i class="ri-instagram-line text-sm"></i>
+                </div>
+                <div
+                  class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center cursor-pointer hover:bg-white/30">
+                  <i class="ri-discord-line text-sm"></i>
+                </div>
+              </div>
             </div>
+
+            <!-- Right: Form -->
+            <div class="flex-1">
+              <div class="grid grid-cols-2 gap-6 mb-5">
+                <div>
+                  <label class="text-xs text-gray-400 block mb-1">Nama Depan</label>
+                  <input class="kontak-input" placeholder="" />
+                </div>
+                <div>
+                  <label class="text-xs text-gray-400 block mb-1">Nama Belakang</label>
+                  <input class="kontak-input" placeholder="" />
+                </div>
+                <div>
+                  <label class="text-xs text-gray-400 block mb-1">Email</label>
+                  <input class="kontak-input" type="email" placeholder="" />
+                </div>
+                <div>
+                  <label class="text-xs text-gray-400 block mb-1">Nomor HP</label>
+                  <input class="kontak-input" type="tel" placeholder="" />
+                </div>
+              </div>
+              <div class="mb-6">
+                <label class="text-xs text-gray-400 block mb-1">Pesan</label>
+                <input class="kontak-input" placeholder="Tulis pesanmu disini..." />
+              </div>
+              <div class="flex justify-end">
+                <button class="btn-gold px-8">Kirim Pesanmu</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- ================== KEBIJAKAN ================== -->
         <div id="panel-kebijakan" class="panel bg-white rounded-2xl p-8 shadow-sm">
-            <h1 class="text-2xl font-bold text-gray-800 mb-4">Kebijakan</h1>
-            <p class="text-sm text-gray-600 leading-relaxed mb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodi consequat.</p>
-            <div class="space-y-5 text-sm text-gray-700 leading-relaxed" id="kebijakan-list"></div>
+          <h1 class="text-2xl font-bold text-gray-800 mb-4">Kebijakan</h1>
+          <p class="text-sm text-gray-600 leading-relaxed mb-6">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore
+            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+            commodi consequat.
+          </p>
+          <div class="space-y-5 text-sm text-gray-700 leading-relaxed" id="kebijakan-list"></div>
         </div>
 
         <!-- ================== PUSAT BANTUAN ================== -->
         <div id="panel-pusat-bantuan" class="panel bg-white rounded-2xl p-8 shadow-sm">
-            <h1 class="text-2xl font-bold text-gray-800 mb-1">Bagaimana kami dapat membantu Anda?</h1>
-            <p class="text-sm text-gray-500 mb-5">Punya pertanyaan? Cari di Pusat Bantuan kami.</p>
+          <h1 class="text-2xl font-bold text-gray-800 mb-1">Bagaimana kami dapat membantu Anda?</h1>
+          <p class="text-sm text-gray-500 mb-5">Punya pertanyaan? Cari di Pusat Bantuan kami.</p>
 
-            <!-- Search -->
-            <div class="relative mb-7">
-                <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                <input class="form-input pl-9" placeholder="Masukkan pertanyaan, topik, atau kata kunci">
+          <!-- Search -->
+          <div class="relative mb-7">
+            <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            <input class="form-input pl-9" placeholder="Masukkan pertanyaan, topik, atau kata kunci" />
+          </div>
+
+          <p class="text-sm text-gray-500 mb-5">
+            ... atau pilih kategori untuk menemukan bantuan yang Anda butuhkan dengan cepat.
+          </p>
+
+          <!-- Kategori -->
+          <div class="grid grid-cols-3 gap-4 mb-8">
+            <div class="border border-gray-200 rounded-xl p-5 cursor-pointer hover:border-[#BFA370] transition">
+              <i class="ri-question-answer-line text-2xl text-gray-500 mb-3 block"></i>
+              <p class="font-semibold text-gray-800 text-sm mb-1">FAQs</p>
+              <p class="text-xs text-gray-500 leading-relaxed">
+                FAQ singkatan dari frequently asked questions, adalah daftar pertanyaan dan jawaban yang umum diajukan
+                tentang topik tertentu.
+              </p>
+              <p class="text-xs text-[#BFA370] mt-3 font-medium cursor-pointer">Lihat FAQ →</p>
             </div>
-
-            <p class="text-sm text-gray-500 mb-5">... atau pilih kategori untuk menemukan bantuan yang Anda butuhkan dengan cepat.</p>
-
-            <!-- Kategori -->
-            <div class="grid grid-cols-3 gap-4 mb-8">
-                <div class="border border-gray-200 rounded-xl p-5 cursor-pointer hover:border-[#BFA370] transition">
-                    <i class="ri-question-answer-line text-2xl text-gray-500 mb-3 block"></i>
-                    <p class="font-semibold text-gray-800 text-sm mb-1">FAQs</p>
-                    <p class="text-xs text-gray-500 leading-relaxed">FAQ singkatan dari frequently asked questions, adalah daftar pertanyaan dan jawaban yang umum diajukan tentang topik tertentu.</p>
-                    <p class="text-xs text-[#BFA370] mt-3 font-medium cursor-pointer">Lihat FAQ →</p>
-                </div>
-                <div class="border border-gray-200 rounded-xl p-5 cursor-pointer hover:border-[#BFA370] transition">
-                    <i class="ri-book-open-line text-2xl text-gray-500 mb-3 block"></i>
-                    <p class="font-semibold text-gray-800 text-sm mb-1">Panduan &amp; Sumber Daya</p>
-                    <p class="text-xs text-gray-500 leading-relaxed">Panduan Gaya UI adalah alat desain & pengembangan yang memberikan koleksi pola antarmuka & pengalaman pengguna produk digital.</p>
-                    <p class="text-xs text-[#BFA370] mt-3 font-medium cursor-pointer">Jelajahi Panduan →</p>
-                </div>
-                <div class="border border-gray-200 rounded-xl p-5 cursor-pointer hover:border-[#BFA370] transition">
-                    <i class="ri-customer-service-line text-2xl text-gray-500 mb-3 block"></i>
-                    <p class="font-semibold text-gray-800 text-sm mb-1">Dukungan</p>
-                    <p class="text-xs text-gray-500 leading-relaxed">Kabar baik, Anda tidak sendirian. Kami berada di tempat yang tepat. Hubungi kami untuk dukungan yang lebih mendalam.</p>
-                    <p class="text-xs text-[#BFA370] mt-3 font-medium cursor-pointer">Ajukan Permintaan →</p>
-                </div>
+            <div class="border border-gray-200 rounded-xl p-5 cursor-pointer hover:border-[#BFA370] transition">
+              <i class="ri-book-open-line text-2xl text-gray-500 mb-3 block"></i>
+              <p class="font-semibold text-gray-800 text-sm mb-1">Panduan &amp; Sumber Daya</p>
+              <p class="text-xs text-gray-500 leading-relaxed">
+                Panduan Gaya UI adalah alat desain & pengembangan yang memberikan koleksi pola antarmuka & pengalaman
+                pengguna produk digital.
+              </p>
+              <p class="text-xs text-[#BFA370] mt-3 font-medium cursor-pointer">Jelajahi Panduan →</p>
             </div>
-
-            <!-- FAQ -->
-            <h2 class="text-xl font-bold text-gray-800 mb-2">Pertanyaan yang Paling Sering Diajukan</h2>
-            <p class="text-sm text-gray-500 mb-5">Berikut adalah pertanyaan yang paling sering diajukan yang dapat Anda periksa sebelum memulai.</p>
-
-            <div id="faq-list" class="mb-8"></div>
-
-            <!-- Tidak Menemukan -->
-            <h2 class="text-xl font-bold text-gray-800 mb-5">Tidak Menemukan yang Anda Cari</h2>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="border border-gray-200 rounded-xl p-5">
-                    <i class="ri-phone-line text-xl text-gray-500 mb-2 block"></i>
-                    <p class="font-semibold text-gray-800 text-sm mb-1">Hubungi Kami</p>
-                    <p class="text-xs text-gray-500 mb-3 leading-relaxed">Geeks ada di sini buat bantu kamu. Kita bisa kasih dukungan yang kamu perlu. Hubungi kita aja, tim kita bakal balas sebisanya.</p>
-                    <button onclick="showPanel('kontak-kami')" class="btn-outline text-xs">Kontak Kami</button>
-                </div>
-                <div class="border border-gray-200 rounded-xl p-5">
-                    <i class="ri-customer-service-2-line text-xl text-gray-500 mb-2 block"></i>
-                    <p class="font-semibold text-gray-800 text-sm mb-1">Support</p>
-                    <p class="text-xs text-gray-500 mb-3 leading-relaxed">Kabar baik, Anda tidak sendirian. Kami siap membantu. Hubungi kami untuk dukungan lebih mendalam.</p>
-                    <button class="btn-outline text-xs">Ajukan Tiket</button>
-                </div>
+            <div class="border border-gray-200 rounded-xl p-5 cursor-pointer hover:border-[#BFA370] transition">
+              <i class="ri-customer-service-line text-2xl text-gray-500 mb-3 block"></i>
+              <p class="font-semibold text-gray-800 text-sm mb-1">Dukungan</p>
+              <p class="text-xs text-gray-500 leading-relaxed">
+                Kabar baik, Anda tidak sendirian. Kami berada di tempat yang tepat. Hubungi kami untuk dukungan yang
+                lebih mendalam.
+              </p>
+              <p class="text-xs text-[#BFA370] mt-3 font-medium cursor-pointer">Ajukan Permintaan →</p>
             </div>
+          </div>
+
+          <!-- FAQ -->
+          <h2 class="text-xl font-bold text-gray-800 mb-2">Pertanyaan yang Paling Sering Diajukan</h2>
+          <p class="text-sm text-gray-500 mb-5">
+            Berikut adalah pertanyaan yang paling sering diajukan yang dapat Anda periksa sebelum memulai.
+          </p>
+
+          <div id="faq-list" class="mb-8"></div>
+
+          <!-- Tidak Menemukan -->
+          <h2 class="text-xl font-bold text-gray-800 mb-5">Tidak Menemukan yang Anda Cari</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="border border-gray-200 rounded-xl p-5">
+              <i class="ri-phone-line text-xl text-gray-500 mb-2 block"></i>
+              <p class="font-semibold text-gray-800 text-sm mb-1">Hubungi Kami</p>
+              <p class="text-xs text-gray-500 mb-3 leading-relaxed">
+                Geeks ada di sini buat bantu kamu. Kita bisa kasih dukungan yang kamu perlu. Hubungi kita aja, tim kita
+                bakal balas sebisanya.
+              </p>
+              <button onclick="showPanel('kontak-kami')" class="btn-outline text-xs">Kontak Kami</button>
+            </div>
+            <div class="border border-gray-200 rounded-xl p-5">
+              <i class="ri-customer-service-2-line text-xl text-gray-500 mb-2 block"></i>
+              <p class="font-semibold text-gray-800 text-sm mb-1">Support</p>
+              <p class="text-xs text-gray-500 mb-3 leading-relaxed">
+                Kabar baik, Anda tidak sendirian. Kami siap membantu. Hubungi kami untuk dukungan lebih mendalam.
+              </p>
+              <button class="btn-outline text-xs">Ajukan Tiket</button>
+            </div>
+          </div>
         </div>
+      </main>
+    </div>
 
-    </main>
-</div>
-
-<!-- Modal Konfirmasi Keluar -->
-<div id="modal-keluar" class="fixed inset-0 bg-black/40 z-50 flex items-center justify-center hidden">
-    <div class="bg-white rounded-2xl p-8 w-80 text-center shadow-2xl">
+    <!-- Modal Konfirmasi Keluar -->
+    <div id="modal-keluar" class="fixed inset-0 bg-black/40 z-50 flex items-center justify-center hidden">
+      <div class="bg-white rounded-2xl p-8 w-80 text-center shadow-2xl">
         <i class="ri-logout-box-line text-4xl text-red-400 mb-3 block"></i>
         <h3 class="font-bold text-gray-800 text-lg mb-2">Keluar?</h3>
         <p class="text-sm text-gray-500 mb-6">Apakah kamu yakin ingin keluar dari akun ini?</p>
         <div class="flex gap-3">
-            <button onclick="tutupModal()" class="btn-outline flex-1">Batal</button>
-            <button onclick="window.location.href='index.html'" class="btn-keluar justify-center flex-1" style="padding:10px;">Ya, Keluar</button>
+          <button onclick="tutupModal()" class="btn-outline flex-1">Batal</button>
+          <button
+            onclick="window.location.href = 'index.html'"
+            class="btn-keluar justify-center flex-1"
+            style="padding: 10px">
+            Ya, Keluar
+          </button>
         </div>
+      </div>
     </div>
-</div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/script.js"></script>
-<script>
-// ================================================================
-// PROFIL PAGE SCRIPT
-// ================================================================
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+      // ================================================================
+      // PROFIL PAGE SCRIPT
+      // ================================================================
 
-// ---- Panel switcher ----
-let notifLoaded = false;
+      // ---- Panel switcher ----
+      let notifLoaded = false;
 
-function showPanel(id) {
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      function showPanel(id) {
+        document.querySelectorAll('.panel').forEach((p) => p.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach((n) => n.classList.remove('active'));
 
-    const panel = document.getElementById('panel-' + id);
-    if (panel) panel.classList.add('active');
+        const panel = document.getElementById('panel-' + id);
+        if (panel) panel.classList.add('active');
 
-    const nav = document.getElementById('nav-' + id);
-    if (nav) nav.classList.add('active');
-    else {
-        const navParent = document.getElementById('nav-edit-profil');
-        if (navParent) navParent.classList.add('active');
-    }
+        const nav = document.getElementById('nav-' + id);
+        if (nav) nav.classList.add('active');
+        else {
+          const navParent = document.getElementById('nav-edit-profil');
+          if (navParent) navParent.classList.add('active');
+        }
 
-    // Kalau buka notifikasi, fetch dari notifikasi.html lalu inject ke dalam frame
-    if (id === 'notifikasi' && !notifLoaded) {
-        const frame = document.getElementById('notif-frame');
-        frame.innerHTML = '<div class="flex items-center justify-center py-20 text-gray-300"><i class="ri-loader-4-line text-4xl"></i><span class="ml-3 text-base">Memuat notifikasi...</span></div>';
+        // Kalau buka notifikasi, fetch dari notifikasi.html lalu inject ke dalam frame
+        if (id === 'notifikasi' && !notifLoaded) {
+          const frame = document.getElementById('notif-frame');
+          frame.innerHTML =
+            '<div class="flex items-center justify-center py-20 text-gray-300"><i class="ri-loader-4-line text-4xl"></i><span class="ml-3 text-base">Memuat notifikasi...</span></div>';
 
-        fetch('notifikasi.html')
-            .then(r => r.text())
-            .then(html => {
-                // Parse HTML, ambil cuma bagian <main> atau <body> kontennya
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
+          fetch('notifikasi.html')
+            .then((r) => r.text())
+            .then((html) => {
+              // Parse HTML, ambil cuma bagian <main> atau <body> kontennya
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(html, 'text/html');
 
-                // Coba ambil elemen main, fallback ke body
-                const main = doc.querySelector('main') || doc.querySelector('.notif-content') || doc.body;
+              // Coba ambil elemen main, fallback ke body
+              const main = doc.querySelector('main') || doc.querySelector('.notif-content') || doc.body;
 
-                // Inject konten ke frame — strip header/nav bawaan notifikasi.html jika ada
-                // Kita ambil innerHTML-nya, tapi hapus dulu elemen header agar tidak dobel
-                const clone = main.cloneNode(true);
-                clone.querySelectorAll('#header-container, header, nav').forEach(el => el.remove());
+              // Inject konten ke frame — strip header/nav bawaan notifikasi.html jika ada
+              // Kita ambil innerHTML-nya, tapi hapus dulu elemen header agar tidak dobel
+              const clone = main.cloneNode(true);
+              clone.querySelectorAll('#header-container, header, nav').forEach((el) => el.remove());
 
-                frame.innerHTML = '<div class="p-8">' + clone.innerHTML + '</div>';
-                notifLoaded = true;
+              frame.innerHTML = '<div class="p-8">' + clone.innerHTML + '</div>';
+              notifLoaded = true;
             })
             .catch(() => {
-                // Fallback kalau notifikasi.html belum ada: render inline
-                frame.innerHTML = renderNotifFallback();
-                notifLoaded = true;
+              // Fallback kalau notifikasi.html belum ada: render inline
+              frame.innerHTML = renderNotifFallback();
+              notifLoaded = true;
             });
-    }
-}
+        }
+      }
 
-// ---- Toggle password visibility ----
-function togglePw(id) {
-    const el = document.getElementById(id);
-    el.type = el.type === 'password' ? 'text' : 'password';
-}
+      // ---- Toggle password visibility ----
+      function togglePw(id) {
+        const el = document.getElementById(id);
+        el.type = el.type === 'password' ? 'text' : 'password';
+      }
 
-// ---- Keluar modal ----
-function konfirmasiKeluar() {
-    document.getElementById('modal-keluar').classList.remove('hidden');
-}
-function tutupModal() {
-    document.getElementById('modal-keluar').classList.add('hidden');
-}
+      // ---- Keluar modal ----
+      function konfirmasiKeluar() {
+        document.getElementById('modal-keluar').classList.remove('hidden');
+      }
+      function tutupModal() {
+        document.getElementById('modal-keluar').classList.add('hidden');
+      }
 
-// ================================================================
-// DATA RENDER
-// ================================================================
+      // ================================================================
+      // DATA RENDER
+      // ================================================================
 
-// ---- Data & Privasi ----
-const prvData = [
-    {
-        q: 'Informasi apa yang kami kumpulkan tentang Anda?',
-        a: `<p class="font-semibold mb-2 text-gray-700">Bagaimana kami menggunakan informasi Anda?</p>
+      // ---- Data & Privasi ----
+      const prvData = [
+        {
+          q: 'Informasi apa yang kami kumpulkan tentang Anda?',
+          a: `<p class="font-semibold mb-2 text-gray-700">Bagaimana kami menggunakan informasi Anda?</p>
             <p>Kami dapat menggunakan informasi yang kami kumpulkan untuk tujuan berikut:</p>
             <ul class="list-disc pl-5 mt-2 space-y-1">
                 <li>Untuk mendaftarkan Anda atau perangkat Anda untuk suatu Layanan</li>
@@ -619,17 +951,34 @@ const prvData = [
                 <li>Untuk periklanan, seperti menyediakan iklan yang disesuaikan dan konten bersponsor</li>
                 <li>Untuk memahami cara orang menggunakan Layanan kami sehingga kami dapat memperbaikinya</li>
             </ul>`
-    },
-    { q: 'Informasi apa yang kami kumpulkan tentang Anda?', a: 'Kami mengumpulkan nama, email, nomor telepon, lokasi, dan data penggunaan aplikasi Anda untuk memberikan layanan yang lebih baik.' },
-    { q: 'Informasi apa yang kami kumpulkan tentang Anda?', a: 'Data Anda disimpan dengan aman menggunakan enkripsi industri standar dan hanya diakses oleh pihak yang berwenang.' },
-    { q: 'Informasi apa yang kami kumpulkan tentang Anda?', a: 'Anda dapat meminta penghapusan data kapan saja melalui pengaturan akun atau menghubungi tim kami.' },
-    { q: 'Informasi apa yang kami kumpulkan tentang Anda?', a: 'Kami tidak menjual data Anda kepada pihak ketiga. Data hanya digunakan untuk tujuan yang disebutkan dalam kebijakan privasi kami.' },
-    { q: 'Informasi apa yang kami kumpulkan tentang Anda?', a: 'Perubahan kebijakan akan diberitahukan melalui email dan notifikasi dalam aplikasi setidaknya 30 hari sebelum berlaku.' },
-];
-function renderPrivasi() {
-    const container = document.getElementById('prv-list');
-    if (!container) return;
-    container.innerHTML = prvData.map((item, i) => `
+        },
+        {
+          q: 'Informasi apa yang kami kumpulkan tentang Anda?',
+          a: 'Kami mengumpulkan nama, email, nomor telepon, lokasi, dan data penggunaan aplikasi Anda untuk memberikan layanan yang lebih baik.'
+        },
+        {
+          q: 'Informasi apa yang kami kumpulkan tentang Anda?',
+          a: 'Data Anda disimpan dengan aman menggunakan enkripsi industri standar dan hanya diakses oleh pihak yang berwenang.'
+        },
+        {
+          q: 'Informasi apa yang kami kumpulkan tentang Anda?',
+          a: 'Anda dapat meminta penghapusan data kapan saja melalui pengaturan akun atau menghubungi tim kami.'
+        },
+        {
+          q: 'Informasi apa yang kami kumpulkan tentang Anda?',
+          a: 'Kami tidak menjual data Anda kepada pihak ketiga. Data hanya digunakan untuk tujuan yang disebutkan dalam kebijakan privasi kami.'
+        },
+        {
+          q: 'Informasi apa yang kami kumpulkan tentang Anda?',
+          a: 'Perubahan kebijakan akan diberitahukan melalui email dan notifikasi dalam aplikasi setidaknya 30 hari sebelum berlaku.'
+        }
+      ];
+      function renderPrivasi() {
+        const container = document.getElementById('prv-list');
+        if (!container) return;
+        container.innerHTML = prvData
+          .map(
+            (item, i) => `
         <div class="prv-item">
             <div class="prv-q" onclick="togglePrv(${i})">
                 <span>${item.q}</span>
@@ -637,20 +986,24 @@ function renderPrivasi() {
             </div>
             <div id="prv-a-${i}" class="prv-a">${item.a}</div>
         </div>
-    `).join('');
-}
-function togglePrv(i) {
-    const a = document.getElementById('prv-a-' + i);
-    const ico = document.getElementById('prv-ico-' + i);
-    const open = a.classList.toggle('open');
-    ico.style.transform = open ? 'rotate(45deg)' : '';
-}
+    `
+          )
+          .join('');
+      }
+      function togglePrv(i) {
+        const a = document.getElementById('prv-a-' + i);
+        const ico = document.getElementById('prv-ico-' + i);
+        const open = a.classList.toggle('open');
+        ico.style.transform = open ? 'rotate(45deg)' : '';
+      }
 
-// ---- Voucher ----
-function renderVoucher(containerId, data) {
-    const el = document.getElementById(containerId);
-    if (!el) return;
-    el.innerHTML = data.map(v => `
+      // ---- Voucher ----
+      function renderVoucher(containerId, data) {
+        const el = document.getElementById(containerId);
+        if (!el) return;
+        el.innerHTML = data
+          .map(
+            (v) => `
         <div class="voucher-card ${v.expired ? 'expired' : ''}">
             <div class="voucher-left">
                 <img src="https://placehold.co/72x72/F5EDD7/BFA370?text=🐱" class="w-16 h-16 object-contain rounded-lg" onerror="this.src='https://placehold.co/72/F5EDD7/BFA370?text=V'">
@@ -661,34 +1014,96 @@ function renderVoucher(containerId, data) {
                 <p class="text-xs text-gray-400">${v.berlaku}</p>
             </div>
         </div>
-    `).join('');
-}
-const myVouchers = [
-    { judul: 'Potongan Biaya Menu', desc: 'Nikmati diskon 20% untuk seluruh menu! Maksimal diskon Rp15.000 dengan minimal belanja Rp50.000.', berlaku: 'Berlaku hingga 19.00' },
-    { judul: 'Potongan Biaya Menu', desc: 'Nikmati diskon 20% untuk seluruh menu! Maksimal diskon Rp15.000 dengan minimal belanja Rp50.000.', berlaku: 'Berlaku hingga 19.00' },
-    { judul: 'Potongan Biaya Menu', desc: 'Nikmati diskon 20% untuk seluruh menu! Maksimal diskon Rp15.000 dengan minimal belanja Rp50.000.', berlaku: 'Berlaku hingga 19.00' },
-    { judul: 'Potongan Biaya Menu', desc: 'Nikmati diskon 20% untuk seluruh menu! Maksimal diskon Rp15.000 dengan minimal belanja Rp50.000.', berlaku: 'Berlaku hingga 19.00' },
-];
-const forVouchers = [
-    { judul: 'Potongan Biaya Menu', desc: 'Nikmati diskon 20% untuk seluruh menu! Maksimal diskon Rp15.000 dengan minimal belanja Rp50.000.', berlaku: 'Berlaku hingga 19.00' },
-    { judul: 'Potongan Biaya Menu', desc: 'Nikmati diskon 20% untuk seluruh menu! Maksimal diskon Rp15.000 dengan minimal belanja Rp50.000.', berlaku: 'Berlaku hingga 19.00' },
-    { judul: 'Potongan Biaya Minuman', desc: 'Nikmati diskon 20% untuk seluruh minuman! Maksimal diskon Rp15.000 dengan minimal belanja Rp50.000.', berlaku: 'Hingga 25-05-2027', expired: false },
-    { judul: 'Potongan Biaya Minuman', desc: 'Nikmati diskon 20% untuk seluruh minuman! Maksimal diskon Rp15.000 dengan minimal belanja Rp50.000.', berlaku: 'Hingga 25-05-2027', expired: true },
-];
+    `
+          )
+          .join('');
+      }
+      const myVouchers = [
+        {
+          judul: 'Potongan Biaya Menu',
+          desc: 'Nikmati diskon 20% untuk seluruh menu! Maksimal diskon Rp15.000 dengan minimal belanja Rp50.000.',
+          berlaku: 'Berlaku hingga 19.00'
+        },
+        {
+          judul: 'Potongan Biaya Menu',
+          desc: 'Nikmati diskon 20% untuk seluruh menu! Maksimal diskon Rp15.000 dengan minimal belanja Rp50.000.',
+          berlaku: 'Berlaku hingga 19.00'
+        },
+        {
+          judul: 'Potongan Biaya Menu',
+          desc: 'Nikmati diskon 20% untuk seluruh menu! Maksimal diskon Rp15.000 dengan minimal belanja Rp50.000.',
+          berlaku: 'Berlaku hingga 19.00'
+        },
+        {
+          judul: 'Potongan Biaya Menu',
+          desc: 'Nikmati diskon 20% untuk seluruh menu! Maksimal diskon Rp15.000 dengan minimal belanja Rp50.000.',
+          berlaku: 'Berlaku hingga 19.00'
+        }
+      ];
+      const forVouchers = [
+        {
+          judul: 'Potongan Biaya Menu',
+          desc: 'Nikmati diskon 20% untuk seluruh menu! Maksimal diskon Rp15.000 dengan minimal belanja Rp50.000.',
+          berlaku: 'Berlaku hingga 19.00'
+        },
+        {
+          judul: 'Potongan Biaya Menu',
+          desc: 'Nikmati diskon 20% untuk seluruh menu! Maksimal diskon Rp15.000 dengan minimal belanja Rp50.000.',
+          berlaku: 'Berlaku hingga 19.00'
+        },
+        {
+          judul: 'Potongan Biaya Minuman',
+          desc: 'Nikmati diskon 20% untuk seluruh minuman! Maksimal diskon Rp15.000 dengan minimal belanja Rp50.000.',
+          berlaku: 'Hingga 25-05-2027',
+          expired: false
+        },
+        {
+          judul: 'Potongan Biaya Minuman',
+          desc: 'Nikmati diskon 20% untuk seluruh minuman! Maksimal diskon Rp15.000 dengan minimal belanja Rp50.000.',
+          berlaku: 'Hingga 25-05-2027',
+          expired: true
+        }
+      ];
 
-// ---- Favorit ----
-function renderFavorit() {
-    const tokoGrid = document.getElementById('fav-toko-grid');
-    const menuGrid = document.getElementById('fav-menu-grid');
-    if (!tokoGrid || !menuGrid) return;
+      // ---- Favorit ----
+      function renderFavorit() {
+        const tokoGrid = document.getElementById('fav-toko-grid');
+        const menuGrid = document.getElementById('fav-menu-grid');
+        if (!tokoGrid || !menuGrid) return;
 
-    // Toko cards — ikutin struktur dari reference
-    const tokoData = [
-        { nama: 'Ayam Goreng 39', alamat: 'Jl. Limau Tenggara no. 45', rating: 5, terjual: '10RB+', jarak: '240m', waktu: '15min', suka: 1341 },
-        { nama: 'Dapur Mommy',    alamat: 'Jl. Kopral Sayom no.80',     rating: 5, terjual: '1RB+',  jarak: '140m', waktu: '10min', suka: 1567 },
-        { nama: 'Bakso Sultan',   alamat: 'Jl. Merdeka no.7',           rating: 5, terjual: '8RB+',  jarak: '500m', waktu: '12min', suka: 2140 },
-    ];
-    tokoGrid.innerHTML = tokoData.map(t => `
+        // Toko cards — ikutin struktur dari reference
+        const tokoData = [
+          {
+            nama: 'Ayam Goreng 39',
+            alamat: 'Jl. Limau Tenggara no. 45',
+            rating: 5,
+            terjual: '10RB+',
+            jarak: '240m',
+            waktu: '15min',
+            suka: 1341
+          },
+          {
+            nama: 'Dapur Mommy',
+            alamat: 'Jl. Kopral Sayom no.80',
+            rating: 5,
+            terjual: '1RB+',
+            jarak: '140m',
+            waktu: '10min',
+            suka: 1567
+          },
+          {
+            nama: 'Bakso Sultan',
+            alamat: 'Jl. Merdeka no.7',
+            rating: 5,
+            terjual: '8RB+',
+            jarak: '500m',
+            waktu: '12min',
+            suka: 2140
+          }
+        ];
+        tokoGrid.innerHTML = tokoData
+          .map(
+            (t) => `
         <div class="bg-white rounded-2xl overflow-hidden card-shadow p-3 border border-gray-50 cursor-pointer hover:shadow-md transition-shadow">
             <img src="assets/images/makanan2.png" onerror="this.src='https://placehold.co/300x160/f3f3f3/BFA370?text=Toko'" class="w-full h-40 object-cover rounded-xl mb-3">
             <div class="px-2">
@@ -706,19 +1121,40 @@ function renderFavorit() {
                     <span>${t.terjual} terjual</span>
                     <span>${t.jarak} | ${t.waktu}</span>
                 </div>
-                <div class="flex items-center gap-1 mt-1.5 text-[#EE8F36] text-[10px] font-medium">
-                    <i class="ri-heart-3-fill"></i> Disukai oleh ${t.suka.toLocaleString('id-ID')}
+                <div class="flex items-center gap-1 mt-1.5 text-gray-400 text-[10px] font-medium cursor-pointer" onclick="event.preventDefault(); event.stopPropagation(); toggleLike(this)">
+                   <i class="ri-heart-3-fill text-red-500 text-sm transition-all duration-300 hover:text-red-600"></i> Disukai oleh ${t.suka.toLocaleString('id-ID')}
                 </div>
+                
             </div>
         </div>
-    `).join('');
+    `
+          )
+          .join('');
 
-    // Menu cards — ikutin struktur dari reference
-    const menuData = [
-        { nama: 'Ayam Goreng',  toko: 'Ayam Goreng 39', harga: 'Rp 15.000', terjual: '10RB+', jarak: '240m', waktu: '15min', suka: 1341 },
-        { nama: 'Mie Ayam Spesial', toko: 'Mie Ayam Pak Budi', harga: 'Rp 18.000', terjual: '5RB+', jarak: '150m', waktu: '10min', suka: 890 },
-    ];
-    menuGrid.innerHTML = menuData.map(m => `
+        // Menu cards — ikutin struktur dari reference
+        const menuData = [
+          {
+            nama: 'Ayam Goreng',
+            toko: 'Ayam Goreng 39',
+            harga: 'Rp 15.000',
+            terjual: '10RB+',
+            jarak: '240m',
+            waktu: '15min',
+            suka: 1341
+          },
+          {
+            nama: 'Mie Ayam Spesial',
+            toko: 'Mie Ayam Pak Budi',
+            harga: 'Rp 18.000',
+            terjual: '5RB+',
+            jarak: '150m',
+            waktu: '10min',
+            suka: 890
+          }
+        ];
+        menuGrid.innerHTML = menuData
+          .map(
+            (m) => `
         <div class="bg-white rounded-2xl p-3 card-shadow flex gap-4 border border-gray-50 cursor-pointer hover:shadow-md transition-shadow">
             <img src="assets/images/makanan2.png" onerror="this.src='https://placehold.co/112x112/f3f3f3/BFA370?text=Menu'" class="w-28 h-28 object-cover rounded-xl flex-shrink-0">
             <div class="flex-1 flex flex-col justify-between min-w-0">
@@ -735,42 +1171,84 @@ function renderFavorit() {
                         <span>${m.jarak}</span><span>|</span>
                         <span>${m.waktu}</span>
                     </div>
-                    <div class="flex flex-col items-center flex-shrink-0">
-                        <i class="ri-heart-line text-gray-300 text-xl cursor-pointer hover:text-red-500"></i>
-                        <span class="text-[9px] text-gray-400">${m.suka}</span>
-                    </div>
+                <div class="flex flex-col items-center flex-shrink-0">
+    <div class="cursor-pointer group" onclick="event.stopPropagation(); toggleLike(this)">
+        
+        <i class="ri-heart-3-fill text-red-500 text-xl transition-all duration-300 hover:text-red-600"></i>
+        
+    </div>
+    
+    <span class="text-[9px] text-gray-400">${m.suka}</span>
+</div>
                 </div>
             </div>
         </div>
-    `).join('');
-}
+    `
+          )
+          .join('');
+      }
 
-// ---- Notifikasi fallback (dipakai kalau notifikasi.html belum ada) ----
-function renderNotifFallback() {
-    const notifIcons = [
-        'https://placehold.co/48/FFF3CD/EE8F36?text=🍜',
-        'https://placehold.co/48/FFF3CD/EE8F36?text=⚡',
-        'https://placehold.co/48/FFF3CD/EE8F36?text=🎫',
-    ];
-    const data = {
-        'Hari Ini': [
-            { icon: notifIcons[0], judul: 'Bakso 99 Sudah Buka!', sub: 'Toko favoritmu sekarang sudah melayani pesanan', waktu: '5 menit yang lalu' },
-            { icon: notifIcons[1], judul: 'Bakso 99 Sudah Buka!', sub: 'Toko favoritmu sekarang sudah melayani pesanan', waktu: '5 menit yang lalu' },
-            { icon: notifIcons[2], judul: 'Bakso 99 Sudah Buka!', sub: 'Toko favoritmu sekarang sudah melayani pesanan', waktu: '5 menit yang lalu' },
-        ],
-        'Kemarin': [
-            { icon: notifIcons[0], judul: 'Bakso 99 Sudah Buka!', sub: 'Toko favoritmu sekarang sudah melayani pesanan', waktu: '5 menit yang lalu' },
-        ],
-        'Minggu Ini': [
-            { icon: notifIcons[0], judul: 'Bakso 99 Sudah Buka!', sub: 'Toko favoritmu sekarang sudah melayani pesanan', waktu: '5 menit yang lalu' },
-            { icon: notifIcons[1], judul: 'Bakso 99 Sudah Buka!', sub: 'Toko favoritmu sekarang sudah melayani pesanan', waktu: '5 menit yang lalu' },
-        ],
-    };
-    return '<h1 class="text-2xl font-bold text-gray-800 mb-6">Notifikasi</h1>' +
-        Object.entries(data).map(([grup, items]) => `
+      // ---- Notifikasi fallback (dipakai kalau notifikasi.html belum ada) ----
+      function renderNotifFallback() {
+        const notifIcons = [
+          'https://placehold.co/48/FFF3CD/EE8F36?text=🍜',
+          'https://placehold.co/48/FFF3CD/EE8F36?text=⚡',
+          'https://placehold.co/48/FFF3CD/EE8F36?text=🎫'
+        ];
+        const data = {
+          'Hari Ini': [
+            {
+              icon: notifIcons[0],
+              judul: 'Bakso 99 Sudah Buka!',
+              sub: 'Toko favoritmu sekarang sudah melayani pesanan',
+              waktu: '5 menit yang lalu'
+            },
+            {
+              icon: notifIcons[1],
+              judul: 'Bakso 99 Sudah Buka!',
+              sub: 'Toko favoritmu sekarang sudah melayani pesanan',
+              waktu: '5 menit yang lalu'
+            },
+            {
+              icon: notifIcons[2],
+              judul: 'Bakso 99 Sudah Buka!',
+              sub: 'Toko favoritmu sekarang sudah melayani pesanan',
+              waktu: '5 menit yang lalu'
+            }
+          ],
+          Kemarin: [
+            {
+              icon: notifIcons[0],
+              judul: 'Bakso 99 Sudah Buka!',
+              sub: 'Toko favoritmu sekarang sudah melayani pesanan',
+              waktu: '5 menit yang lalu'
+            }
+          ],
+          'Minggu Ini': [
+            {
+              icon: notifIcons[0],
+              judul: 'Bakso 99 Sudah Buka!',
+              sub: 'Toko favoritmu sekarang sudah melayani pesanan',
+              waktu: '5 menit yang lalu'
+            },
+            {
+              icon: notifIcons[1],
+              judul: 'Bakso 99 Sudah Buka!',
+              sub: 'Toko favoritmu sekarang sudah melayani pesanan',
+              waktu: '5 menit yang lalu'
+            }
+          ]
+        };
+        return (
+          '<h1 class="text-2xl font-bold text-gray-800 mb-6">Notifikasi</h1>' +
+          Object.entries(data)
+            .map(
+              ([grup, items]) => `
             <div class="mb-4">
                 <h3 class="font-semibold text-gray-700 mb-2">${grup}</h3>
-                ${items.map(n => `
+                ${items
+                  .map(
+                    (n) => `
                     <div class="notif-item">
                         <img src="${n.icon}" class="w-12 h-12 rounded-xl object-cover flex-shrink-0">
                         <div class="flex-1">
@@ -779,24 +1257,31 @@ function renderNotifFallback() {
                         </div>
                         <span class="text-xs text-gray-400 whitespace-nowrap flex-shrink-0">${n.waktu}</span>
                     </div>
-                `).join('')}
+                `
+                  )
+                  .join('')}
             </div>
-        `).join('');
-}
+        `
+            )
+            .join('')
+        );
+      }
 
-// ---- FAQ ----
-function renderFAQ() {
-    const faqs = [
-        'Berapa banyak waktu yang saya perlukan untuk mempelajari aplikasi ini?',
-        'Berapa banyak waktu yang saya perlukan untuk mempelajari aplikasi ini?',
-        'Berapa banyak waktu yang saya perlukan untuk mempelajari aplikasi ini?',
-        'Berapa banyak waktu yang saya perlukan untuk mempelajari aplikasi ini?',
-        'Berapa banyak waktu yang saya perlukan untuk mempelajari aplikasi ini?',
-        'Berapa banyak waktu yang saya perlukan untuk mempelajari aplikasi ini?',
-    ];
-    const el = document.getElementById('faq-list');
-    if (!el) return;
-    el.innerHTML = faqs.map((q, i) => `
+      // ---- FAQ ----
+      function renderFAQ() {
+        const faqs = [
+          'Berapa banyak waktu yang saya perlukan untuk mempelajari aplikasi ini?',
+          'Berapa banyak waktu yang saya perlukan untuk mempelajari aplikasi ini?',
+          'Berapa banyak waktu yang saya perlukan untuk mempelajari aplikasi ini?',
+          'Berapa banyak waktu yang saya perlukan untuk mempelajari aplikasi ini?',
+          'Berapa banyak waktu yang saya perlukan untuk mempelajari aplikasi ini?',
+          'Berapa banyak waktu yang saya perlukan untuk mempelajari aplikasi ini?'
+        ];
+        const el = document.getElementById('faq-list');
+        if (!el) return;
+        el.innerHTML = faqs
+          .map(
+            (q, i) => `
         <div class="faq-item">
             <div class="faq-q" onclick="toggleFAQ(${i})">
                 <span>${q}</span>
@@ -806,63 +1291,87 @@ function renderFAQ() {
                 <p>Aplikasi kami dirancang untuk mudah digunakan. Biasanya pengguna baru dapat memahami fitur dasar dalam 5-10 menit. Panduan lengkap tersedia di menu bantuan.</p>
             </div>
         </div>
-    `).join('');
-}
-function toggleFAQ(i) {
-    const a = document.getElementById('faq-a-' + i);
-    const ico = document.getElementById('faq-ico-' + i);
-    const open = a.classList.toggle('open');
-    ico.className = 'faq-icon ' + (open ? 'ri-arrow-up-s-line' : 'ri-arrow-down-s-line');
-}
+    `
+          )
+          .join('');
+      }
+      function toggleFAQ(i) {
+        const a = document.getElementById('faq-a-' + i);
+        const ico = document.getElementById('faq-ico-' + i);
+        const open = a.classList.toggle('open');
+        ico.className = 'faq-icon ' + (open ? 'ri-arrow-up-s-line' : 'ri-arrow-down-s-line');
+      }
 
-// ---- Kebijakan ----
-function renderKebijakan() {
-    const el = document.getElementById('kebijakan-list');
-    if (!el) return;
-    el.innerHTML = Array(5).fill(0).map((_, i) => `
+      // ---- Kebijakan ----
+      function renderKebijakan() {
+        const el = document.getElementById('kebijakan-list');
+        if (!el) return;
+        el.innerHTML = Array(5)
+          .fill(0)
+          .map(
+            (_, i) => `
         <div>
-            <p class="font-semibold text-gray-800 mb-1">${i+1}. Perkenalan</p>
+            <p class="font-semibold text-gray-800 mb-1">${i + 1}. Perkenalan</p>
             <p class="text-gray-600 leading-relaxed">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt molit anim id est laborum.</p>
             <p class="text-xs text-gray-400 mt-1">1.024</p>
         </div>
-    `).join('');
-}
+    `
+          )
+          .join('');
+      }
 
-// =================================================
-// ---- Nyamber (Langganan) ----
-const nyamberPlans = {
-    '1': { harga: 'Rp150.000',       sub: 'Langganan Nyamber selama 1 bulan!' },
-    '3': { harga: 'Rp150.000/bulan', sub: 'Rp450.000' },
-    '6': { harga: 'Rp150.000/bulan', sub: 'Rp900.000' },
-};
+      // =================================================
+      // ---- Nyamber (Langganan) ----
+      const nyamberPlans = {
+        1: { harga: 'Rp150.000', sub: 'Langganan Nyamber selama 1 bulan!' },
+        3: { harga: 'Rp150.000/bulan', sub: 'Rp450.000' },
+        6: { harga: 'Rp150.000/bulan', sub: 'Rp900.000' }
+      };
 
-function switchNyamber(key) {
-    ['1','3','6'].forEach(k => {
-        const btn = document.getElementById('nyamber-tab-' + k);
-        if (k === key) {
+      function switchNyamber(key) {
+        ['1', '3', '6'].forEach((k) => {
+          const btn = document.getElementById('nyamber-tab-' + k);
+          if (k === key) {
             btn.classList.add('active-nyamber');
-            btn.classList.remove('text-gray-400','bg-gray-100');
-        } else {
+            btn.classList.remove('text-gray-400', 'bg-gray-100');
+          } else {
             btn.classList.remove('active-nyamber');
-            btn.classList.add('text-gray-400','bg-gray-100');
-        }
-    });
-    const plan = nyamberPlans[key];
-    document.getElementById('nyamber-harga').textContent = plan.harga;
-    document.getElementById('nyamber-sub').textContent   = plan.sub;
-}
+            btn.classList.add('text-gray-400', 'bg-gray-100');
+          }
+        });
+        const plan = nyamberPlans[key];
+        document.getElementById('nyamber-harga').textContent = plan.harga;
+        document.getElementById('nyamber-sub').textContent = plan.sub;
+      }
 
-function renderNyamberFAQ() {
-    const el = document.getElementById('nyamber-faq');
-    if (!el) return;
-    const faqs = [
-        { q: 'Apa itu Nyamber?', a: 'Nyamber adalah layanan berlangganan premium dari Market Kita yang memberikan berbagai keuntungan eksklusif seperti cashback, voucher bulanan, dan akses prioritas Flash Sale.' },
-        { q: 'Apakah semua pengguna dapat berlangganan Nyamber?', a: 'Ya, semua pengguna terdaftar Market Kita dapat berlangganan Nyamber selama memiliki metode pembayaran yang valid.' },
-        { q: 'Apa saja syarat untuk berlangganan Nyamber?', a: 'Syaratnya adalah memiliki akun Market Kita yang aktif dan metode pembayaran yang terdaftar. Tidak ada syarat minimum transaksi.' },
-        { q: 'Informasi apa yang kami kumpulkan tentang Anda?', a: 'Kami mengumpulkan data transaksi dan preferensi untuk meningkatkan layanan Nyamber.' },
-        { q: 'Informasi apa yang kami kumpulkan tentang Anda?', a: 'Data Anda digunakan sesuai kebijakan privasi dan tidak disebarkan ke pihak ketiga.' },
-    ];
-    el.innerHTML = faqs.map((f, i) => `
+      function renderNyamberFAQ() {
+        const el = document.getElementById('nyamber-faq');
+        if (!el) return;
+        const faqs = [
+          {
+            q: 'Apa itu Nyamber?',
+            a: 'Nyamber adalah layanan berlangganan premium dari Market Kita yang memberikan berbagai keuntungan eksklusif seperti cashback, voucher bulanan, dan akses prioritas Flash Sale.'
+          },
+          {
+            q: 'Apakah semua pengguna dapat berlangganan Nyamber?',
+            a: 'Ya, semua pengguna terdaftar Market Kita dapat berlangganan Nyamber selama memiliki metode pembayaran yang valid.'
+          },
+          {
+            q: 'Apa saja syarat untuk berlangganan Nyamber?',
+            a: 'Syaratnya adalah memiliki akun Market Kita yang aktif dan metode pembayaran yang terdaftar. Tidak ada syarat minimum transaksi.'
+          },
+          {
+            q: 'Informasi apa yang kami kumpulkan tentang Anda?',
+            a: 'Kami mengumpulkan data transaksi dan preferensi untuk meningkatkan layanan Nyamber.'
+          },
+          {
+            q: 'Informasi apa yang kami kumpulkan tentang Anda?',
+            a: 'Data Anda digunakan sesuai kebijakan privasi dan tidak disebarkan ke pihak ketiga.'
+          }
+        ];
+        el.innerHTML = faqs
+          .map(
+            (f, i) => `
         <div class="py-4 border-b border-gray-100">
             <div class="flex items-center justify-between cursor-pointer" onclick="toggleNyamberFAQ(${i})">
                 <span class="text-sm font-medium text-gray-700">${f.q}</span>
@@ -872,29 +1381,31 @@ function renderNyamberFAQ() {
                 <p class="text-sm text-gray-500 leading-relaxed pt-2">${f.a}</p>
             </div>
         </div>
-    `).join('');
-}
+    `
+          )
+          .join('');
+      }
 
-function toggleNyamberFAQ(i) {
-    const a   = document.getElementById('nfaq-a-' + i);
-    const ico = document.getElementById('nfaq-ico-' + i);
-    const open = a.style.maxHeight && a.style.maxHeight !== '0px';
-    a.style.maxHeight = open ? '0px' : a.scrollHeight + 'px';
-    ico.style.transform = open ? '' : 'rotate(45deg)';
-}
+      function toggleNyamberFAQ(i) {
+        const a = document.getElementById('nfaq-a-' + i);
+        const ico = document.getElementById('nfaq-ico-' + i);
+        const open = a.style.maxHeight && a.style.maxHeight !== '0px';
+        a.style.maxHeight = open ? '0px' : a.scrollHeight + 'px';
+        ico.style.transform = open ? '' : 'rotate(45deg)';
+      }
 
-// ================================================================
-// INIT
-// ================================================================
-document.addEventListener('DOMContentLoaded', () => {
-    renderPrivasi();
-    renderVoucher('my-vouchers', myVouchers);
-    renderVoucher('for-vouchers', forVouchers);
-    renderFavorit();
-    renderFAQ();
-    renderKebijakan();
-    renderNyamberFAQ();
-});
-</script>
-</body>
+      // ================================================================
+      // INIT
+      // ================================================================
+      document.addEventListener('DOMContentLoaded', () => {
+        renderPrivasi();
+        renderVoucher('my-vouchers', myVouchers);
+        renderVoucher('for-vouchers', forVouchers);
+        renderFavorit();
+        renderFAQ();
+        renderKebijakan();
+        renderNyamberFAQ();
+      });
+    </script>
+  </body>
 </html>

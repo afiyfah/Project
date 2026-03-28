@@ -6,6 +6,12 @@
 
 body { background: #F6F4F0; min-height: 100vh; display: flex; flex-direction: column; }
 
+/* header */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 /* ---- Layout Shell ---- */
 .seller-shell {
     display: flex;
@@ -15,7 +21,7 @@ body { background: #F6F4F0; min-height: 100vh; display: flex; flex-direction: co
 
 /* ---- Sidebar ---- */
 .seller-sidebar {
-    width: 160px;
+    width: 200px;
     background: linear-gradient(180deg, #BFA370 0%, #8E754A 100%);
     display: flex;
     flex-direction: column;
@@ -80,13 +86,20 @@ body { background: #F6F4F0; min-height: 100vh; display: flex; flex-direction: co
 .store-toggle-btn.on::after { left: 23px; }
 
 /* ---- Status Cards ---- */
-.stat-card-green  { background: #22C55E; color: white; border-radius: 12px; padding: 14px; text-align: center; }
-.stat-card-yellow { background: #EAB308; color: white; border-radius: 12px; padding: 14px; text-align: center; }
+.stat-card-green  { background: #22C55E; color: white; border-radius: 12px; padding: 12px; text-align: center; -webkit-border-radius: 12px; -moz-border-radius: 12px; -ms-border-radius: 12px; -o-border-radius: 12px; }
+.stat-card-yellow { background: #EAB308; color: white; border-radius: 12px; padding: 12px; text-align: center; -webkit-border-radius: 12px; -moz-border-radius: 12px; -ms-border-radius: 12px; -o-border-radius: 12px; }
 
 /* ---- Order Card ---- */
 .order-card {
-    background: white; border-radius: 14px;
-    border: 1px solid #EEE; overflow: hidden; margin-bottom: 16px;
+    background: white;
+    border-radius: 10px;
+    border: 2px solid #EEE;
+    overflow: hidden;
+    margin-bottom: 16px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
 }
 .order-card-header {
     display: flex; align-items: center; justify-content: space-between;
@@ -138,8 +151,8 @@ body { background: #F6F4F0; min-height: 100vh; display: flex; flex-direction: co
 
 .s-select {
     border: 1px solid #E0D9CF; border-radius: 8px;
-    padding: 9px 13px; font-size: 13px; color: #333;
-    outline: none; background: white; cursor: pointer;
+    padding: 9px 13px; font-size: 13px; color:  white;
+    outline: none; background: linear-gradient(180deg, #BFA370 0%, #8E754A 100%); cursor: pointer;
 }
 
 /* ---- Tab Filter ---- */
@@ -171,22 +184,5 @@ body { background: #F6F4F0; min-height: 100vh; display: flex; flex-direction: co
 .page-sub   { font-size: 13px; color: #999; }
 
 /* ---- Utility ---- */
-.card { background: white; border-radius: 14px; border: 1px solid #EEE; }
+.card { background: white; border-radius: 14px; border: 1px solid #EEE; -webkit-border-radius: 14px; -moz-border-radius: 14px; -ms-border-radius: 14px; -o-border-radius: 14px; }
 .shadow-soft { box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-
-.seller-sidebar {
-    position: fixed;
-    top: 70px; /* Sesuai tinggi header */
-    left: 0;
-    bottom: 0;
-    width: 240px; /* Sesuaikan lebar sidebar kamu */
-    background: #BFA370; /* Warna sidebar kamu */
-    overflow-y: auto;
-    z-index: 40;
-}
-
-#seller-main {
-    margin-left: 240px; /* Sesuai lebar sidebar */
-    padding: 80px;
-    /* Jangan beri overflow hidden di sini agar scroll utama jalan */
-}
